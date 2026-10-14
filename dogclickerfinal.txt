@@ -1,7 +1,7 @@
 Let's make a game!
 name: Dog Clicker Ultimate
 author: Austin
-desc: Click to pet your dog, buy delicious treats, and build massive canine empires!
+desc: Click to pet your dog, build massive canine empires, and watch your furry friend grow!
 
 Settings
 building cost multiplier: 1.15
@@ -11,6 +11,14 @@ Resources
 *bark
 name: Bark | Barks
 desc: The sound of happy puppies. Used to buy items!
+
+*imageTimer
+name: Image Timer
+always hidden
+
+*dogState
+name: Dog State
+always hidden
 
 Buttons
 *petDog
@@ -55,10 +63,20 @@ Upgrades
 name: Golden Brush
 desc: Grooming your dog makes clicks twice as effective.
 cost: 50 bark
-passive:multiply yield of petDog by 2
+passive:multiply efficiency of petDog by 200%
 
 *premiumKibble
 name: Premium Kibble
 desc: High-quality food makes Dog Treats twice as effective.
 cost: 250 bark
-passive:multiply yield of dogTreat by 2
+passive:multiply efficiency of dogTreat by 200%
+
+Animations
+*spriteRotator
+on tick:get 1 imageTimer
+on tick:if imageTimer>=15 get 1 dogState
+on tick:if imageTimer>=15 lose 15 imageTimer
+on tick:if dogState>2 lose 3 dogState
+on tick:if dogState=0 set icon of petDog to https://i.imgur.com/vH93O4w.png
+on tick:if dogState=1 set icon of petDog to https://i.imgur.com/YwN9VmW.png
+on tick:if dogState=2 set icon of petDog to https://i.imgur.com/kS9ZtZ4.png
