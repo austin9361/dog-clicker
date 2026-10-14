@@ -6,7 +6,6 @@ desc: Click to pet your dog, buy delicious treats, and build massive canine empi
 Settings
 building cost multiplier: 1.15
 background: https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=1920
-prices: visible
 
 Resources
 *bark
