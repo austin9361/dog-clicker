@@ -35,10 +35,10 @@ Upgrades
 name: Golden Brush
 desc: Grooming your dog makes clicks twice as effective.
 cost: 50 bark
-passive:multiply click power of petDog by 2
+passive:multiply petDog by 2
 
 *premiumKibble
 name: Premium Kibble
 desc: High-quality food makes Dog Treats twice as effective.
 cost: 250 bark
-passive:multiply production of dogTreat by 2
+passive:multiply dogTreat by 2
