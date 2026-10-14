@@ -22,13 +22,13 @@ Buildings
 name: Dog Treat
 desc: Automatically generates barks by keeping your dog excited.
 cost: 15 bark
-on tick:give 0.5 bark
+on tick:get 1 bark
 
 *puppyPark
 name: Puppy Park
 desc: A massive park that attracts dozens of puppies to bark automatically.
 cost: 100 bark
-on tick:give 4 bark
+on tick:get 4 bark
 
 Upgrades
 *goldenBrush
@@ -39,6 +39,6 @@ passive:multiply click power of petDog by 2
 
 *premiumKibble
 name: Premium Kibble
-desc: High-quality food makes Dog Treats 50% more effective.
+desc: High-quality food makes Dog Treats twice as effective.
 cost: 250 bark
-passive:multiply production of dogTreat by 1.5
+passive:multiply production of dogTreat by 2
