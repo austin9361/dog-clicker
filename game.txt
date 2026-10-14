@@ -15,20 +15,20 @@ Buttons
 *gatherStardust
 name: Gather Stardust
 desc: Deploy your solar sails to catch stray stardust.
-on click: earn 1 stardust
+on click: get 1 stardust
 
 Buildings
 *colonyPod
 name: Colony Pod
 desc: A self-sustaining biodome that houses automated mining drones.
 cost: 15 stardust
-passive: earn 0.5 stardust per second
+passive: get 0.5 stardust per second
 
 *solarArray
 name: Solar Array
 desc: Massive space mirrors that capture intense stellar radiation.
 cost: 100 stardust
-passive: earn 4 stardust per second
+passive: get 4 stardust per second
 
 Upgrades
 *plasmaSails
