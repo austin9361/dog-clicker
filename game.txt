@@ -1,4 +1,3 @@
-
 Let's make a game!
 name: Dog Clicker Ultimate
 author: Austin
@@ -26,18 +25,6 @@ CSS
     height: 100% !important;
     background-size: contain !important;
 }
-
-/* NATIVELY REVEALS PRICES AND COSTS UNDER THE ITEMS IN BOLD WHITE TEXT */
-.thing-costs {
-    display: block !important;
-    visibility: visible !important;
-    opacity: 1 !important;
-    color: #fff !important;
-    font-weight: bold !important;
-    font-size: 13px !important;
-    margin-top: 2px !important;
-}
-
 Resources
 *bark
 name: Bark | Barks
@@ -52,44 +39,44 @@ icon: https://i.imgur.com/vH93O4w.png
 
 Buildings
 *dogTreat
-name: Dog Treat | Dog Treats
+name: Dog Treat | Dog Treats | Cost: 15 Barks
 desc: Automatically generates barks by keeping your dog excited.
 cost: 15 bark
 on tick:get 1 bark
 
 *puppyPark
-name: Puppy Park | Puppy Parks
+name: Puppy Park | Puppy Parks | Cost: 100 Barks
 desc: A massive park that attracts dozens of puppies to bark automatically.
 cost: 100 bark
 on tick:get 4 bark
 
 *doggyDaycare
-name: Doggy Daycare | Doggy Daycares
+name: Doggy Daycare | Doggy Daycares | Cost: 500 Barks
 desc: A premium care facility where dogs play and bark all day long.
 cost: 500 bark
 on tick:get 15 bark
 
 *boneFactory
-name: Bone Factory | Bone Factories
+name: Bone Factory | Bone Factories | Cost: 3000 Barks
 desc: High-tech industrial automated factory molding thousands of chew toys.
 cost: 3000 bark
 on tick:get 75 bark
 
 *cloningLab
-name: Cloning Lab | Cloning Labs
+name: Cloning Lab | Cloning Labs | Cost: 25000 Barks
 desc: Advanced bio-engineering structure designed to safely replicate the ultimate good boys.
 cost: 25000 bark
 on tick:get 450 bark
 
 Upgrades
 *goldenBrush
-name: Golden Brush | Golden Brushes
+name: Golden Brush | Golden Brushes | Cost: 50 Barks
 desc: Grooming your dog makes clicks twice as effective.
 cost: 50 bark
 passive:multiply yield of petDog by 2
 
 *premiumKibble
-name: Premium Kibble | Premium Kibbles
+name: Premium Kibble | Premium Kibbles | Cost: 250 Barks
 desc: High-quality food makes Dog Treats twice as effective.
 cost: 250 bark
 passive:multiply yield of dogTreat by 2
