@@ -24,10 +24,11 @@ Buttons
 *petDog
 name: Pet Dog
 desc: Give your good boy some love!
+class: bigButton hasFlares
 on click:get 1 bark
-image if dogState=0: https://i.imgur.com/vH93O4w.png
-image if dogState=1: https://i.imgur.com/YwN9VmW.png
-image if dogState=2: https://i.imgur.com/kS9ZtZ4.png
+icon if dogState=0: https://i.imgur.com/vH93O4w.png
+icon if dogState=1: https://i.imgur.com/YwN9VmW.png
+icon if dogState=2: https://i.imgur.com/kS9ZtZ4.png
 
 Buildings
 *dogTreat
