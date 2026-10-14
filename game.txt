@@ -6,13 +6,7 @@ desc: Click to pet your dog, buy delicious treats, and build massive canine empi
 Settings
 building cost multiplier: 1.15
 background: https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=1920
-
-Layout
-use default
-*storeBox
-in:right
-contains:buildings, upgrades
-costs:show
+prices: visible
 
 CSS
 /* FORCES THE MAIN DOG BUTTON TO BE GIANT AND EXACTLY IN THE MIDDLE OF THE SCREEN */
