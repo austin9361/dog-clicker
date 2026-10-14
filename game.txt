@@ -5,7 +5,6 @@ desc: Click to pet your dog, build massive canine empires, and watch your furry 
 
 Settings
 building cost multiplier: 1.15
-// Set a global custom background image url here
 background: https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=1920
 
 Resources
@@ -15,12 +14,10 @@ desc: The sound of happy puppies. Used to buy items!
 
 *imageTimer
 name: Image Timer
-desc: Hidden mechanical state engine that cycles clicker sprites.
 hidden: yes
 
 *dogState
 name: Dog State
-desc: Controls which dog image is currently being displayed (0, 1, or 2).
 hidden: yes
 
 Buttons
@@ -28,7 +25,6 @@ Buttons
 name: Pet Dog
 desc: Give your good boy some love!
 on click:get 1 bark
-// Switch icon images based on the active state value
 image if dogState=0: https://i.imgur.com/vH93O4w.png
 image if dogState=1: https://i.imgur.com/YwN9VmW.png
 image if dogState=2: https://i.imgur.com/kS9ZtZ4.png
@@ -69,18 +65,17 @@ Upgrades
 name: Golden Brush
 desc: Grooming your dog makes clicks twice as effective.
 cost: 50 bark
-passive:multiply click power by 2
+passive:multiply efficiency of petDog by 200%
 
 *premiumKibble
 name: Premium Kibble
 desc: High-quality food makes Dog Treats twice as effective.
 cost: 250 bark
-passive:multiply production of dogTreat by 2
+passive:multiply efficiency of dogTreat by 200%
 
 Events
 *spriteRotator
 name: Sprite Rotator Engine
-desc: Increments timer tick by tick and flips the image index every 15 seconds.
 on tick:get 1 imageTimer
 on tick:if imageTimer>=15 get 1 dogState
 on tick:if imageTimer>=15 lose 15 imageTimer
