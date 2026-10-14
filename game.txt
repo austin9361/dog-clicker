@@ -14,11 +14,11 @@ desc: The sound of happy puppies. Used to buy items!
 
 *imageTimer
 name: Image Timer
-hidden: yes
+hidden
 
 *dogState
 name: Dog State
-hidden: yes
+hidden
 
 Buttons
 *petDog
