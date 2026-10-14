@@ -8,7 +8,7 @@ building cost multiplier: 1.15
 background: https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=1920
 
 CSS
-/* Centers the dog button box and makes it big */
+/* FORCES THE MAIN DOG BUTTON TO BE GIANT AND EXACTLY IN THE MIDDLE OF THE SCREEN */
 #button-petDog {
     position: fixed !important;
     left: 50% !important;
@@ -16,17 +16,17 @@ CSS
     transform: translate(-50%, -50%) !important;
     width: 250px !important;
     height: 250px !important;
-    z-index: 9999 !important;
+    z-index: 99999 !important;
 }
 
-/* Expands the dog image to fill out the big button window */
+/* EXPANDS THE DOG IMAGE TO FULLY FILL OUT THE NEW MASSIVE BUTTON WINDOW */
 #button-petDog .icon {
     width: 100% !important;
     height: 100% !important;
     background-size: contain !important;
 }
 
-/* Forces costs and prices to always show up on the screen */
+/* FORCES PRICES AND COSTS TO ALWAYS SHOW ON BUILDINGS AND UPGRADES WITHOUT HOVERING */
 .price, .cost, .building .price, .upgrade .price {
     display: block !important;
     visibility: visible !important;
@@ -81,10 +81,10 @@ Upgrades
 name: Golden Brush
 desc: Grooming your dog makes clicks twice as effective.
 cost: 50 bark
-passive:multiply yield of petDog by 2
+passive:multiply click power by 2
 
 *premiumKibble
 name: Premium Kibble
 desc: High-quality food makes Dog Treats twice as effective.
 cost: 250 bark
-passive:multiply yield of dogTreat by 2
+passive:multiply production of dogTreat by 2
