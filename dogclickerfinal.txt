@@ -18,7 +18,7 @@ name: Pet Dog
 desc: Give your good boy some love!
 on click:get 1 bark
 icon: https://i.imgur.com/vH93O4w.png
-class: bigButton hasFlares
+big
 
 Buildings
 *dogTreat
