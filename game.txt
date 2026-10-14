@@ -7,6 +7,32 @@ Settings
 building cost multiplier: 1.15
 background: https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=1920
 
+CSS
+/* Centers the dog button box and makes it big */
+#button-petDog {
+    position: fixed !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 250px !important;
+    height: 250px !important;
+    z-index: 9999 !important;
+}
+
+/* Expands the dog image to fill out the big button window */
+#button-petDog .icon {
+    width: 100% !important;
+    height: 100% !important;
+    background-size: contain !important;
+}
+
+/* Forces costs and prices to always show up on the screen */
+.price, .cost, .building .price, .upgrade .price {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
 Resources
 *bark
 name: Bark | Barks
@@ -18,7 +44,6 @@ name: Pet Dog
 desc: Give your good boy some love!
 on click:get 1 bark
 icon: https://i.imgur.com/vH93O4w.png
-big
 
 Buildings
 *dogTreat
