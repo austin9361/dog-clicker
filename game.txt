@@ -71,7 +71,7 @@ desc: High-quality food makes Dog Treats twice as effective.
 cost: 250 bark
 passive:multiply yield of dogTreat by 2
 
-Anims
+Animations
 *spriteRotator
 on tick:get 1 imageTimer
 on tick:if imageTimer>=15 get 1 dogState
