@@ -22,13 +22,13 @@ Buildings
 name: Dog Treat
 desc: Automatically generates barks by keeping your dog excited.
 cost: 15 bark
-passive:get 0.5 bark
+on tick:give 0.5 bark
 
 *puppyPark
 name: Puppy Park
 desc: A massive park that attracts dozens of puppies to bark automatically.
 cost: 100 bark
-passive:get 4 bark
+on tick:give 4 bark
 
 Upgrades
 *goldenBrush
