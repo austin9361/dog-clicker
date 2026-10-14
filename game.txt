@@ -7,11 +7,6 @@ Settings
 building cost multiplier: 1.15
 background: https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=1920
 
-Layout
-use default
-*store
-costs:show
-
 CSS
 /* FORCES THE MAIN DOG BUTTON TO BE GIANT AND EXACTLY IN THE MIDDLE OF THE SCREEN */
 #button-petDog {
@@ -29,6 +24,14 @@ CSS
     width: 100% !important;
     height: 100% !important;
     background-size: contain !important;
+}
+
+/* FORCES PRICES AND COSTS TO ALWAYS SHOW ON THE SHOP WINDOW TEXT TILES */
+.price, .cost, .building .price, .upgrade .price, .thing .price {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: #fff !important;
 }
 
 Resources
