@@ -1,44 +1,44 @@
 Let's make a game!
-name: Galactic Frontier Idle
-author: Space Pioneer
-desc: Gather stardust, build automated colony pods, and engineer warp drives to colonize the galaxy!
+name: Dog Clicker Ultimate
+author: Austin
+desc: Click to pet your dog, buy delicious treats, and build puppy parks to attract all the dogs!
 
 Settings
 building cost multiplier: 1.15
 
 Resources
-*stardust
-name: Stardust | Stardust
-desc: Floating cosmic particles used to forge structures and power ships.
+*bark
+name: Bark | Barks
+desc: The sound of happy puppies. Used to buy items!
 
 Buttons
-*gatherStardust
-name: Gather Stardust
-desc: Deploy your solar sails to catch stray stardust.
-on click: get 1 stardust
+*petDog
+name: Pet Dog
+desc: Give your good boy some love!
+on click:get 1 bark
 
 Buildings
-*colonyPod
-name: Colony Pod
-desc: A self-sustaining biodome that houses automated mining drones.
-cost: 15 stardust
-passive: get 0.5 stardust per second
+*dogTreat
+name: Dog Treat
+desc: Automatically generates barks by keeping your dog excited.
+cost: 15 bark
+passive:get 0.5 bark per second
 
-*solarArray
-name: Solar Array
-desc: Massive space mirrors that capture intense stellar radiation.
-cost: 100 stardust
-passive: get 4 stardust per second
+*puppyPark
+name: Puppy Park
+desc: A massive park that attracts dozens of puppies to bark automatically.
+cost: 100 bark
+passive:get 4 bark per second
 
 Upgrades
-*plasmaSails
-name: Plasma Sails
-desc: Upgrades your manual gathering array. Double your clicking power.
-cost: 50 stardust
-passive: multiply click power of gatherStardust by 2
+*goldenBrush
+name: Golden Brush
+desc: Grooming your dog makes clicks twice as effective.
+cost: 50 bark
+passive:multiply click power of petDog by 2
 
-*droneOptimization
-name: Drone Optimization
-desc: Upload an AI update to your Colony Pods to make them 50% more efficient.
-cost: 250 stardust
-passive: multiply production of colonyPod by 1.5
+*premiumKibble
+name: Premium Kibble
+desc: High-quality food makes Dog Treats 50% more effective.
+cost: 250 bark
+passive:multiply production of dogTreat by 1.5
