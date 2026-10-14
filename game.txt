@@ -25,6 +25,7 @@ CSS
     height: 100% !important;
     background-size: contain !important;
 }
+
 Resources
 *bark
 name: Bark | Barks
@@ -39,44 +40,44 @@ icon: https://i.imgur.com/vH93O4w.png
 
 Buildings
 *dogTreat
-name: Dog Treat | Dog Treats | Cost: 15 Barks
+name: Dog Treat | Dog Treats
 desc: Automatically generates barks by keeping your dog excited.
 cost: 15 bark
 on tick:get 1 bark
 
 *puppyPark
-name: Puppy Park | Puppy Parks | Cost: 100 Barks
+name: Puppy Park | Puppy Parks
 desc: A massive park that attracts dozens of puppies to bark automatically.
 cost: 100 bark
 on tick:get 4 bark
 
 *doggyDaycare
-name: Doggy Daycare | Doggy Daycares | Cost: 500 Barks
+name: Doggy Daycare | Doggy Daycares
 desc: A premium care facility where dogs play and bark all day long.
 cost: 500 bark
 on tick:get 15 bark
 
 *boneFactory
-name: Bone Factory | Bone Factories | Cost: 3000 Barks
+name: Bone Factory | Bone Factories
 desc: High-tech industrial automated factory molding thousands of chew toys.
 cost: 3000 bark
 on tick:get 75 bark
 
 *cloningLab
-name: Cloning Lab | Cloning Labs | Cost: 25000 Barks
+name: Cloning Lab | Cloning Labs
 desc: Advanced bio-engineering structure designed to safely replicate the ultimate good boys.
 cost: 25000 bark
 on tick:get 450 bark
 
 Upgrades
 *goldenBrush
-name: Golden Brush | Golden Brushes | Cost: 50 Barks
+name: Golden Brush | Golden Brushes
 desc: Grooming your dog makes clicks twice as effective.
 cost: 50 bark
 passive:multiply yield of petDog by 2
 
 *premiumKibble
-name: Premium Kibble | Premium Kibbles | Cost: 250 Barks
+name: Premium Kibble | Premium Kibbles
 desc: High-quality food makes Dog Treats twice as effective.
 cost: 250 bark
 passive:multiply yield of dogTreat by 2
