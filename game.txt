@@ -1,3 +1,4 @@
+
 Let's make a game!
 name: Dog Clicker Ultimate
 author: Austin
@@ -26,6 +27,17 @@ CSS
     background-size: contain !important;
 }
 
+/* NATIVELY REVEALS PRICES AND COSTS UNDER THE ITEMS IN BOLD WHITE TEXT */
+.thing-costs {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    color: #fff !important;
+    font-weight: bold !important;
+    font-size: 13px !important;
+    margin-top: 2px !important;
+}
+
 Resources
 *bark
 name: Bark | Barks
@@ -33,58 +45,51 @@ desc: The sound of happy puppies. Used to buy items!
 
 Buttons
 *petDog
-name: Pet Dog
+name: Pet Dog | Pet Dogs
 desc: Give your good boy some love!
 on click:get 1 bark
 icon: https://i.imgur.com/vH93O4w.png
 
 Buildings
 *dogTreat
-name: Dog Treat
+name: Dog Treat | Dog Treats
 desc: Automatically generates barks by keeping your dog excited.
-text: Dog Treat (Cost: [$cost])
 cost: 15 bark
 on tick:get 1 bark
 
 *puppyPark
-name: Puppy Park
+name: Puppy Park | Puppy Parks
 desc: A massive park that attracts dozens of puppies to bark automatically.
-text: Puppy Park (Cost: [$cost])
 cost: 100 bark
 on tick:get 4 bark
 
 *doggyDaycare
-name: Doggy Daycare
+name: Doggy Daycare | Doggy Daycares
 desc: A premium care facility where dogs play and bark all day long.
-text: Doggy Daycare (Cost: [$cost])
 cost: 500 bark
 on tick:get 15 bark
 
 *boneFactory
-name: Bone Factory
+name: Bone Factory | Bone Factories
 desc: High-tech industrial automated factory molding thousands of chew toys.
-text: Bone Factory (Cost: [$cost])
 cost: 3000 bark
 on tick:get 75 bark
 
 *cloningLab
-name: Cloning Lab
+name: Cloning Lab | Cloning Labs
 desc: Advanced bio-engineering structure designed to safely replicate the ultimate good boys.
-text: Cloning Lab (Cost: [$cost])
 cost: 25000 bark
 on tick:get 450 bark
 
 Upgrades
 *goldenBrush
-name: Golden Brush
+name: Golden Brush | Golden Brushes
 desc: Grooming your dog makes clicks twice as effective.
-text: Golden Brush (Cost: [$cost])
 cost: 50 bark
 passive:multiply yield of petDog by 2
 
 *premiumKibble
-name: Premium Kibble
+name: Premium Kibble | Premium Kibbles
 desc: High-quality food makes Dog Treats twice as effective.
-text: Premium Kibble (Cost: [$cost])
 cost: 250 bark
 passive:multiply yield of dogTreat by 2
