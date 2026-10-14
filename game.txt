@@ -71,8 +71,10 @@ desc: High-quality food makes Dog Treats twice as effective.
 cost: 250 bark
 passive:multiply yield of dogTreat by 2
 
-Animations
 *spriteRotator
+name: Sprite Rotator Engine
+desc: Hidden background loops running inside the native upgrades block.
+always hidden
 on tick:get 1 imageTimer
 on tick:if imageTimer>=15 get 1 dogState
 on tick:if imageTimer>=15 lose 15 imageTimer
