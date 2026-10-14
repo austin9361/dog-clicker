@@ -6,24 +6,29 @@ desc: Click to pet your dog, buy delicious treats, and build massive canine empi
 Settings
 building cost multiplier: 1.15
 background: https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=1920
+show prices
 
 CSS
-/* This rule centers your dog button and scales its size up completely */
+/* This rule completely centers the dog button box on the screen */
 #button-petDog {
-    position: absolute;
-    left: 50%;
-    top: 40%;
-    transform: translate(-50%, -50%);
-    width: 250px !important;
-    height: 250px !important;
-    z-index: 999;
+    position: fixed !important;
+    left: 50% !important;
+    top: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    width: 320px !important;
+    height: 320px !important;
+    z-index: 9999 !important;
+    box-shadow: 0px 8px 16px rgba(0,0,0,0.3) !important;
+    border-radius: 50% !important;
 }
 
-/* This expands the physical image inside the button to match the new size */
+/* This expands the physical image layout inside your massive button */
 #button-petDog .icon {
     width: 100% !important;
     height: 100% !important;
     background-size: contain !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
 }
 
 Resources
