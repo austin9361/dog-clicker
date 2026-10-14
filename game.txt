@@ -9,9 +9,10 @@ background: https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=192
 
 Layout
 use default
-*rightBox
-contains: buildings, upgrades
-as store
+*storeBox
+in:right
+contains:buildings, upgrades
+costs:show
 
 CSS
 /* FORCES THE MAIN DOG BUTTON TO BE GIANT AND EXACTLY IN THE MIDDLE OF THE SCREEN */
