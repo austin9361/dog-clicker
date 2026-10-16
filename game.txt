@@ -1,8 +1,8 @@
 
 Let's make a game!
-name Clicker Ultimate
-author
-desc Pet your dog, buy delicious treats, and build massive canine empires!
+name | Clicker Ultimate
+author | Austin
+desc | Pet your dog, buy delicious treats, and build massive canine empires!
 
 Settings
 building cost multiplier:1.15
@@ -65,7 +65,7 @@ button[id="button-petDog"] .icon {
     background-repeat: no-repeat !important;
 }
 
-/* CLICKABLE ITEMS */
+/* CLICKABLE GAME ITEMS */
 .thing {
     cursor: pointer !important;
 }
@@ -93,18 +93,18 @@ button[id="button-readNews"] * {
 Resources
 *bark
 name | Barks
-desc Sound of happy puppies. Spend Barks to build your canine empire!
+desc | Sound of happy puppies. Spend Barks to build your canine empire!
 
 Buttons
 *petDog
-name Dog
-desc Give your good boy some love! Earn 1 Bark per click.
+name | Dog
+desc | Give your good boy some love! Earn 1 Bark per click.
 icon:https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd15KqNdoKzTLu_k5owaGQ_GtD4IlezhRubpmp8gCGOg&s=10
 on click 1 bark
 
 *readNews
-name the Bark Times
-desc The latest headlines from the canine world.
+name | the Bark Times
+desc | The latest headlines from the canine world.
 on click <b>THE BARK TIMES</b>
 on click BREAKING: A Chihuahua has discovered infinite treats!
 on click BREAKING: Don't eat dogs, they're not food!
@@ -132,98 +132,103 @@ on click end
 
 Buildings
 *dogTreat
-name Treat | Dog Treats
-desc 1 Bark per second per Dog Treat.
+name | Treat
+name | Dog Treats
+desc | 1 Bark per second per Dog Treat.
 cost:15 bark
 on tick 1 bark
 
 *puppyPark
-name Park | Puppy Parks
-desc 4 Barks per second per Puppy Park.
+name | Park
+name | Puppy Parks
+desc | 4 Barks per second per Puppy Park.
 cost:100 bark
 on tick 4 bark
 
 *doggyDaycare
-name Daycare | Doggy Daycares
-desc 15 Barks per second per Doggy Daycare.
+name | Daycare
+name | Doggy Daycares
+desc | 15 Barks per second per Doggy Daycare.
 cost:500 bark
 on tick 15 bark
 
 *boneFactory
-name Factory | Bone Factories
-desc 75 Barks per second per Bone Factory.
+name | Factory
+name | Bone Factories
+desc | 75 Barks per second per Bone Factory.
 cost:3000 bark
 on tick 75 bark
 
 *cloningLab
-name Lab | Cloning Labs
-desc 450 Barks per second per Cloning Lab.
+name | Lab
+name | Cloning Labs
+desc | 450 Barks per second per Cloning Lab.
 cost:25000 bark
 on tick 450 bark
 
 Upgrades
 *goldenBrush
-name Brush
-desc Increases the Barks earned per click.
+name | Brush
+desc | Increases the Barks earned per click.
 cost:50 bark
 passive yield of petDog by 2
 
 *premiumKibble
-name Kibble
-desc Increases Dog Treat production.
+name | Kibble
+desc | Increases Dog Treat production.
 cost:250 bark
 passive yield of dogTreat by 2
 
 *puppyLove
-name Love
-desc Increases the Barks earned per click.
+name | Love
+desc | Increases the Barks earned per click.
 cost:500 bark
 passive yield of petDog by 3
 
 *parkExpansion
-name Expansion
-desc Increases Puppy Park production.
+name | Expansion
+desc | Increases Puppy Park production.
 cost:1000 bark
 passive yield of puppyPark by 2
 
 *daycareTraining
-name Trainers
-desc Increases Doggy Daycare production.
+name | Trainers
+desc | Increases Doggy Daycare production.
 cost:2500 bark
 passive yield of doggyDaycare by 2
 
 *factoryUpgrade
-name Bone Press
-desc Increases Bone Factory production.
+name | Bone Press
+desc | Increases Bone Factory production.
 cost:7500 bark
 passive yield of boneFactory by 2
 
 *infiniteTreatRecipe
-name Treat Recipe
-desc Increases Dog Treat production again.
+name | Treat Recipe
+desc | Increases Dog Treat production again.
 cost:5000 bark
 passive yield of dogTreat by 2
 
 *megaBrush
-name Golden Brush
-desc Increases Barks earned per click by 5.
+name | Golden Brush
+desc | Increases Barks earned per click by 5.
 cost:10000 bark
 passive yield of petDog by 5
 
 *cloneResearch
-name Puppy Science
-desc Increases Cloning Lab production.
+name | Puppy Science
+desc | Increases Cloning Lab production.
 cost:50000 bark
 passive yield of cloningLab by 2
 
 *megaPark
-name Puppy Paradise
-desc Increases Puppy Park production by 5.
+name | Puppy Paradise
+desc | Increases Puppy Park production by 5.
 cost:15000 bark
 passive yield of puppyPark by 5
 
 *daycareEmpire
-name Empire
-desc Increases Doggy Daycare production by 5.
+name | Empire
+desc | Increases Doggy Daycare production by 5.
 cost:30000 bark
 passive yield of doggyDaycare by 5
