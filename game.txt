@@ -14,8 +14,7 @@ costs:show
 
 CSS
 /* CENTER THE DOG BUTTON */
-#button-petDog,
-.thing.bigButton {
+#button-petDog {
     position:fixed !important;
     left:50% !important;
     top:50% !important;
@@ -25,34 +24,29 @@ CSS
     min-width:300px !important;
     min-height:300px !important;
     z-index:100 !important;
-    overflow:hidden !important;
 }
 
-/* CENTER AND FIT THE DOG ICON */
-#button-petDog .icon,
-.thing.bigButton .icon {
-    position:absolute !important;
-    left:0 !important;
-    top:0 !important;
-    right:0 !important;
-    bottom:0 !important;
+/* SHOW THE COMPLETE DOG IMAGE */
+#button-petDog .icon {
     width:100% !important;
     height:100% !important;
     background-size:contain !important;
     background-position:center center !important;
     background-repeat:no-repeat !important;
-    margin:0 !important;
 }
 
-/* SUPPORT IMAGE ELEMENTS TOO */
-#button-petDog img,
-.thing.bigButton img {
+/* SUPPORT IMAGE ELEMENTS */
+#button-petDog img {
     display:block !important;
     width:100% !important;
     height:100% !important;
     object-fit:contain !important;
     object-position:center center !important;
-    margin:0 auto !important;
+}
+
+/* KEEP IMAGE INSIDE ITS BUTTON */
+#button-petDog {
+    overflow:hidden !important;
 }
 
 Resources
@@ -64,7 +58,6 @@ Buttons
 *petDog
 name:Pet Dog
 desc:Give your good boy some love! Earn 1 Bark per click.
-class:bigButton
 icon:https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd15KqNdoKzTLu_k5owaGQ_GtD4IlezhRubpmp8gCGOg&s=10
 on click:yield 1 bark
 
