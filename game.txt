@@ -32,8 +32,6 @@ CSS
     background-position:center !important;
     background-repeat:no-repeat !important;
 }
-
-/* UPGRADE AND BUILDING DESCRIPTIONS */
 .thing {
     cursor:pointer;
 }
@@ -56,20 +54,20 @@ name:Read the Bark Times
 desc:Read the latest headlines from the canine world.
 on click:log <b>THE BARK TIMES</b>
 on click:log BREAKING: A Chihuahua has discovered infinite treats!
-on click:log BREAKING: don't eat dogs, there not food
-on click:log BREAKING: ollie and izzy are the best dogs in the world!
-on click:log BREAKING: dogs are taking over the world!
-on click:log BREAKING: dogs are more popular than iphones!
-on click:log BREAKING: dogs are better than cats! thats a fact
-on click:log BREAKING: dogs deserve all of the treats in the world!
-on click:log BREAKING: dogs are mans best friend!
-on click:log BREAKING: everyone needs a dog!
-on click:log BREAKING: don't put dogs in the microwave thats where food goes
-on click:log BREAKING: If you don't ike dgs you go to jail!
-on click:log BREAKING: charlie has a dog named kit!
-on click:log BREAKING: i ran out of ideas!
-on click:log BREAKING: dogs are better than cookies!
-on click:log BREAKING: Boxer puppies are now the cutiest dog breed!
+on click:log BREAKING: Don't eat dogs, they're not food!
+on click:log BREAKING: Ollie and Izzy are the best dogs in the world!
+on click:log BREAKING: Dogs are taking over the world!
+on click:log BREAKING: Dogs are more popular than iPhones!
+on click:log BREAKING: Dogs are better than cats! That's a fact!
+on click:log BREAKING: Dogs deserve all the treats in the world!
+on click:log BREAKING: Dogs are man's best friend!
+on click:log BREAKING: Everyone needs a dog!
+on click:log BREAKING: Don't put dogs in the microwave; that's where food goes!
+on click:log BREAKING: If you don't like dogs, you go to jail!
+on click:log BREAKING: Charlie has a dog named Kit!
+on click:log BREAKING: I ran out of ideas!
+on click:log BREAKING: Dogs are better than cookies!
+on click:log BREAKING: Boxer puppies are now the cutest dog breed!
 on click:log BREAKING: Local puppy steals 400 bones!
 on click:log SCIENCE: Experts confirm that all dogs are good boys.
 on click:log ECONOMY: Bone prices reach an all-time high!
