@@ -121,6 +121,7 @@ on click:
 		toast <b>THE BARK TIMES</b><br>EXCLUSIVE: Golden Retriever elected Mayor!
 		toast <b>THE BARK TIMES</b><br>SPORTS: Local corgi wins the neighborhood race!
 		toast <b>THE BARK TIMES</b><br>INVESTIGATION: Who ate the last dog treat?
+	end
 
 Buildings
 *dogTreat
