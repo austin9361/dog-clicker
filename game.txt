@@ -81,7 +81,7 @@ Buttons
 *petDog
 name:Dog
 desc:Give your good boy some love! Earn 1 Bark per click.
-icon:https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd15KqNdoKzTLu_k5owaGQ_GtD4IlezhRubpmp8gCGOg&s=10
+icon:https://media.discordapp.net/attachments/1520496518392578188/1560722497853464637/image.jpg?ex=6ad3bf98&is=6ad26e18&hm=e4c1e25e10ab7b3a4743ef8046414a31a045f542f3e8a0cd5acc96c63b7d4c51&=&format=webp&width=576&height=768
 on click:yield 1 bark
 
 *readNews
