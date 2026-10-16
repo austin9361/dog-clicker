@@ -11,20 +11,19 @@ Layout
 use default
 
 CSS
-/* DOG BUTTON */
+/* DOG BUTTON - moved down into the open play area */
 #button-petDog,
-button#button-petDog,
-button[id="button-petDog"] {
+[id$="petDog"] {
     position: fixed !important;
-    left: 50% !important;
-    top: 50% !important;
+    left: 28vw !important;
+    top: 55vh !important;
     right: auto !important;
     bottom: auto !important;
     transform: translate(-50%, -50%) !important;
     width: 320px !important;
     height: 320px !important;
-    max-width: 75vw !important;
-    max-height: 60vh !important;
+    max-width: 45vw !important;
+    max-height: 45vh !important;
     padding: 0 !important;
     margin: 0 !important;
     box-sizing: border-box !important;
@@ -36,8 +35,7 @@ button[id="button-petDog"] {
 }
 
 #button-petDog img,
-button#button-petDog img,
-button[id="button-petDog"] img {
+[id$="petDog"] img {
     display: block !important;
     width: 100% !important;
     height: 100% !important;
@@ -49,8 +47,7 @@ button[id="button-petDog"] img {
 }
 
 #button-petDog .icon,
-button#button-petDog .icon,
-button[id="button-petDog"] .icon {
+[id$="petDog"] .icon {
     display: block !important;
     width: 100% !important;
     height: 100% !important;
