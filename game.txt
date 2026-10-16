@@ -13,7 +13,7 @@ use default
 costs:show
 
 CSS
-/* CENTER THE MAIN DOG BUTTON */
+/* CENTER THE DOG BUTTON */
 #button-petDog,
 .thing.bigButton {
     position:fixed !important;
@@ -22,18 +22,37 @@ CSS
     transform:translate(-50%,-50%) !important;
     width:300px !important;
     height:300px !important;
+    min-width:300px !important;
+    min-height:300px !important;
     z-index:100 !important;
+    overflow:hidden !important;
 }
+
+/* CENTER AND FIT THE DOG ICON */
 #button-petDog .icon,
 .thing.bigButton .icon {
+    position:absolute !important;
+    left:0 !important;
+    top:0 !important;
+    right:0 !important;
+    bottom:0 !important;
     width:100% !important;
     height:100% !important;
     background-size:contain !important;
-    background-position:center !important;
+    background-position:center center !important;
     background-repeat:no-repeat !important;
+    margin:0 !important;
 }
-.thing {
-    cursor:pointer;
+
+/* SUPPORT IMAGE ELEMENTS TOO */
+#button-petDog img,
+.thing.bigButton img {
+    display:block !important;
+    width:100% !important;
+    height:100% !important;
+    object-fit:contain !important;
+    object-position:center center !important;
+    margin:0 auto !important;
 }
 
 Resources
