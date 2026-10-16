@@ -26,8 +26,9 @@ CSS
     z-index:100 !important;
 }
 
-/* SHOW THE COMPLETE DOG IMAGE */
+/* FIT THE COMPLETE DOG ICON */
 #button-petDog .icon {
+    display:block !important;
     width:100% !important;
     height:100% !important;
     background-size:contain !important;
@@ -35,7 +36,7 @@ CSS
     background-repeat:no-repeat !important;
 }
 
-/* SUPPORT IMAGE ELEMENTS */
+/* IF THE GAME USES AN IMAGE ELEMENT */
 #button-petDog img {
     display:block !important;
     width:100% !important;
@@ -44,9 +45,14 @@ CSS
     object-position:center center !important;
 }
 
-/* KEEP IMAGE INSIDE ITS BUTTON */
+/* KEEP THE BUTTON CONTENT CENTERED */
 #button-petDog {
-    overflow:hidden !important;
+    text-align:center !important;
+}
+
+/* Make interactive items clear */
+.thing {
+    cursor:pointer;
 }
 
 Resources
