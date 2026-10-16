@@ -1,4 +1,3 @@
-
 Let's make a game!
 name:Dog Clicker Ultimate
 author:Austin
@@ -13,21 +12,30 @@ use default
 costs:show
 
 CSS
-/* CENTER THE DOG BUTTON */
-#button-petDog {
+/* KEEP THE PET DOG BUTTON CENTERED AFTER RELOADS */
+#button-petDog,
+button[id="button-petDog"],
+[id="button-petDog"] {
     position:fixed !important;
     left:50% !important;
     top:50% !important;
+    right:auto !important;
+    bottom:auto !important;
+    margin:0 !important;
     transform:translate(-50%,-50%) !important;
     width:300px !important;
     height:300px !important;
     min-width:300px !important;
     min-height:300px !important;
-    z-index:100 !important;
+    max-width:300px !important;
+    max-height:300px !important;
+    box-sizing:border-box !important;
+    z-index:1000 !important;
 }
 
-/* FIT THE COMPLETE DOG ICON */
-#button-petDog .icon {
+/* KEEP THE DOG ICON FULLY VISIBLE */
+#button-petDog .icon,
+[id="button-petDog"] .icon {
     display:block !important;
     width:100% !important;
     height:100% !important;
@@ -36,8 +44,9 @@ CSS
     background-repeat:no-repeat !important;
 }
 
-/* IF THE GAME USES AN IMAGE ELEMENT */
-#button-petDog img {
+/* KEEP THE IMAGE FROM BEING CROPPED */
+#button-petDog img,
+[id="button-petDog"] img {
     display:block !important;
     width:100% !important;
     height:100% !important;
@@ -46,11 +55,12 @@ CSS
 }
 
 /* KEEP THE BUTTON CONTENT CENTERED */
-#button-petDog {
+#button-petDog,
+[id="button-petDog"] {
     text-align:center !important;
 }
 
-/* Make interactive items clear */
+/* MAKE GAME ITEMS INTERACTIVE */
 .thing {
     cursor:pointer;
 }
