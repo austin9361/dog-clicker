@@ -11,9 +11,8 @@ Layout
 use default
 
 CSS
-/* DOG BUTTON - moved down into the open play area */
-#button-petDog,
-[id$="petDog"] {
+/* DOG BUTTON (thing-1) - big, centered in the open play area */
+#thing-1 {
     position: fixed !important;
     left: 28vw !important;
     top: 55vh !important;
@@ -28,41 +27,37 @@ CSS
     margin: 0 !important;
     box-sizing: border-box !important;
     display: flex !important;
+    flex-direction: column !important;
     align-items: center !important;
     justify-content: center !important;
     overflow: hidden !important;
+    opacity: 1 !important;
     z-index: 10 !important;
 }
 
-#button-petDog img,
-[id$="petDog"] img {
+#thing-1 .thing-icon {
     display: block !important;
     width: 100% !important;
-    height: 100% !important;
-    max-width: 100% !important;
-    max-height: 100% !important;
-    object-fit: contain !important;
-    object-position: center !important;
-    margin: 0 !important;
-}
-
-#button-petDog .icon,
-[id$="petDog"] .icon {
-    display: block !important;
-    width: 100% !important;
-    height: 100% !important;
+    height: 85% !important;
     background-size: contain !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
+    margin: 0 !important;
+}
+
+#thing-1 .thing-text {
+    display: block !important;
+    height: 15% !important;
+    text-align: center !important;
+    font-size: 20px !important;
 }
 
 .thing {
     cursor: pointer !important;
 }
 
-#button-readNews,
-button#button-readNews,
-button[id="button-readNews"] {
+/* BARK TIMES BUTTON (thing-2) */
+#thing-2 {
     width: 280px !important;
     max-width: 90vw !important;
     height: auto !important;
@@ -70,9 +65,7 @@ button[id="button-readNews"] {
     text-align: left !important;
 }
 
-#button-readNews *,
-button#button-readNews *,
-button[id="button-readNews"] * {
+#thing-2 * {
     font-size: 16px !important;
     line-height: 1.5 !important;
     white-space: normal !important;
