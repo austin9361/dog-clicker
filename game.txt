@@ -1,88 +1,99 @@
+
 Let's make a game!
-name: Dog Clicker Ultimate
-author: Austin
-desc: Click to pet your dog, buy delicious treats, and build massive canine empires!
+name:Dog Clicker Ultimate
+author:Austin
+desc:Click to pet your dog, buy delicious treats, and build massive canine empires!
 
 Settings
-building cost multiplier: 1.15
-background: https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=1920
+building cost multiplier:1.15
+background:https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=1920
 
 Layout
 use default
-*store
 costs:show
 
 CSS
-/* FORCES THE MAIN DOG BUTTON TO BE GIANT AND EXACTLY IN THE MIDDLE OF THE SCREEN */
 #button-petDog {
-    position: fixed !important;
-    left: 50% !important;
-    top: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    width: 250px !important;
-    height: 250px !important;
-    z-index: 99999 !important;
+    position:fixed !important;
+    left:50% !important;
+    top:50% !important;
+    transform:translate(-50%,-50%) !important;
+    width:250px !important;
+    height:250px !important;
+    z-index:100 !important;
 }
-
-/* EXPANDS THE DOG IMAGE TO FULLY FILL OUT THE NEW MASSIVE BUTTON WINDOW */
 #button-petDog .icon {
-    width: 100% !important;
-    height: 100% !important;
-    background-size: contain !important;
+    width:100% !important;
+    height:100% !important;
+    background-size:contain !important;
+    background-position:center !important;
+    background-repeat:no-repeat !important;
 }
 
 Resources
 *bark
-name: Bark | Barks
-desc: The sound of happy puppies. Used to buy items!
+name:Bark | Barks
+desc:The sound of happy puppies. Spend Barks to grow your canine empire!
 
 Buttons
 *petDog
-name: Pet Dog | Pet Dogs
-desc: Give your good boy some love!
-on click:get 1 bark
-icon: https://i.imgur.com/vH93O4w.png
+name:Pet Dog
+desc:Give your good boy some love! Earn Barks with every click.
+icon:https://i.imgur.com/vH93O4w.png
+on click:yield 1 bark
+
+*readNews
+name:Read the Bark Times
+desc:Read the latest breaking news from the canine world!
+on click:log <b>THE BARK TIMES</b> - Your daily dose of dog news!
+on click:log BREAKING: Local puppy steals 400 bones!
+on click:log SCIENCE: Scientists confirm that all dogs are good boys.
+on click:log ECONOMY: Bone prices reach an all-time high!
+on click:log WEATHER: 100 percent chance of zoomies today!
+on click:log EXCLUSIVE: Golden Retriever elected Mayor!
+on click:log SPORTS: Local corgi wins the neighborhood race!
+on click:log end
 
 Buildings
 *dogTreat
-name: Dog Treat | Dog Treats
-desc: Automatically generates barks by keeping your dog excited.
-cost: 15 bark
-on tick:get 1 bark
+name:Dog Treat | Dog Treats
+desc:Keeps your dog excited and generates Barks automatically.
+cost:15 bark
+on tick:yield 1 bark
 
 *puppyPark
-name: Puppy Park | Puppy Parks
-desc: A massive park that attracts dozens of puppies to bark automatically.
-cost: 100 bark
-on tick:get 4 bark
+name:Puppy Park | Puppy Parks
+desc:A huge park filled with barking, playful puppies.
+cost:100 bark
+on tick:yield 4 bark
 
 *doggyDaycare
-name: Doggy Daycare | Doggy Daycares
-desc: A premium care facility where dogs play and bark all day long.
-cost: 500 bark
-on tick:get 15 bark
+name:Doggy Daycare | Doggy Daycares
+desc:A premium facility where dogs play all day long.
+cost:500 bark
+on tick:yield 15 bark
 
 *boneFactory
-name: Bone Factory | Bone Factories
-desc: High-tech industrial automated factory molding thousands of chew toys.
-cost: 3000 bark
-on tick:get 75 bark
+name:Bone Factory | Bone Factories
+desc:A high-tech factory that produces mountains of chew toys.
+cost:3000 bark
+on tick:yield 75 bark
 
 *cloningLab
-name: Cloning Lab | Cloning Labs
-desc: Advanced bio-engineering structure designed to safely replicate the ultimate good boys.
-cost: 25000 bark
-on tick:get 450 bark
+name:Cloning Lab | Cloning Labs
+desc:Advanced science creates even more ultimate good boys.
+cost:25000 bark
+on tick:yield 450 bark
 
 Upgrades
 *goldenBrush
-name: Golden Brush | Golden Brushes
-desc: Grooming your dog makes clicks twice as effective.
-cost: 50 bark
+name:Golden Brush
+desc:Grooming your dog doubles the Barks earned per click.
+cost:50 bark
 passive:multiply yield of petDog by 2
 
 *premiumKibble
-name: Premium Kibble | Premium Kibbles
-desc: High-quality food makes Dog Treats twice as effective.
-cost: 250 bark
+name:Premium Kibble
+desc:Premium food doubles Dog Treat production.
+cost:250 bark
 passive:multiply yield of dogTreat by 2
