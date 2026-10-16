@@ -12,7 +12,7 @@ use default
 costs:show
 
 CSS
-/* KEEP THE PET DOG BUTTON CENTERED AFTER RELOADS */
+/* MAKE THE PET DOG BUTTON BIGGER AND CENTERED */
 #button-petDog,
 button[id="button-petDog"],
 [id="button-petDog"] {
@@ -21,46 +21,54 @@ button[id="button-petDog"],
     top:50% !important;
     right:auto !important;
     bottom:auto !important;
-    margin:0 !important;
     transform:translate(-50%,-50%) !important;
-    width:300px !important;
-    height:300px !important;
-    min-width:300px !important;
-    min-height:300px !important;
-    max-width:300px !important;
-    max-height:300px !important;
+    width:400px !important;
+    height:400px !important;
+    min-width:400px !important;
+    min-height:400px !important;
+    max-width:400px !important;
+    max-height:400px !important;
+    padding:0 !important;
+    margin:0 !important;
     box-sizing:border-box !important;
-    z-index:1000 !important;
+    overflow:visible !important;
+    z-index:9999 !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:center !important;
 }
 
-/* KEEP THE DOG ICON FULLY VISIBLE */
+/* ENLARGE THE DOG ICON */
 #button-petDog .icon,
 [id="button-petDog"] .icon {
     display:block !important;
-    width:100% !important;
-    height:100% !important;
+    width:400px !important;
+    height:400px !important;
+    min-width:400px !important;
+    min-height:400px !important;
+    max-width:none !important;
+    max-height:none !important;
     background-size:contain !important;
     background-position:center center !important;
     background-repeat:no-repeat !important;
+    transform:none !important;
 }
 
-/* KEEP THE IMAGE FROM BEING CROPPED */
+/* ENLARGE THE ACTUAL DOG IMAGE */
 #button-petDog img,
 [id="button-petDog"] img {
     display:block !important;
-    width:100% !important;
-    height:100% !important;
+    width:400px !important;
+    height:400px !important;
+    min-width:400px !important;
+    min-height:400px !important;
+    max-width:none !important;
+    max-height:none !important;
     object-fit:contain !important;
     object-position:center center !important;
 }
 
-/* KEEP THE BUTTON CONTENT CENTERED */
-#button-petDog,
-[id="button-petDog"] {
-    text-align:center !important;
-}
-
-/* MAKE GAME ITEMS INTERACTIVE */
+/* MAKE GAME ITEMS CLICKABLE */
 .thing {
     cursor:pointer;
 }
