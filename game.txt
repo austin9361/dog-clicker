@@ -1,7 +1,8 @@
+
 Let's make a game!
-name:Dog Clicker Ultimate
-author:Austin
-desc:Click to pet your dog, buy delicious treats, and build massive canine empires!
+name Clicker Ultimate
+author Austin
+desc to pet your dog, buy delicious treats, and build massive canine empires!
 
 Settings
 building cost multiplier:1.15
@@ -9,296 +10,301 @@ background:https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=1920
 
 Layout
 use default
-costs:show
+costs
 
 CSS
-/* =====================================
-   DOG CLICKER ULTIMATE - POSITION EDITOR
-   Change these values to move things!
-   ===================================== */
+/* ==========================================
+   CLICKER ULTIMATE - LAYOUT IMPROVEMENTS
+   ========================================== */
 
-:root {
-    /* DOG BUTTON */
-    --dog-x: 50%;
-    --dog-y: 50%;
-    --dog-width: 400px;
-    --dog-height: 400px;
-
-    /* BARK COUNTER */
-    --bark-x: 20px;
-    --bark-y: 20px;
-    --bark-width: 250px;
-    --bark-size: 24px;
-
-    /* BUILDINGS SHOP */
-    --shop-x: auto;
-    --shop-y: 20px;
-    --shop-width: 300px;
-
-    /* UPGRADES */
-    --upgrades-x: 20px;
-    --upgrades-y: 100px;
-    --upgrades-width: 280px;
-
-    /* NEWS BUTTON */
-    --news-x: 50%;
-    --news-y: auto;
-    --news-width: 220px;
+/* Make the game use the available screen */
+html,
+body {
+    margin: 0 !important;
+    min-height: 100% !important;
+    overflow-x: hidden !important;
 }
 
-/* =====================================
-   DOG BUTTON
-   ===================================== */
+/* MOVE THE BLACK RESOURCE BAR DOWN */
+#resources,
+.resources,
+#resource-bar,
+.resource-bar,
+#resource-bark,
+[id="resource-bark"] {
+    position: fixed !important;
+    top: 140px !important;
+    left: 20px !important;
+    right: auto !important;
+    bottom: auto !important;
+    z-index: 1000 !important;
+    max-width: calc(100vw - 40px) !important;
+}
 
+/* CENTER THE DOG BUTTON */
 #button-petDog,
 button[id="button-petDog"],
 [id="button-petDog"] {
     position: fixed !important;
-    left: var(--dog-x) !important;
-    top: var(--dog-y) !important;
+    left: 50% !important;
+    top: 50% !important;
     right: auto !important;
     bottom: auto !important;
     transform: translate(-50%, -50%) !important;
-    width: var(--dog-width) !important;
-    height: var(--dog-height) !important;
+    width: 400px !important;
+    height: 400px !important;
     min-width: 0 !important;
     min-height: 0 !important;
-    max-width: none !important;
-    max-height: none !important;
+    max-width: 75vw !important;
+    max-height: 60vh !important;
     padding: 0 !important;
     margin: 0 !important;
     box-sizing: border-box !important;
+    overflow: hidden !important;
     z-index: 100 !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
 }
 
-/* DOG IMAGE */
-
+/* CENTER AND FIT THE DOG PHOTO */
 #button-petDog img,
+button[id="button-petDog"] img,
+[id="button-petDog"] img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    object-position: center center !important;
+    margin: auto !important;
+}
+
+/* CENTER THE DOG ICON IF IT IS A BACKGROUND IMAGE */
 #button-petDog .icon,
-[id="button-petDog"] img,
 [id="button-petDog"] .icon {
+    display: block !important;
     width: 100% !important;
     height: 100% !important;
     max-width: 100% !important;
     max-height: 100% !important;
-    object-fit: contain !important;
-    object-position: center !important;
     background-size: contain !important;
-    background-position: center !important;
+    background-position: center center !important;
     background-repeat: no-repeat !important;
+    margin: auto !important;
 }
 
-/* =====================================
-   BARK COUNTER
-   Common resource selectors
-   ===================================== */
-
-#resource-bark,
-[id="resource-bark"] {
-    position: fixed !important;
-    left: var(--bark-x) !important;
-    top: var(--bark-y) !important;
-    right: auto !important;
-    bottom: auto !important;
-    width: var(--bark-width) !important;
-    font-size: var(--bark-size) !important;
-    z-index: 200 !important;
-}
-
-/* =====================================
-   BUILDINGS SHOP
-   ===================================== */
-
-#buildings,
-.buildings {
-    position: fixed !important;
-    left: var(--shop-x) !important;
-    top: var(--shop-y) !important;
-    width: var(--shop-width) !important;
-    max-width: 100% !important;
-    z-index: 50 !important;
-}
-
-/* =====================================
-   UPGRADES
-   ===================================== */
-
-#upgrades,
-.upgrades {
-    position: fixed !important;
-    left: var(--upgrades-x) !important;
-    top: var(--upgrades-y) !important;
-    width: var(--upgrades-width) !important;
-    max-width: 100% !important;
-    z-index: 60 !important;
-}
-
-/* =====================================
-   NEWS BUTTON
-   ===================================== */
-
-#button-readNews,
-[id="button-readNews"] {
-    position: fixed !important;
-    left: var(--news-x) !important;
-    top: var(--news-y) !important;
-    width: var(--news-width) !important;
-    transform: translateX(-50%) !important;
-    z-index: 150 !important;
-}
-
-/* =====================================
-   GENERAL GAME ITEMS
-   ===================================== */
-
+/* MAKE GAME ITEMS CLICKABLE */
 .thing {
-    cursor: pointer;
-    box-sizing: border-box;
+    cursor: pointer !important;
 }
 
-/* Prevent images from overflowing their buttons */
-
-.thing img {
-    object-fit: contain;
-    max-width: 100%;
+/* MAKE BARK TIMES EASIER TO READ */
+#button-readNews,
+button[id="button-readNews"],
+[id="button-readNews"] {
+    width: 320px !important;
+    max-width: calc(100vw - 30px) !important;
+    height: auto !important;
+    min-height: 50px !important;
+    white-space: normal !important;
+    text-align: left !important;
+    overflow: visible !important;
+    overflow-wrap: anywhere !important;
+    box-sizing: border-box !important;
 }
 
-/* END OF POSITION EDITOR */
+/* Enlarge text and allow headlines to wrap */
+#button-readNews *,
+button[id="button-readNews"] *,
+[id="button-readNews"] * {
+    font-size: 18px !important;
+    line-height: 1.6 !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+}
+
+/* KEEP BUILDINGS AND UPGRADES READABLE */
+.buildings,
+#buildings,
+.upgrades,
+#upgrades {
+    box-sizing: border-box !important;
+}
+
+/* RESPONSIVE LAYOUT FOR SMALLER SCREENS */
+@media (max-width: 700px) {
+    #button-petDog,
+    button[id="button-petDog"],
+    [id="button-petDog"] {
+        width: 75vw !important;
+        height: 45vh !important;
+        max-width: 75vw !important;
+        max-height: 45vh !important;
+    }
+
+    #resources,
+    .resources,
+    #resource-bar,
+    .resource-bar,
+    #resource-bark,
+    [id="resource-bark"] {
+        top: 100px !important;
+        left: 10px !important;
+        max-width: calc(100vw - 20px) !important;
+    }
+
+    #button-readNews,
+    button[id="button-readNews"],
+    [id="button-readNews"] {
+        width: 90vw !important;
+        max-width: 90vw !important;
+    }
+
+    #button-readNews *,
+    button[id="button-readNews"] *,
+    [id="button-readNews"] * {
+        font-size: 16px !important;
+    }
+}
 
 Resources
 *bark
-name:Bark | Barks
-desc:The sound of happy puppies. Spend Barks to build your canine empire!
+name | Barks
+desc sound of happy puppies. Spend Barks to build your canine empire!
 
 Buttons
 *petDog
-name:Pet Dog
-desc:Give your good boy some love! Earn 1 Bark per click.
+name Dog
+desc your good boy some love! Earn 1 Bark per click.
 icon:https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd15KqNdoKzTLu_k5owaGQ_GtD4IlezhRubpmp8gCGOg&s=10
-on click:yield 1 bark
+on click 1 bark
 
 *readNews
-name:Read the Bark Times
-desc:Read the latest headlines from the canine world.
-on click:log <b>THE BARK TIMES</b>
-on click:log BREAKING: A Chihuahua has discovered infinite treats!
-on click:log BREAKING: Don't eat dogs, they're not food!
-on click:log BREAKING: Ollie and Izzy are the best dogs in the world!
-on click:log BREAKING: Dogs are taking over the world!
-on click:log BREAKING: Dogs are more popular than iPhones!
-on click:log BREAKING: Dogs are better than cats! That's a fact!
-on click:log BREAKING: Dogs deserve all the treats in the world!
-on click:log BREAKING: Dogs are man's best friend!
-on click:log BREAKING: Everyone needs a dog!
-on click:log BREAKING: Don't put dogs in the microwave; that's where food goes!
-on click:log BREAKING: If you don't like dogs, you go to jail!
-on click:log BREAKING: Charlie has a dog named Kit!
-on click:log BREAKING: I ran out of ideas!
-on click:log BREAKING: Dogs are better than cookies!
-on click:log BREAKING: Boxer puppies are now the cutest dog breed!
-on click:log BREAKING: Local puppy steals 400 bones!
-on click:log SCIENCE: Experts confirm that all dogs are good boys.
-on click:log ECONOMY: Bone prices reach an all-time high!
-on click:log WEATHER: 100% chance of zoomies today!
-on click:log EXCLUSIVE: Golden Retriever elected Mayor!
-on click:log SPORTS: Local corgi wins the neighborhood race!
-on click:log INVESTIGATION: Who ate the last dog treat?
-on click:log end
+name the Bark Times
+desc the latest headlines from the canine world.
+on click <b>THE BARK TIMES</b>
+on click BREAKING: A Chihuahua has discovered infinite treats!
+on click BREAKING: Don't eat dogs, they're not food!
+on click BREAKING: Ollie and Izzy are the best dogs in the world!
+on click BREAKING: Dogs are taking over the world!
+on click BREAKING: Dogs are more popular than iPhones!
+on click BREAKING: Dogs are better than cats! That's a fact!
+on click BREAKING: Dogs deserve all the treats in the world!
+on click BREAKING: Dogs are man's best friend!
+on click BREAKING: Everyone needs a dog!
+on click BREAKING: Don't put dogs in the microwave; that's where food goes!
+on click BREAKING: If you don't like dogs, you go to jail!
+on click BREAKING: Charlie has a dog named Kit!
+on click BREAKING: I ran out of ideas!
+on click BREAKING: Dogs are better than cookies!
+on click BREAKING: Boxer puppies are now the cutest dog breed!
+on click BREAKING: Local puppy steals 400 bones!
+on click SCIENCE: Experts confirm that all dogs are good boys.
+on click ECONOMY: Bone prices reach an all-time high!
+on click WEATHER: 100% chance of zoomies today!
+on click EXCLUSIVE: Golden Retriever elected Mayor!
+on click SPORTS: Local corgi wins the neighborhood race!
+on click INVESTIGATION: Who ate the last dog treat?
+on click end
 
 Buildings
 *dogTreat
-name:Dog Treat | Dog Treats
-desc:Generates 1 Bark per second per Dog Treat.
+name Treat | Dog Treats
+desc 1 Bark per second per Dog Treat.
 cost:15 bark
-on tick:yield 1 bark
+on tick 1 bark
 
 *puppyPark
-name:Puppy Park | Puppy Parks
-desc:Generates 4 Barks per second per Puppy Park.
+name Park | Puppy Parks
+desc 4 Barks per second per Puppy Park.
 cost:100 bark
-on tick:yield 4 bark
+on tick 4 bark
 
 *doggyDaycare
-name:Doggy Daycare | Doggy Daycares
-desc:Generates 15 Barks per second per Doggy Daycare.
+name Daycare | Doggy Daycares
+desc 15 Barks per second per Doggy Daycare.
 cost:500 bark
-on tick:yield 15 bark
+on tick 15 bark
 
 *boneFactory
-name:Bone Factory | Bone Factories
-desc:Generates 75 Barks per second per Bone Factory.
+name Factory | Bone Factories
+desc 75 Barks per second per Bone Factory.
 cost:3000 bark
-on tick:yield 75 bark
+on tick 75 bark
 
 *cloningLab
-name:Cloning Lab | Cloning Labs
-desc:Generates 450 Barks per second per Cloning Lab.
+name Lab | Cloning Labs
+desc 450 Barks per second per Cloning Lab.
 cost:25000 bark
-on tick:yield 450 bark
+on tick 450 bark
 
 Upgrades
 *goldenBrush
-name:Golden Brush
-desc:Doubles the Barks earned per click.
+name Brush
+desc the Barks earned per click.
 cost:50 bark
-passive:multiply yield of petDog by 2
+passive yield of petDog by 2
 
 *premiumKibble
-name:Premium Kibble
-desc:Doubles Dog Treat production.
+name Kibble
+desc Dog Treat production.
 cost:250 bark
-passive:multiply yield of dogTreat by 2
+passive yield of dogTreat by 2
 
 *puppyLove
-name:Puppy Love
-desc:Triples the Barks earned per click.
+name Love
+desc the Barks earned per click.
 cost:500 bark
-passive:multiply yield of petDog by 3
+passive yield of petDog by 3
 
 *parkExpansion
-name:Park Expansion
-desc:Doubles Puppy Park production.
+name Expansion
+desc Puppy Park production.
 cost:1000 bark
-passive:multiply yield of puppyPark by 2
+passive yield of puppyPark by 2
 
 *daycareTraining
-name:Professional Trainers
-desc:Doubles Doggy Daycare production.
+name Trainers
+desc Doggy Daycare production.
 cost:2500 bark
-passive:multiply yield of doggyDaycare by 2
+passive yield of doggyDaycare by 2
 
 *factoryUpgrade
-name:Automated Bone Press
-desc:Doubles Bone Factory production.
+name Bone Press
+desc Bone Factory production.
 cost:7500 bark
-passive:multiply yield of boneFactory by 2
+passive yield of boneFactory by 2
 
 *infiniteTreatRecipe
-name:Secret Treat Recipe
-desc:Doubles Dog Treat production again.
+name Treat Recipe
+desc Dog Treat production again.
 cost:5000 bark
-passive:multiply yield of dogTreat by 2
+passive yield of dogTreat by 2
 
 *megaBrush
-name:Legendary Golden Brush
-desc:Multiplies Barks earned per click by 5.
+name Golden Brush
+desc Barks earned per click by 5.
 cost:10000 bark
-passive:multiply yield of petDog by 5
+passive yield of petDog by 5
 
 *cloneResearch
-name:Advanced Puppy Science
-desc:Doubles Cloning Lab production.
+name Puppy Science
+desc Cloning Lab production.
 cost:50000 bark
-passive:multiply yield of cloningLab by 2
+passive yield of cloningLab by 2
 
 *megaPark
-name:Ultimate Puppy Paradise
-desc:Multiplies Puppy Park production by 5.
+name Puppy Paradise
+desc Puppy Park production by 5.
 cost:15000 bark
-passive:multiply yield of puppyPark by 5
+passive yield of puppyPark by 5
 
 *daycareEmpire
-name:Daycare Empire
-desc:Multiplies Doggy Daycare production by 5.
+name Empire
+desc Doggy Daycare production by 5.
 cost:30000 bark
-passive:multiply yield of doggyDaycare by 5
+passive yield of doggyDaycare by 5
