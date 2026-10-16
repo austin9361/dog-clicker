@@ -26,8 +26,6 @@ button[id="button-petDog"] {
     transform: translate(-50%, -50%) !important;
     width: 320px !important;
     height: 320px !important;
-    min-width: 0 !important;
-    min-height: 0 !important;
     max-width: 75vw !important;
     max-height: 60vh !important;
     padding: 0 !important;
@@ -40,7 +38,6 @@ button[id="button-petDog"] {
     z-index: 10 !important;
 }
 
-/* DOG IMAGE */
 #button-petDog img,
 button#button-petDog img,
 button[id="button-petDog"] img {
@@ -54,7 +51,6 @@ button[id="button-petDog"] img {
     margin: 0 !important;
 }
 
-/* DOG BACKGROUND ICON */
 #button-petDog .icon,
 button#button-petDog .icon,
 button[id="button-petDog"] .icon {
@@ -62,16 +58,14 @@ button[id="button-petDog"] .icon {
     width: 100% !important;
     height: 100% !important;
     background-size: contain !important;
-    background-position: center center !important;
+    background-position: center !important;
     background-repeat: no-repeat !important;
 }
 
-/* CLICKABLE GAME ITEMS */
 .thing {
     cursor: pointer !important;
 }
 
-/* BARK TIMES */
 #button-readNews,
 button#button-readNews,
 button[id="button-readNews"] {
