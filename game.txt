@@ -12,66 +12,158 @@ use default
 costs:show
 
 CSS
-/* MAKE THE PET DOG BUTTON BIGGER AND CENTERED */
+/* =====================================
+   DOG CLICKER ULTIMATE - POSITION EDITOR
+   Change these values to move things!
+   ===================================== */
+
+:root {
+    /* DOG BUTTON */
+    --dog-x: 50%;
+    --dog-y: 50%;
+    --dog-width: 400px;
+    --dog-height: 400px;
+
+    /* BARK COUNTER */
+    --bark-x: 20px;
+    --bark-y: 20px;
+    --bark-width: 250px;
+    --bark-size: 24px;
+
+    /* BUILDINGS SHOP */
+    --shop-x: auto;
+    --shop-y: 20px;
+    --shop-width: 300px;
+
+    /* UPGRADES */
+    --upgrades-x: 20px;
+    --upgrades-y: 100px;
+    --upgrades-width: 280px;
+
+    /* NEWS BUTTON */
+    --news-x: 50%;
+    --news-y: auto;
+    --news-width: 220px;
+}
+
+/* =====================================
+   DOG BUTTON
+   ===================================== */
+
 #button-petDog,
 button[id="button-petDog"],
 [id="button-petDog"] {
-    position:fixed !important;
-    left:50% !important;
-    top:50% !important;
-    right:auto !important;
-    bottom:auto !important;
-    transform:translate(-50%,-50%) !important;
-    width:400px !important;
-    height:400px !important;
-    min-width:400px !important;
-    min-height:400px !important;
-    max-width:400px !important;
-    max-height:400px !important;
-    padding:0 !important;
-    margin:0 !important;
-    box-sizing:border-box !important;
-    overflow:visible !important;
-    z-index:9999 !important;
-    display:flex !important;
-    align-items:center !important;
-    justify-content:center !important;
+    position: fixed !important;
+    left: var(--dog-x) !important;
+    top: var(--dog-y) !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: translate(-50%, -50%) !important;
+    width: var(--dog-width) !important;
+    height: var(--dog-height) !important;
+    min-width: 0 !important;
+    min-height: 0 !important;
+    max-width: none !important;
+    max-height: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    z-index: 100 !important;
 }
 
-/* ENLARGE THE DOG ICON */
-#button-petDog .icon,
-[id="button-petDog"] .icon {
-    display:block !important;
-    width:400px !important;
-    height:400px !important;
-    min-width:400px !important;
-    min-height:400px !important;
-    max-width:none !important;
-    max-height:none !important;
-    background-size:contain !important;
-    background-position:center center !important;
-    background-repeat:no-repeat !important;
-    transform:none !important;
-}
+/* DOG IMAGE */
 
-/* ENLARGE THE ACTUAL DOG IMAGE */
 #button-petDog img,
-[id="button-petDog"] img {
-    display:block !important;
-    width:400px !important;
-    height:400px !important;
-    min-width:400px !important;
-    min-height:400px !important;
-    max-width:none !important;
-    max-height:none !important;
-    object-fit:contain !important;
-    object-position:center center !important;
+#button-petDog .icon,
+[id="button-petDog"] img,
+[id="button-petDog"] .icon {
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    background-size: contain !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
 }
 
-/* MAKE GAME ITEMS CLICKABLE */
-.thing {
-    cursor:pointer;
+/* =====================================
+   BARK COUNTER
+   Common resource selectors
+   ===================================== */
+
+#resource-bark,
+[id="resource-bark"] {
+    position: fixed !important;
+    left: var(--bark-x) !important;
+    top: var(--bark-y) !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: var(--bark-width) !important;
+    font-size: var(--bark-size) !important;
+    z-index: 200 !important;
 }
+
+/* =====================================
+   BUILDINGS SHOP
+   ===================================== */
+
+#buildings,
+.buildings {
+    position: fixed !important;
+    left: var(--shop-x) !important;
+    top: var(--shop-y) !important;
+    width: var(--shop-width) !important;
+    max-width: 100% !important;
+    z-index: 50 !important;
+}
+
+/* =====================================
+   UPGRADES
+   ===================================== */
+
+#upgrades,
+.upgrades {
+    position: fixed !important;
+    left: var(--upgrades-x) !important;
+    top: var(--upgrades-y) !important;
+    width: var(--upgrades-width) !important;
+    max-width: 100% !important;
+    z-index: 60 !important;
+}
+
+/* =====================================
+   NEWS BUTTON
+   ===================================== */
+
+#button-readNews,
+[id="button-readNews"] {
+    position: fixed !important;
+    left: var(--news-x) !important;
+    top: var(--news-y) !important;
+    width: var(--news-width) !important;
+    transform: translateX(-50%) !important;
+    z-index: 150 !important;
+}
+
+/* =====================================
+   GENERAL GAME ITEMS
+   ===================================== */
+
+.thing {
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+/* Prevent images from overflowing their buttons */
+
+.thing img {
+    object-fit: contain;
+    max-width: 100%;
+}
+
+/* END OF POSITION EDITOR */
 
 Resources
 *bark
