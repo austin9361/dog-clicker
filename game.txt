@@ -99,28 +99,28 @@ name:the Bark Times
 desc:The latest headlines from the canine world.
 on click:
 	any
-		toast <b>THE BARK TIMES</b><br>BREAKING: A Chihuahua has discovered infinite treats!
-		toast <b>THE BARK TIMES</b><br>BREAKING: Don't eat dogs, they're not food!
-		toast <b>THE BARK TIMES</b><br>BREAKING: Ollie and Izzy are the best dogs in the world!
-		toast <b>THE BARK TIMES</b><br>BREAKING: Dogs are taking over the world!
-		toast <b>THE BARK TIMES</b><br>BREAKING: Dogs are more popular than iPhones!
-		toast <b>THE BARK TIMES</b><br>BREAKING: Dogs are better than cats! That's a fact!
-		toast <b>THE BARK TIMES</b><br>BREAKING: Dogs deserve all the treats in the world!
-		toast <b>THE BARK TIMES</b><br>BREAKING: Dogs are man's best friend!
-		toast <b>THE BARK TIMES</b><br>BREAKING: Everyone needs a dog!
-		toast <b>THE BARK TIMES</b><br>BREAKING: Don't put dogs in the microwave; that's where food goes!
-		toast <b>THE BARK TIMES</b><br>BREAKING: If you don't like dogs, you go to jail!
-		toast <b>THE BARK TIMES</b><br>BREAKING: Charlie has a dog named Kit!
-		toast <b>THE BARK TIMES</b><br>BREAKING: I ran out of ideas!
-		toast <b>THE BARK TIMES</b><br>BREAKING: Dogs are better than cookies!
-		toast <b>THE BARK TIMES</b><br>BREAKING: Boxer puppies are now the cutest dog breed!
-		toast <b>THE BARK TIMES</b><br>BREAKING: Local puppy steals 400 bones!
-		toast <b>THE BARK TIMES</b><br>SCIENCE: Experts confirm that all dogs are good boys.
-		toast <b>THE BARK TIMES</b><br>ECONOMY: Bone prices reach an all-time high!
-		toast <b>THE BARK TIMES</b><br>WEATHER: 100% chance of zoomies today!
-		toast <b>THE BARK TIMES</b><br>EXCLUSIVE: Golden Retriever elected Mayor!
-		toast <b>THE BARK TIMES</b><br>SPORTS: Local corgi wins the neighborhood race!
-		toast <b>THE BARK TIMES</b><br>INVESTIGATION: Who ate the last dog treat?
+		toast THE BARK TIMES - BREAKING: A Chihuahua has discovered infinite treats!
+		toast THE BARK TIMES - BREAKING: Dont eat dogs, theyre not food!
+		toast THE BARK TIMES - BREAKING: Ollie and Izzy are the best dogs in the world!
+		toast THE BARK TIMES - BREAKING: Dogs are taking over the world!
+		toast THE BARK TIMES - BREAKING: Dogs are more popular than iPhones!
+		toast THE BARK TIMES - BREAKING: Dogs are better than cats! Thats a fact!
+		toast THE BARK TIMES - BREAKING: Dogs deserve all the treats in the world!
+		toast THE BARK TIMES - BREAKING: Dogs are mans best friend!
+		toast THE BARK TIMES - BREAKING: Everyone needs a dog!
+		toast THE BARK TIMES - BREAKING: Dont put dogs in the microwave; thats where food goes!
+		toast THE BARK TIMES - BREAKING: If you dont like dogs, you go to jail!
+		toast THE BARK TIMES - BREAKING: Charlie has a dog named Kit!
+		toast THE BARK TIMES - BREAKING: I ran out of ideas!
+		toast THE BARK TIMES - BREAKING: Dogs are better than cookies!
+		toast THE BARK TIMES - BREAKING: Boxer puppies are now the cutest dog breed!
+		toast THE BARK TIMES - BREAKING: Local puppy steals 400 bones!
+		toast THE BARK TIMES - SCIENCE: Experts confirm that all dogs are good boys.
+		toast THE BARK TIMES - ECONOMY: Bone prices reach an all-time high!
+		toast THE BARK TIMES - WEATHER: 100% chance of zoomies today!
+		toast THE BARK TIMES - EXCLUSIVE: Golden Retriever elected Mayor!
+		toast THE BARK TIMES - SPORTS: Local corgi wins the neighborhood race!
+		toast THE BARK TIMES - INVESTIGATION: Who ate the last dog treat?
 	end
 
 Buildings
