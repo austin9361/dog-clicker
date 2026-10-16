@@ -4,14 +4,83 @@ by:
 desc:Pet your dog, buy delicious treats, and build massive canine empires!
 
 Settings
-building cost increase : 115%
+building cost increase:115%
 background:https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=1920
 
 Layout
 use default
 
 CSS
-/* keep all your CSS exactly as it was */
+/* DOG BUTTON */
+#button-petDog,
+button#button-petDog,
+button[id="button-petDog"] {
+    position: fixed !important;
+    left: 50% !important;
+    top: 50% !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: translate(-50%, -50%) !important;
+    width: 320px !important;
+    height: 320px !important;
+    max-width: 75vw !important;
+    max-height: 60vh !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    overflow: hidden !important;
+    z-index: 10 !important;
+}
+
+#button-petDog img,
+button#button-petDog img,
+button[id="button-petDog"] img {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    object-fit: contain !important;
+    object-position: center !important;
+    margin: 0 !important;
+}
+
+#button-petDog .icon,
+button#button-petDog .icon,
+button[id="button-petDog"] .icon {
+    display: block !important;
+    width: 100% !important;
+    height: 100% !important;
+    background-size: contain !important;
+    background-position: center !important;
+    background-repeat: no-repeat !important;
+}
+
+.thing {
+    cursor: pointer !important;
+}
+
+#button-readNews,
+button#button-readNews,
+button[id="button-readNews"] {
+    width: 280px !important;
+    max-width: 90vw !important;
+    height: auto !important;
+    white-space: normal !important;
+    text-align: left !important;
+}
+
+#button-readNews *,
+button#button-readNews *,
+button[id="button-readNews"] * {
+    font-size: 16px !important;
+    line-height: 1.5 !important;
+    white-space: normal !important;
+    overflow-wrap: anywhere !important;
+}
 
 Resources
 *bark
@@ -28,7 +97,30 @@ on click:yield 1 bark
 *readNews
 name:the Bark Times
 desc:The latest headlines from the canine world.
-on click:toast BREAKING: A Chihuahua has discovered infinite treats!
+on click:
+	any
+		toast <b>THE BARK TIMES</b><br>BREAKING: A Chihuahua has discovered infinite treats!
+		toast <b>THE BARK TIMES</b><br>BREAKING: Don't eat dogs, they're not food!
+		toast <b>THE BARK TIMES</b><br>BREAKING: Ollie and Izzy are the best dogs in the world!
+		toast <b>THE BARK TIMES</b><br>BREAKING: Dogs are taking over the world!
+		toast <b>THE BARK TIMES</b><br>BREAKING: Dogs are more popular than iPhones!
+		toast <b>THE BARK TIMES</b><br>BREAKING: Dogs are better than cats! That's a fact!
+		toast <b>THE BARK TIMES</b><br>BREAKING: Dogs deserve all the treats in the world!
+		toast <b>THE BARK TIMES</b><br>BREAKING: Dogs are man's best friend!
+		toast <b>THE BARK TIMES</b><br>BREAKING: Everyone needs a dog!
+		toast <b>THE BARK TIMES</b><br>BREAKING: Don't put dogs in the microwave; that's where food goes!
+		toast <b>THE BARK TIMES</b><br>BREAKING: If you don't like dogs, you go to jail!
+		toast <b>THE BARK TIMES</b><br>BREAKING: Charlie has a dog named Kit!
+		toast <b>THE BARK TIMES</b><br>BREAKING: I ran out of ideas!
+		toast <b>THE BARK TIMES</b><br>BREAKING: Dogs are better than cookies!
+		toast <b>THE BARK TIMES</b><br>BREAKING: Boxer puppies are now the cutest dog breed!
+		toast <b>THE BARK TIMES</b><br>BREAKING: Local puppy steals 400 bones!
+		toast <b>THE BARK TIMES</b><br>SCIENCE: Experts confirm that all dogs are good boys.
+		toast <b>THE BARK TIMES</b><br>ECONOMY: Bone prices reach an all-time high!
+		toast <b>THE BARK TIMES</b><br>WEATHER: 100% chance of zoomies today!
+		toast <b>THE BARK TIMES</b><br>EXCLUSIVE: Golden Retriever elected Mayor!
+		toast <b>THE BARK TIMES</b><br>SPORTS: Local corgi wins the neighborhood race!
+		toast <b>THE BARK TIMES</b><br>INVESTIGATION: Who ate the last dog treat?
 
 Buildings
 *dogTreat
