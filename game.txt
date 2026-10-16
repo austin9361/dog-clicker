@@ -5,24 +5,34 @@ author:Austin
 desc:Click to pet your dog, buy delicious treats, and build massive canine empires!
 
 Settings
-building cost multiplier:1.15
+building cost increase:115%
 background:https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=1920
 
 Layout
-use default
-costs:show
+*main contains:res,buttons,news,store
+*res contains:Resources class:fullWidth
+*buttons contains:Buttons
+*news contains:Log header:<#d9a441>The Bark Times</#>
+*store contains:buildings,upgrades
+*buildings contains:BulkDisplay,Buildings header:Buildings tooltip origin:left costs:show ps:show
+*upgrades contains:Upgrades header:Upgrades tooltip origin:left costs:show
 
 CSS
-#button-petDog {
+/* CUSTOM DOG BUTTON SIZE AND POSITION */
+#button-petDog,
+.bigButton {
     position:fixed !important;
     left:50% !important;
     top:50% !important;
     transform:translate(-50%,-50%) !important;
     width:250px !important;
     height:250px !important;
-    z-index:100 !important;
+    z-index:20 !important;
 }
-#button-petDog .icon {
+
+/* DOG IMAGE */
+#button-petDog .icon,
+.bigButton .icon {
     width:100% !important;
     height:100% !important;
     background-size:contain !important;
@@ -30,70 +40,122 @@ CSS
     background-repeat:no-repeat !important;
 }
 
+/* NEWS FEED */
+#game {
+    font-family:Arial,sans-serif;
+}
+
 Resources
 *bark
 name:Bark | Barks
-desc:The sound of happy puppies. Spend Barks to grow your canine empire!
+desc:The sound of happy puppies. Spend Barks to build your canine empire!
+icon:https://i.imgur.com/vH93O4w.png
 
 Buttons
 *petDog
 name:Pet Dog
 desc:Give your good boy some love! Earn Barks with every click.
+class:bigButton
+/* CHANGE THE IMAGE URL BELOW TO USE YOUR OWN DOG IMAGE */
 icon:https://i.imgur.com/vH93O4w.png
 on click:yield 1 bark
 
 *readNews
-name:Read the Bark Times
-desc:Read the latest breaking news from the canine world!
-on click:log <b>THE BARK TIMES</b> - Your daily dose of dog news!
-on click:log BREAKING: Local puppy steals 400 bones!
-on click:log SCIENCE: Scientists confirm that all dogs are good boys.
-on click:log ECONOMY: Bone prices reach an all-time high!
-on click:log WEATHER: 100 percent chance of zoomies today!
-on click:log EXCLUSIVE: Golden Retriever elected Mayor!
-on click:log SPORTS: Local corgi wins the neighborhood race!
-on click:log end
+name:Refresh Bark Times
+desc:Read the latest headlines from the canine world.
+on click:
+ log <#d9a441><b>THE BARK TIMES</b></#>
+ log BREAKING: Local puppy steals 400 bones!
+ log SCIENCE: Experts confirm that all dogs are good boys.
+ log ECONOMY: Bone prices reach an all-time high!
+ log WEATHER: 100% chance of zoomies today!
+ log EXCLUSIVE: Golden Retriever elected Mayor!
+ log SPORTS: Local corgi wins the neighborhood race!
+ log INVESTIGATION: Who ate the last dog treat?
+ log end
 
 Buildings
 *dogTreat
 name:Dog Treat | Dog Treats
-desc:Keeps your dog excited and generates Barks automatically.
-cost:15 bark
+desc:Generates 1 Bark per second per Dog Treat.
+costs:15 bark
 on tick:yield 1 bark
 
 *puppyPark
 name:Puppy Park | Puppy Parks
-desc:A huge park filled with barking, playful puppies.
-cost:100 bark
+desc:Attracts playful puppies. Generates 4 Barks per second per park.
+costs:100 bark
 on tick:yield 4 bark
 
 *doggyDaycare
 name:Doggy Daycare | Doggy Daycares
-desc:A premium facility where dogs play all day long.
-cost:500 bark
+desc:Dogs play all day long. Generates 15 Barks per second per daycare.
+costs:500 bark
 on tick:yield 15 bark
 
 *boneFactory
 name:Bone Factory | Bone Factories
-desc:A high-tech factory that produces mountains of chew toys.
-cost:3000 bark
+desc:An automated chew-toy factory. Generates 75 Barks per second per factory.
+costs:3000 bark
 on tick:yield 75 bark
 
 *cloningLab
 name:Cloning Lab | Cloning Labs
-desc:Advanced science creates even more ultimate good boys.
-cost:25000 bark
+desc:Creates even more ultimate good boys. Generates 450 Barks per second per lab.
+costs:25000 bark
 on tick:yield 450 bark
 
 Upgrades
 *goldenBrush
 name:Golden Brush
-desc:Grooming your dog doubles the Barks earned per click.
-cost:50 bark
+desc:Grooming your dog doubles Barks earned per click.
+costs:50 bark
 passive:multiply yield of petDog by 2
 
 *premiumKibble
 name:Premium Kibble
 desc:Premium food doubles Dog Treat production.
-cost:250 bark
+costs:250 bark
+passive:multiply yield of dogTreat by 2
+
+*puppyLove
+name:Puppy Love
+desc:Your dog loves the attention! Clicks now earn 3 times as many Barks.
+costs:500 bark
+passive:multiply yield of petDog by 3
+
+*parkExpansion
+name:Park Expansion
+desc:More space means more barking! Puppy Parks produce twice as many Barks.
+costs:1000 bark
+passive:multiply yield of puppyPark by 2
+
+*daycareTraining
+name:Professional Trainers
+desc:Trained dogs are extra enthusiastic. Doggy Daycares produce twice as many Barks.
+costs:2500 bark
+passive:multiply yield of doggyDaycare by 2
+
+*factoryUpgrade
+name:Automated Bone Press
+desc:Modern machinery doubles Bone Factory production.
+costs:7500 bark
+passive:multiply yield of boneFactory by 2
+
+*cloneResearch
+name:Advanced Puppy Science
+desc:Improved cloning doubles Cloning Lab production.
+costs:50000 bark
+passive:multiply yield of cloningLab by 2
+
+*megaBrush
+name:Legendary Golden Brush
+desc:The ultimate grooming tool! Clicks earn 5 times as many Barks.
+costs:10000 bark
+passive:multiply yield of petDog by 5
+
+*infiniteTreatRecipe
+name:Secret Treat Recipe
+desc:An incredible recipe doubles Dog Treat production again.
+costs:5000 bark
 passive:multiply yield of dogTreat by 2
