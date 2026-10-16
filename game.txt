@@ -98,30 +98,30 @@ on click:yield 1 bark
 name:the Bark Times
 desc:The latest headlines from the canine world.
 on click:
-	any
-		toast THE BARK TIMES - BREAKING: A Chihuahua has discovered infinite treats!
-		toast THE BARK TIMES - BREAKING: Dont eat dogs, theyre not food!
-		toast THE BARK TIMES - BREAKING: Ollie and Izzy are the best dogs in the world!
-		toast THE BARK TIMES - BREAKING: Dogs are taking over the world!
-		toast THE BARK TIMES - BREAKING: Dogs are more popular than iPhones!
-		toast THE BARK TIMES - BREAKING: Dogs are better than cats! Thats a fact!
-		toast THE BARK TIMES - BREAKING: Dogs deserve all the treats in the world!
-		toast THE BARK TIMES - BREAKING: Dogs are mans best friend!
-		toast THE BARK TIMES - BREAKING: Everyone needs a dog!
-		toast THE BARK TIMES - BREAKING: Dont put dogs in the microwave; thats where food goes!
-		toast THE BARK TIMES - BREAKING: If you dont like dogs, you go to jail!
-		toast THE BARK TIMES - BREAKING: Charlie has a dog named Kit!
-		toast THE BARK TIMES - BREAKING: I ran out of ideas!
-		toast THE BARK TIMES - BREAKING: Dogs are better than cookies!
-		toast THE BARK TIMES - BREAKING: Boxer puppies are now the cutest dog breed!
-		toast THE BARK TIMES - BREAKING: Local puppy steals 400 bones!
-		toast THE BARK TIMES - SCIENCE: Experts confirm that all dogs are good boys.
-		toast THE BARK TIMES - ECONOMY: Bone prices reach an all-time high!
-		toast THE BARK TIMES - WEATHER: 100% chance of zoomies today!
-		toast THE BARK TIMES - EXCLUSIVE: Golden Retriever elected Mayor!
-		toast THE BARK TIMES - SPORTS: Local corgi wins the neighborhood race!
-		toast THE BARK TIMES - INVESTIGATION: Who ate the last dog treat?
-	end
+	$r=random(0,22)
+	if ($r>=0 and $r<1) toast <b>THE BARK TIMES</b><//>BREAKING: A Chihuahua has discovered infinite treats!
+	if ($r>=1 and $r<2) toast <b>THE BARK TIMES</b><//>BREAKING: Don't eat dogs, they're not food!
+	if ($r>=2 and $r<3) toast <b>THE BARK TIMES</b><//>BREAKING: Ollie and Izzy are the best dogs in the world!
+	if ($r>=3 and $r<4) toast <b>THE BARK TIMES</b><//>BREAKING: Dogs are taking over the world!
+	if ($r>=4 and $r<5) toast <b>THE BARK TIMES</b><//>BREAKING: Dogs are more popular than iPhones!
+	if ($r>=5 and $r<6) toast <b>THE BARK TIMES</b><//>BREAKING: Dogs are better than cats! That's a fact!
+	if ($r>=6 and $r<7) toast <b>THE BARK TIMES</b><//>BREAKING: Dogs deserve all the treats in the world!
+	if ($r>=7 and $r<8) toast <b>THE BARK TIMES</b><//>BREAKING: Dogs are man's best friend!
+	if ($r>=8 and $r<9) toast <b>THE BARK TIMES</b><//>BREAKING: Everyone needs a dog!
+	if ($r>=9 and $r<10) toast <b>THE BARK TIMES</b><//>BREAKING: Don't put dogs in the microwave; that's where food goes!
+	if ($r>=10 and $r<11) toast <b>THE BARK TIMES</b><//>BREAKING: If you don't like dogs, you go to jail!
+	if ($r>=11 and $r<12) toast <b>THE BARK TIMES</b><//>BREAKING: Charlie has a dog named Kit!
+	if ($r>=12 and $r<13) toast <b>THE BARK TIMES</b><//>BREAKING: I ran out of ideas!
+	if ($r>=13 and $r<14) toast <b>THE BARK TIMES</b><//>BREAKING: Dogs are better than cookies!
+	if ($r>=14 and $r<15) toast <b>THE BARK TIMES</b><//>BREAKING: Boxer puppies are now the cutest dog breed!
+	if ($r>=15 and $r<16) toast <b>THE BARK TIMES</b><//>BREAKING: Local puppy steals 400 bones!
+	if ($r>=16 and $r<17) toast <b>THE BARK TIMES</b><//>SCIENCE: Experts confirm that all dogs are good boys.
+	if ($r>=17 and $r<18) toast <b>THE BARK TIMES</b><//>ECONOMY: Bone prices reach an all-time high!
+	if ($r>=18 and $r<19) toast <b>THE BARK TIMES</b><//>WEATHER: 100% chance of zoomies today!
+	if ($r>=19 and $r<20) toast <b>THE BARK TIMES</b><//>EXCLUSIVE: Golden Retriever elected Mayor!
+	if ($r>=20 and $r<21) toast <b>THE BARK TIMES</b><//>SPORTS: Local corgi wins the neighborhood race!
+	if ($r>=21 and $r<=22) toast <b>THE BARK TIMES</b><//>INVESTIGATION: Who ate the last dog treat?
+end
 
 Buildings
 *dogTreat
@@ -159,7 +159,7 @@ Upgrades
 name:Brush
 desc:Increases Barks earned per click.
 cost:50 bark
-passive:increase yield of petDog by 2
+passive:increase bark yield of petDog by 2
 
 *premiumKibble
 name:Kibble
@@ -171,7 +171,7 @@ passive:multiply yield of dogTreat by 2
 name:Love
 desc:Increases Barks earned per click.
 cost:500 bark
-passive:increase yield of petDog by 3
+passive:increase bark yield of petDog by 3
 
 *parkExpansion
 name:Expansion
@@ -201,7 +201,7 @@ passive:multiply yield of dogTreat by 2
 name:Golden Brush
 desc:Increases Barks earned per click by 5.
 cost:10000 bark
-passive:increase yield of petDog by 5
+passive:increase bark yield of petDog by 5
 
 *cloneResearch
 name:Puppy Science
