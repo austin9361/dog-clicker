@@ -43,6 +43,19 @@ CSS
     background-position: center !important;
     background-repeat: no-repeat !important;
     margin: 0 !important;
+    animation: dogPhotos 10s step-end infinite;
+}
+
+/* DOG PHOTO CHANGER - switches picture every 5 seconds.
+   To add more photos: add another percentage block and make the
+   animation time (10s above) = 5 seconds x number of photos. */
+@keyframes dogPhotos {
+    0%, 49.99% {
+        background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd15KqNdoKzTLu_k5owaGQ_GtD4IlezhRubpmp8gCGOg&s=10");
+    }
+    50%, 100% {
+        background-image: url("https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=600");
+    }
 }
 
 #thing-1 .thing-text {
@@ -81,7 +94,7 @@ Buttons
 *petDog
 name:Dog
 desc:Give your good boy some love! Earn 1 Bark per click.
-icon:https://media.discordapp.net/attachments/1520496518392578188/1560722497853464637/image.jpg?ex=6ad3bf98&is=6ad26e18&hm=e4c1e25e10ab7b3a4743ef8046414a31a045f542f3e8a0cd5acc96c63b7d4c51&=&format=webp&width=576&height=768
+icon:https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd15KqNdoKzTLu_k5owaGQ_GtD4IlezhRubpmp8gCGOg&s=10
 on click:yield 1 bark
 
 *readNews
