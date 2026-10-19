@@ -43,23 +43,10 @@ html, body, #game {
     z-index: 10 !important;
 }
 
-/* REMOVES THE TRANSPARENT WHITE BOXES around the dog picture */
-#thing-1,
-#thing-1:hover,
-#thing-1:active,
-#thing-1:focus {
-    background: transparent !important;
-    background-color: transparent !important;
-    border: none !important;
-    box-shadow: none !important;
-    outline: none !important;
-}
-
 #thing-1 .thing-icon {
     display: block !important;
     width: 100% !important;
     height: 100% !important;
-    background-color: transparent !important;
     background-size: contain !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
