@@ -43,13 +43,43 @@ html, body, #game {
     z-index: 10 !important;
 }
 
+/* REMOVES THE WHITE BOX behind and beside the dog picture */
+#thing-1,
+#thing-1.thing,
+#thing-1.button,
+#thing-1.dim,
+#thing-1.notOwned,
+#thing-1.visible,
+#thing-1:hover,
+#thing-1:active,
+#thing-1:focus {
+    background: none transparent !important;
+    background-color: transparent !important;
+    background-image: none !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    outline: none !important;
+    filter: none !important;
+}
+
+#thing-1::before,
+#thing-1::after,
+#thing-1 .thing-icon::before,
+#thing-1 .thing-icon::after {
+    display: none !important;
+    content: none !important;
+}
+
 #thing-1 .thing-icon {
     display: block !important;
     width: 100% !important;
     height: 100% !important;
+    background-color: transparent !important;
     background-size: contain !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
+    border: 0 !important;
+    box-shadow: none !important;
     margin: 0 !important;
     animation: dogPhotos 55s step-end infinite;
 }
