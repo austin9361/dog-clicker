@@ -56,7 +56,7 @@ CSS
         background-image: url("https://media.discordapp.net/attachments/1520496518392578188/1561813371488047285/IMG_7407.jpg?ex=6ad7b78c&is=6ad6660c&hm=0fd7bb50ec8807ae66b7c695bcf08acf0a341004b120dd1eabfb6632b1afee39&=&format=webp&width=480&height=640");
     }
     20%, 29.99% {
-        background-image: url("https://media.discordapp.net/attachments/1520496518392578188/1561814467962994759/IMG_2399.jpg?ex=6ad7b892&is=6ad66712&hm=058f836ec8685786a957e44ad749dc00ed8d2e7928243547bbbd60a220058150&=&format=webp&width=384&height=512");
+        background-image: url("https://media.discordapp.net/attachments/1520496518392578188/1561819277592367175/IMG_9283.jpg?ex=6ad7bd0c&is=6ad66b8c&hm=629f679e3fa37c1f97653e4c594a19d1de38fabea214d32497f7a8b03f73a275&=&format=webp&width=480&height=640");
     }
     30%, 39.99% {
         background-image: url("<img src="https://media.discordapp.net/attachments/1520496518392578188/1561814468449796216/IMG_0660.jpg?ex=6ad7b892&amp;is=6ad66712&amp;hm=09c8b51cfdd723ff99ae88753070b71038f0066ea97f15a0b0061467b66fc60d&amp;=&amp;format=webp&amp;width=384&amp;height=512" alt="Image"/>");
