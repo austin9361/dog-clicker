@@ -51,40 +51,43 @@ html, body, #game {
     background-position: center !important;
     background-repeat: no-repeat !important;
     margin: 0 !important;
-    animation: dogPhotos 50s step-end infinite;
+    animation: dogPhotos 55s step-end infinite;
 }
 
-/* DOG PHOTO CHANGER - 10 slots, 5 seconds each (50s loop). */
+/* DOG PHOTO CHANGER - 11 photos, 5 seconds each (55s loop). */
 @keyframes dogPhotos {
-    0%, 9.99% {
-        background-image: url("https://media.discordapp.net/attachments/1520496518392578188/1560722497853464637/image.jpg?ex=6ad7b418&is=6ad66298&hm=3df39f605dfcf4344b309127e6be34b0db3396b52a5cfdd91865030b4e4faefc&=&format=webp&width=480&height=640");
+    0%, 9.08% {
+        background-image: url("https://raw.githubusercontent.com/austin9361/dog-clicker/main/image.webp");
     }
-    10%, 19.99% {
-        background-image: url("https://media.discordapp.net/attachments/1520496518392578188/1561813371488047285/IMG_7407.jpg?ex=6ad7b78c&is=6ad6660c&hm=0fd7bb50ec8807ae66b7c695bcf08acf0a341004b120dd1eabfb6632b1afee39&=&format=webp&width=480&height=640");
+    9.09%, 18.17% {
+        background-image: url("https://raw.githubusercontent.com/austin9361/dog-clicker/main/IMG_0660.webp");
     }
-    20%, 29.99% {
-        background-image: url("https://media.discordapp.net/attachments/1520496518392578188/1561819277592367175/IMG_9283.jpg?ex=6ad7bd0c&is=6ad66b8c&hm=629f679e3fa37c1f97653e4c594a19d1de38fabea214d32497f7a8b03f73a275&=&format=webp&width=480&height=640");
+    18.18%, 27.26% {
+        background-image: url("https://raw.githubusercontent.com/austin9361/dog-clicker/main/IMG_1215.webp");
     }
-    30%, 39.99% {
-        background-image: url("https://media.discordapp.net/attachments/1520496518392578188/1561814468449796216/IMG_0660.jpg?ex=6ad7b892&is=6ad66712&hm=09c8b51cfdd723ff99ae88753070b71038f0066ea97f15a0b0061467b66fc60d&=&format=webp&width=384&height=512");
+    27.27%, 36.35% {
+        background-image: url("https://raw.githubusercontent.com/austin9361/dog-clicker/main/IMG_1753.webp");
     }
-    40%, 49.99% {
-        background-image: url("https://media.discordapp.net/attachments/1520496518392578188/1561814608912719932/IMG_5364.jpg?ex=6ad7b8b3&is=6ad66733&hm=75d8918378762aacd3cae865afe420551c5cb3c89233fbae60794e652475ad82&=&format=webp&width=480&height=640");
+    36.36%, 45.44% {
+        background-image: url("https://raw.githubusercontent.com/austin9361/dog-clicker/main/IMG_2136.jpg");
     }
-    50%, 59.99% {
-        background-image: url("https://media.discordapp.net/attachments/1520496518392578188/1561815032336224357/IMG_2136.jpg?ex=6ad7b918&is=6ad66798&hm=1aeb96b6d5282e07ce138cf320f5d666baab9c28ddd4540785a980a978b5dd86&=&format=webp&width=384&height=512");
+    45.45%, 54.54% {
+        background-image: url("https://raw.githubusercontent.com/austin9361/dog-clicker/main/IMG_2399.webp");
     }
-    60%, 69.99% {
-        background-image: url("https://media.discordapp.net/attachments/1520496518392578188/1561815032797470820/IMG_1215.jpg?ex=6ad7b918&is=6ad66798&hm=54e12fee8ff6d66d58a2594d40351a62377520bde613f5591c81e5d90fb25e37&=&format=webp&width=384&height=512");
+    54.55%, 63.63% {
+        background-image: url("https://raw.githubusercontent.com/austin9361/dog-clicker/main/IMG_3864.webp");
     }
-    70%, 79.99% {
-        background-image: url("https://media.discordapp.net/attachments/1520496518392578188/1561816182003081437/IMG_3864.jpg?ex=6ad7ba2a&is=6ad668aa&hm=032a9c02d892dc6aa9c01993665094ef8a73aaf621b0f213ce6252be8476fb86&=&format=webp&width=480&height=640");
+    63.64%, 72.72% {
+        background-image: url("https://raw.githubusercontent.com/austin9361/dog-clicker/main/IMG_5364.webp");
     }
-    80%, 89.99% {
-        background-image: url("https://media.discordapp.net/attachments/1520496518392578188/1561817131773989007/IMG_1753.png?ex=6ad7bb0d&is=6ad6698d&hm=cae1620c2933da9ec5cc10fef8701dd8c749636ff987cf6707ba9235b6ee3a18&=&format=webp&quality=lossless");
+    72.73%, 81.81% {
+        background-image: url("https://raw.githubusercontent.com/austin9361/dog-clicker/main/IMG_7407.webp");
     }
-    90%, 100% {
-        background-image: url("https://media.discordapp.net/attachments/1520496518392578188/1561817831916437695/IMG_9069.jpg?ex=6ad7bbb4&is=6ad66a34&hm=ac423def8de663cdc63b2d0bd318e7e57d6405c0b9b90618c89672c2126a40f6&=&format=webp&width=480&height=640");
+    81.82%, 90.90% {
+        background-image: url("https://raw.githubusercontent.com/austin9361/dog-clicker/main/IMG_9069.webp");
+    }
+    90.91%, 100% {
+        background-image: url("https://raw.githubusercontent.com/austin9361/dog-clicker/main/IMG_9283.webp");
     }
 }
 
@@ -122,7 +125,7 @@ Buttons
 *petDog
 name:Dog
 desc:Give your good boy (or girl) some love! Earn 1 Bark per click.
-icon:https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd15KqNdoKzTLu_k5owaGQ_GtD4IlezhRubpmp8gCGOg&s=10
+icon:https://raw.githubusercontent.com/austin9361/dog-clicker/main/image.webp
 on click:yield 1 bark
 
 *readNews
