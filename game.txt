@@ -116,7 +116,7 @@ desc:The sound of happy puppies. Spend Barks to build your canine empire!
 Buttons
 *petDog
 name:Dog
-desc:Give your good boy some love! Earn 1 Bark per click.
+desc:Give your good boy (or girl) some love! Earn 1 Bark per click.
 icon:https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd15KqNdoKzTLu_k5owaGQ_GtD4IlezhRubpmp8gCGOg&s=10
 on click:yield 1 bark
 
