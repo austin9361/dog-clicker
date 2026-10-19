@@ -43,26 +43,41 @@ CSS
     background-position: center !important;
     background-repeat: no-repeat !important;
     margin: 0 !important;
-    animation: dogPhotos 25s step-end infinite;
+    animation: dogPhotos 50s step-end infinite;
 }
 
-/* DOG PHOTO CHANGER - 5 photos, 5 seconds each (25s loop).
-   Replace any link below with your own dog photo link. */
+/* DOG PHOTO CHANGER - 10 slots, 5 seconds each (50s loop).
+   Replace PASTE-LINK-HERE in slots 6-10 with your own dog photo links. */
 @keyframes dogPhotos {
-    0%, 19.99% {
-        background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd15KqNdoKzTLu_k5owaGQ_GtD4IlezhRubpmp8gCGOg&s=10");
+    0%, 9.99% {
+        background-image: url("https://media.discordapp.net/attachments/1520496518392578188/1560722497853464637/image.jpg?ex=6ad7b418&is=6ad66298&hm=3df39f605dfcf4344b309127e6be34b0db3396b52a5cfdd91865030b4e4faefc&=&format=webp&width=480&height=640");
     }
-    20%, 39.99% {
-        background-image: url("https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=600");
+    10%, 19.99% {
+        background-image: url("https://media.discordapp.net/attachments/1520496518392578188/1561813371488047285/IMG_7407.jpg?ex=6ad7b78c&is=6ad6660c&hm=0fd7bb50ec8807ae66b7c695bcf08acf0a341004b120dd1eabfb6632b1afee39&=&format=webp&width=480&height=640");
     }
-    40%, 59.99% {
-        background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd15KqNdoKzTLu_k5owaGQ_GtD4IlezhRubpmp8gCGOg&s=10");
+    20%, 29.99% {
+        background-image: url("https://media.discordapp.net/attachments/1520496518392578188/1561814467962994759/IMG_2399.jpg?ex=6ad7b892&is=6ad66712&hm=058f836ec8685786a957e44ad749dc00ed8d2e7928243547bbbd60a220058150&=&format=webp&width=384&height=512");
     }
-    60%, 79.99% {
-        background-image: url("https://images.unsplash.com/photo-1548199973-03cce0bbc87b?q=80&w=600");
+    30%, 39.99% {
+        background-image: url("<img src="https://media.discordapp.net/attachments/1520496518392578188/1561814468449796216/IMG_0660.jpg?ex=6ad7b892&amp;is=6ad66712&amp;hm=09c8b51cfdd723ff99ae88753070b71038f0066ea97f15a0b0061467b66fc60d&amp;=&amp;format=webp&amp;width=384&amp;height=512" alt="Image"/>");
     }
-    80%, 100% {
-        background-image: url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTd15KqNdoKzTLu_k5owaGQ_GtD4IlezhRubpmp8gCGOg&s=10");
+    40%, 49.99% {
+        background-image: url("https://media.discordapp.net/attachments/1520496518392578188/1561814608912719932/IMG_5364.jpg?ex=6ad7b8b3&is=6ad66733&hm=75d8918378762aacd3cae865afe420551c5cb3c89233fbae60794e652475ad82&=&format=webp&width=480&height=640");
+    }
+    50%, 59.99% {
+        background-image: url("https://media.discordapp.net/attachments/1520496518392578188/1561815032336224357/IMG_2136.jpg?ex=6ad7b918&is=6ad66798&hm=1aeb96b6d5282e07ce138cf320f5d666baab9c28ddd4540785a980a978b5dd86&=&format=webp&width=384&height=512");
+    }
+    60%, 69.99% {
+        background-image: url("https://media.discordapp.net/attachments/1520496518392578188/1561815032797470820/IMG_1215.jpg?ex=6ad7b918&is=6ad66798&hm=54e12fee8ff6d66d58a2594d40351a62377520bde613f5591c81e5d90fb25e37&=&format=webp&width=384&height=512");
+    }
+    70%, 79.99% {
+        background-image: url("<img src="https://media.discordapp.net/attachments/1520496518392578188/1561816182003081437/IMG_3864.jpg?ex=6ad7ba2a&amp;is=6ad668aa&amp;hm=032a9c02d892dc6aa9c01993665094ef8a73aaf621b0f213ce6252be8476fb86&amp;=&amp;format=webp&amp;width=480&amp;height=640" alt="Image"/>");
+    }
+    80%, 89.99% {
+        background-image: url("https://media.discordapp.net/attachments/1520496518392578188/1561817131773989007/IMG_1753.png?ex=6ad7bb0d&is=6ad6698d&hm=cae1620c2933da9ec5cc10fef8701dd8c749636ff987cf6707ba9235b6ee3a18&=&format=webp&quality=lossless");
+    }
+    90%, 100% {
+        background-image: url("https://media.discordapp.net/attachments/1520496518392578188/1561817831916437695/IMG_9069.jpg?ex=6ad7bbb4&is=6ad66a34&hm=ac423def8de663cdc63b2d0bd318e7e57d6405c0b9b90618c89672c2126a40f6&=&format=webp&width=480&height=640");
     }
 }
 
