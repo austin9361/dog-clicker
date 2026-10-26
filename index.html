@@ -26,6 +26,7 @@ body{font-family:Georgia,"Times New Roman",serif;color:var(--ink);background:#8b
 #sub{font-size:14px}
 #who{font-size:13px;opacity:.8}
 #news{align-self:flex-start;max-width:280px;font:inherit;font-size:16px;padding:8px 12px;background:var(--panel);border:1px solid var(--line);border-radius:4px;cursor:pointer;color:inherit}
+#resetBtn{align-self:flex-start;font:inherit;font-size:16px;padding:8px 12px;background:var(--panel);border:1px solid var(--line);border-radius:4px;cursor:pointer;color:inherit}
 #dogWrap{flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
 #dog{width:min(340px,70vw);height:min(340px,70vw);border:0;padding:0;margin:0;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;transition:transform .06s}
 #dog:active{transform:scale(.94)}
@@ -64,6 +65,7 @@ body{font-family:Georgia,"Times New Roman",serif;color:var(--ink);background:#8b
       <div id="who"></div>
     </div>
     <button id="news">the Bark Times</button>
+    <button id="resetBtn">Reset Progress</button>
     <div id="dogWrap"><button id="dog" aria-label="Pet the dog"><img id="dogImg" alt="Dog"></button></div>
   </div>
   <div id="mid">
@@ -228,6 +230,28 @@ function render(){
     if(uRows[u.id])uRows[u.id].classList.toggle('cant',S.barks<u.cost);
   });
 }
+
+/* ---------- reset progress ---------- */
+$('resetBtn').addEventListener('click',function(){
+  if(!confirm('Are you sure you want to reset all your progress? This cannot be undone.'))return;
+
+  S.barks=0;
+  S.total=0;
+
+  BUILDINGS.forEach(function(b){
+    S.own[b.id]=0;
+  });
+
+  UPGRADES.forEach(function(u){
+    S.up[u.id]=false;
+  });
+
+  lastSent=-1;
+  renderUpgrades();
+  render();
+  save();
+  submitScore();
+});
 
 /* ---------- clicking, ticking, saving ---------- */
 $('dog').addEventListener('click',function(){var c=perClick();S.barks+=c;S.total+=c;render()});
