@@ -5,12 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Dog Clicker Ultimate</title>
 <!--
-LEADERBOARD SETUP (the game works without this, but the leaderboard stays off):
-1. Make a free Firebase project and create a Realtime Database.
-2. In the database's Rules tab, paste this and publish:
-   {"rules":{"scores":{".read":true,".write":true}}}
-3. Copy the database URL (looks like https://YOUR-PROJECT-default-rtdb.firebaseio.com)
-   and paste it into DB_URL in the script near the bottom of this file.
+FIREBASE RULES (Realtime Database > Rules tab). Paste this and publish:
+{"rules":{"scores":{".read":true,".write":true},"chat":{".read":true,".write":true}}}
+(The "chat" part is needed for the chat box. The leaderboard uses "scores".)
 -->
 <style>
 :root{--panel:rgba(255,250,245,.9);--ink:#3b2a1f;--red:#d9534f;--line:rgba(0,0,0,.3)}
@@ -25,8 +22,10 @@ body{font-family:Georgia,"Times New Roman",serif;color:var(--ink);background:#8b
 #barks{font-size:34px;font-weight:bold}
 #sub{font-size:14px}
 #who{font-size:13px;opacity:.8}
-#news{align-self:flex-start;max-width:280px;font:inherit;font-size:16px;padding:8px 12px;background:var(--panel);border:1px solid var(--line);border-radius:4px;cursor:pointer;color:inherit}
-#resetBtn{align-self:flex-start;font:inherit;font-size:16px;padding:8px 12px;background:var(--panel);border:1px solid var(--line);border-radius:4px;cursor:pointer;color:inherit}
+#btns{display:flex;flex-wrap:wrap;gap:8px;align-items:center;flex:none}
+#news,#resetBtn{font:inherit;font-size:16px;padding:8px 12px;background:var(--panel);border:1px solid var(--line);border-radius:4px;cursor:pointer;color:inherit}
+#news{max-width:280px}
+#suggestBtn{font-size:13px;padding:4px 8px;background:var(--panel);border:1px solid var(--line);border-radius:4px;color:inherit;text-decoration:none;cursor:pointer}
 #dogWrap{flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
 #dog{width:min(340px,70vw);height:min(340px,70vw);border:0;padding:0;margin:0;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;transition:transform .06s}
 #dog:active{transform:scale(.94)}
@@ -44,14 +43,25 @@ body{font-family:Georgia,"Times New Roman",serif;color:var(--ink);background:#8b
 #board li.me{font-weight:bold;color:var(--red)}
 #board .sc{float:right}
 .note{font-size:13px;opacity:.8;margin-top:6px}
-#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);max-width:min(480px,92vw);background:#fffaf5;border:1px solid var(--line);border-radius:6px;padding:10px 14px;box-shadow:0 4px 14px rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .25s;z-index:20;text-align:center}
+#chatLog{height:180px;overflow-y:auto;background:rgba(255,255,255,.6);border:1px solid var(--line);border-radius:4px;padding:6px;font-size:14px}
+.msg{margin-bottom:4px;overflow-wrap:anywhere}
+.msg b{color:var(--red)}
+.msg .tm{opacity:.6;font-size:11px;margin-left:4px}
+#chatRow{display:flex;gap:6px;margin-top:6px}
+#chatIn{flex:1;min-width:0;font:inherit;font-size:14px;padding:6px;border:1px solid var(--line);border-radius:4px}
+#chatSend{font:inherit;font-size:14px;padding:6px 10px;background:var(--panel);border:1px solid var(--line);border-radius:4px;cursor:pointer;color:inherit}
+#secretBtn{position:fixed;right:8px;bottom:6px;z-index:15;background:none;border:0;font-size:14px;opacity:.15;cursor:pointer;padding:4px}
+#secretBtn:hover{opacity:.9}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);max-width:min(480px,92vw);background:#fffaf5;border:1px solid var(--line);border-radius:6px;padding:10px 14px;box-shadow:0 4px 14px rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .25s;z-index:70;text-align:center}
 #toast.show{opacity:1}
-#overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}
-#overlay.hidden{display:none}
+#overlay,#creditsBox{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}
+#creditsBox{z-index:60}
+#overlay.hidden,#creditsBox.hidden{display:none}
 .card{background:#fffaf5;border-radius:10px;padding:24px;max-width:420px;width:100%;text-align:center}
 .card h1{margin:0 0 8px;font-size:26px}
 .card input{width:100%;font:inherit;font-size:18px;padding:10px;margin:12px 0 8px;border:1px solid var(--line);border-radius:6px;text-align:center}
 .card button{font:inherit;font-size:18px;padding:10px 18px;border:0;border-radius:6px;background:var(--red);color:#fff;cursor:pointer}
+#creditsText p{margin:6px 0}
 #nameErr{color:var(--red);min-height:20px;margin-top:8px;font-size:14px}
 @media(max-width:1000px){#app{grid-template-columns:1fr;height:auto}#dogWrap{padding:20px 0}}
 </style>
@@ -64,18 +74,34 @@ body{font-family:Georgia,"Times New Roman",serif;color:var(--ink);background:#8b
       <div id="sub">Barks &middot; <span id="ps">0</span>/sec &middot; <span id="pc">1</span> per click</div>
       <div id="who"></div>
     </div>
-    <button id="news">the Bark Times</button>
-    <button id="resetBtn">Reset Progress</button>
-    <button id="add">Sugestions</button>
+    <div id="btns">
+      <button id="news">the Bark Times</button>
+      <button id="resetBtn">Reset Progress</button>
+      <a id="suggestBtn" href="#" target="_blank" rel="noopener noreferrer">Suggestions</a>
+    </div>
     <div id="dogWrap"><button id="dog" aria-label="Pet the dog"><img id="dogImg" alt="Dog"></button></div>
   </div>
   <div id="mid">
     <div class="panel"><h2>Buildings</h2><div id="buildings"></div></div>
     <div class="panel"><h2>Leaderboard</h2><ol id="board"></ol><div id="boardNote" class="note"></div></div>
+    <div class="panel">
+      <h2>Chat</h2>
+      <div id="chatLog"></div>
+      <div id="chatRow"><input id="chatIn" maxlength="200" placeholder="Say something..." autocomplete="off"><button id="chatSend">Send</button></div>
+      <div id="chatNote" class="note"></div>
+    </div>
   </div>
   <div class="panel"><h2>Upgrades</h2><div id="upgrades"></div></div>
 </div>
+<button id="secretBtn" aria-label="Credits">&#128062;</button>
 <div id="toast"></div>
+<div id="creditsBox" class="hidden">
+  <div class="card">
+    <h1>Credits</h1>
+    <div id="creditsText"></div>
+    <button id="creditsClose">Close</button>
+  </div>
+</div>
 <div id="overlay">
   <div class="card">
     <h1>Dog Clicker Ultimate</h1>
@@ -90,9 +116,63 @@ body{font-family:Georgia,"Times New Roman",serif;color:var(--ink);background:#8b
 (function(){
 'use strict';
 
-/* ===== PASTE YOUR FIREBASE DATABASE URL HERE (see setup notes at the top) ===== */
+/* ================================ EDIT ME ================================ */
+
+/* Your Firebase database URL */
 var DB_URL='https://leasder-988e6-default-rtdb.firebaseio.com/';
-/* ============================================================================== */
+
+/* The link the Suggestions button opens (paste a full link starting with https://) */
+var SUGGEST_URL='https://PASTE-YOUR-LINK-HERE';
+
+/* The secret credits. Each line in quotes is one line on screen. Add or remove lines freely.
+   Keep a comma at the end of every line. */
+var CREDITS=[
+'Dog Clicker Ultimate',
+'Made by: PUT YOUR NAME HERE',
+'Dog photos: PUT WHO THEY BELONG TO HERE',
+'Thanks for playing!',
+'',
+'',
+''
+];
+
+/* Dog photos. Paste a file name from your Photos folder (like IMG_1234.jpg)
+   OR a full link starting with https:// between the quotes. Each photo shows 5 seconds.
+   Empty slots ('') are skipped, so you can leave them blank. */
+var PHOTO_NAMES=[
+'image.webp',
+'IMG_0660.webp',
+'IMG_1215.webp',
+'IMG_1753.webp',
+'IMG_2136.jpg',
+'IMG_2399.webp',
+'IMG_3864.webp',
+'IMG_5364.webp',
+'IMG_7407.webp',
+'IMG_9069.webp',
+'IMG_9283.webp',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+''
+];
+
+/* ========================================================================== */
 
 var DB=DB_URL.replace(/\/+$/,'');
 var dbOn=/^https:\/\//.test(DB);
@@ -104,8 +184,11 @@ function lsGet(k){try{return localStorage.getItem(k)}catch(e){return mem[k]||nul
 function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){mem[k]=v}}
 function $(id){return document.getElementById(id)}
 
-/* ---------- your photos (the Photos folder next to this file) ---------- */
-var PHOTOS=['image.webp','IMG_0660.webp','IMG_1215.webp','IMG_1753.webp','IMG_2136.jpg','IMG_2399.webp','IMG_3864.webp','IMG_5364.webp','IMG_7407.webp','IMG_9069.webp','IMG_9283.webp'].map(function(f){return 'Photos/'+f});
+/* ---------- photos ---------- */
+var PHOTOS=PHOTO_NAMES.filter(function(f){return f&&f.trim()}).map(function(f){
+  f=f.trim();
+  return /^https?:\/\//.test(f)?f:'Photos/'+f;
+});
 
 /* ---------- game data ---------- */
 var HEADLINES=[
@@ -270,8 +353,9 @@ document.addEventListener('visibilitychange',function(){if(document.hidden){save
 window.addEventListener('beforeunload',save);
 
 /* ---------- dog photos: new one every 5 seconds ---------- */
-var img=$('dogImg'),pi=Math.floor(Math.random()*PHOTOS.length);
+var img=$('dogImg'),pi=PHOTOS.length?Math.floor(Math.random()*PHOTOS.length):0;
 function showPhoto(i,tries){
+  if(!PHOTOS.length)return;
   pi=i;
   img.onerror=function(){if(tries<PHOTOS.length)showPhoto((i+1)%PHOTOS.length,tries+1)};
   img.src=PHOTOS[i];
@@ -280,7 +364,7 @@ showPhoto(pi,0);
 setInterval(function(){showPhoto((pi+1)%PHOTOS.length,0)},5000);
 PHOTOS.forEach(function(p){var x=new Image();x.src=p});
 
-/* ---------- the Bark Times ---------- */
+/* ---------- toast + the Bark Times ---------- */
 var tt;
 function toast(title,text){
   var t=$('toast');t.innerHTML='';
@@ -290,6 +374,29 @@ function toast(title,text){
   tt=setTimeout(function(){t.classList.remove('show')},4500);
 }
 $('news').addEventListener('click',function(){toast('THE BARK TIMES',HEADLINES[Math.floor(Math.random()*HEADLINES.length)])});
+
+/* ---------- suggestions button ---------- */
+var sb=$('suggestBtn');
+if(/^https?:\/\/(?!PASTE)/.test(SUGGEST_URL)){
+  sb.href=SUGGEST_URL;
+}else{
+  sb.addEventListener('click',function(e){e.preventDefault();toast('Suggestions','The suggestions link has not been set yet.')});
+}
+
+/* ---------- secret credits ---------- */
+(function(){
+  var box=$('creditsText');
+  CREDITS.forEach(function(line){
+    if(!line||!line.trim())return;
+    var p=document.createElement('p');p.textContent=line;box.appendChild(p);
+  });
+  function openC(){$('creditsBox').classList.remove('hidden')}
+  function closeC(){$('creditsBox').classList.add('hidden')}
+  $('secretBtn').addEventListener('click',openC);
+  $('creditsClose').addEventListener('click',closeC);
+  $('creditsBox').addEventListener('click',function(e){if(e.target===$('creditsBox'))closeC()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeC()});
+})();
 
 /* ---------- username + leaderboard ---------- */
 var user=lsGet(USER_KEY);
@@ -341,10 +448,64 @@ function loadBoard(){
   }).catch(function(){$('boardNote').textContent='Leaderboard unavailable right now.'});
 }
 
+/* ---------- chat ---------- */
+var lastSig='',lastChat=0,firstChat=true;
+function loadChat(){
+  if(!dbOn){$('chatNote').textContent='Chat is not switched on yet.';return Promise.resolve()}
+  return fetch(DB+'/chat.json?orderBy=%22%24key%22&limitToLast=30').then(function(r){
+    if(!r.ok)throw new Error('bad');
+    return r.json();
+  }).then(function(d){
+    d=d||{};
+    var keys=Object.keys(d).sort();
+    var sig=keys.length?keys[keys.length-1]+'_'+keys.length:'';
+    $('chatNote').textContent=keys.length?'':'No messages yet. Say hi!';
+    if(sig===lastSig)return;
+    lastSig=sig;
+    var box=$('chatLog');
+    var atBottom=firstChat||(box.scrollHeight-box.scrollTop-box.clientHeight<40);
+    box.innerHTML='';
+    keys.forEach(function(k){
+      var x=d[k];
+      if(!x||typeof x.m!=='string'||typeof x.n!=='string')return;
+      var div=document.createElement('div');div.className='msg';
+      var nm=document.createElement('b');nm.textContent=x.n;
+      div.appendChild(nm);
+      if(typeof x.t==='number'){
+        var tm=document.createElement('span');tm.className='tm';
+        tm.textContent=new Date(x.t).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
+        div.appendChild(tm);
+      }
+      div.appendChild(document.createTextNode(': '+x.m));
+      box.appendChild(div);
+    });
+    if(atBottom)box.scrollTop=box.scrollHeight;
+    firstChat=false;
+  }).catch(function(){$('chatNote').textContent='Chat unavailable right now. (Did you update the Firebase rules?)'});
+}
+function sendChat(){
+  if(!dbOn||!user)return;
+  var inp=$('chatIn');
+  var m=inp.value.trim().slice(0,200);
+  if(!m)return;
+  var now=Date.now();
+  if(now-lastChat<2000){$('chatNote').textContent='Slow down a little!';return}
+  lastChat=now;
+  inp.value='';
+  $('chatNote').textContent='';
+  fetch(DB+'/chat.json',{method:'POST',body:JSON.stringify({n:user,m:m,t:now,id:myId})}).then(function(r){
+    if(!r.ok)throw new Error('bad');
+    return loadChat();
+  }).catch(function(){$('chatNote').textContent='Could not send. (Did you update the Firebase rules?)'});
+}
+$('chatSend').addEventListener('click',sendChat);
+$('chatIn').addEventListener('keydown',function(e){if(e.key==='Enter')sendChat()});
+
 function begin(){
   $('overlay').classList.add('hidden');
   $('who').textContent='Playing as '+user;
   submitScore().then(loadBoard);
+  loadChat();
 }
 function chooseName(){
   var name=$('nameIn').value.trim().replace(/\s+/g,' ');
@@ -361,6 +522,7 @@ $('nameBtn').addEventListener('click',chooseName);
 $('nameIn').addEventListener('keydown',function(e){if(e.key==='Enter')chooseName()});
 setInterval(submitScore,30000);
 setInterval(loadBoard,20000);
+setInterval(loadChat,4000);
 
 renderUpgrades();
 render();
