@@ -25,7 +25,7 @@ body{font-family:Georgia,"Times New Roman",serif;color:var(--ink);background:#8b
 #btns{display:flex;flex-wrap:wrap;gap:8px;align-items:center;flex:none}
 #news,#resetBtn{font:inherit;font-size:16px;padding:8px 12px;background:var(--panel);border:1px solid var(--line);border-radius:4px;cursor:pointer;color:inherit}
 #news{max-width:280px}
-#suggestBtn{font-size:13px;padding:4px 8px;background:var(--panel);border:1px solid var(--line);border-radius:4px;color:inherit;text-decoration:none;cursor:pointer}
+#suggestBtn,#menuBtn{font:inherit;font-size:13px;padding:4px 8px;background:var(--panel);border:1px solid var(--line);border-radius:4px;color:inherit;text-decoration:none;cursor:pointer}
 #dogWrap{flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
 #dog{width:min(340px,70vw);height:min(340px,70vw);border:0;padding:0;margin:0;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;transition:transform .06s}
 #dog:active{transform:scale(.94)}
@@ -35,9 +35,12 @@ body{font-family:Georgia,"Times New Roman",serif;color:var(--ink);background:#8b
 .item{display:block;width:100%;text-align:left;font:inherit;font-size:15px;color:inherit;background:rgba(255,255,255,.7);border:1px solid var(--line);border-radius:4px;padding:8px;margin-bottom:6px;cursor:pointer}
 .item:hover{background:#fff}
 .item.cant{opacity:.55}
-.item .row{display:flex;justify-content:space-between;gap:8px}
+.item .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.item .left{display:flex;align-items:center;gap:8px;min-width:0}
 .item .cost{color:var(--red);font-weight:bold;white-space:nowrap}
 .item .desc{font-size:13px;opacity:.85;margin-top:3px}
+.ico{width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;font-size:22px;line-height:1;flex:none}
+.ico img{width:100%;height:100%;object-fit:cover;border-radius:5px;display:block}
 #board{margin:0;padding-left:24px;font-size:15px}
 #board li{margin-bottom:4px}
 #board li.me{font-weight:bold;color:var(--red)}
@@ -49,20 +52,24 @@ body{font-family:Georgia,"Times New Roman",serif;color:var(--ink);background:#8b
 .msg .tm{opacity:.6;font-size:11px;margin-left:4px}
 #chatRow{display:flex;gap:6px;margin-top:6px}
 #chatIn{flex:1;min-width:0;font:inherit;font-size:14px;padding:6px;border:1px solid var(--line);border-radius:4px}
-#chatSend{font:inherit;font-size:14px;padding:6px 10px;background:var(--panel);border:1px solid var(--line);border-radius:4px;cursor:pointer;color:inherit}
+#chatSend,#emojiBtn{font:inherit;font-size:14px;padding:6px 10px;background:var(--panel);border:1px solid var(--line);border-radius:4px;cursor:pointer;color:inherit}
+#emojiBox{display:flex;flex-wrap:wrap;gap:2px;margin-top:6px;background:rgba(255,255,255,.7);border:1px solid var(--line);border-radius:4px;padding:4px}
+#emojiBox.hidden{display:none}
+#emojiBox button{font-size:20px;background:none;border:0;cursor:pointer;padding:2px 4px}
 #secretBtn{position:fixed;right:8px;bottom:6px;z-index:15;background:none;border:0;font-size:14px;opacity:.15;cursor:pointer;padding:4px}
 #secretBtn:hover{opacity:.9}
 #toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);max-width:min(480px,92vw);background:#fffaf5;border:1px solid var(--line);border-radius:6px;padding:10px 14px;box-shadow:0 4px 14px rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .25s;z-index:70;text-align:center}
 #toast.show{opacity:1}
-#overlay,#creditsBox{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}
-#creditsBox{z-index:60}
-#overlay.hidden,#creditsBox.hidden{display:none}
+#overlay,#creditsBox,#menuBox{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}
+#creditsBox,#menuBox{z-index:60}
+#overlay.hidden,#creditsBox.hidden,#menuBox.hidden{display:none}
 .card{background:#fffaf5;border-radius:10px;padding:24px;max-width:420px;width:100%;text-align:center}
 .card h1{margin:0 0 8px;font-size:26px}
 .card input{width:100%;font:inherit;font-size:18px;padding:10px;margin:12px 0 8px;border:1px solid var(--line);border-radius:6px;text-align:center}
 .card button{font:inherit;font-size:18px;padding:10px 18px;border:0;border-radius:6px;background:var(--red);color:#fff;cursor:pointer}
+.card button.secondary{background:#8a8078;margin-top:10px}
 #creditsText p{margin:6px 0}
-#nameErr{color:var(--red);min-height:20px;margin-top:8px;font-size:14px}
+#nameErr,#renameErr{color:var(--red);min-height:20px;margin-top:8px;font-size:14px}
 @media(max-width:1000px){#app{grid-template-columns:1fr;height:auto}#dogWrap{padding:20px 0}}
 </style>
 </head>
@@ -77,6 +84,7 @@ body{font-family:Georgia,"Times New Roman",serif;color:var(--ink);background:#8b
     <div id="btns">
       <button id="news">the Bark Times</button>
       <button id="resetBtn">Reset Progress</button>
+      <button id="menuBtn">Menu</button>
       <a id="suggestBtn" href="#" target="_blank" rel="noopener noreferrer">Suggestions</a>
     </div>
     <div id="dogWrap"><button id="dog" aria-label="Pet the dog"><img id="dogImg" alt="Dog"></button></div>
@@ -87,7 +95,8 @@ body{font-family:Georgia,"Times New Roman",serif;color:var(--ink);background:#8b
     <div class="panel">
       <h2>Chat</h2>
       <div id="chatLog"></div>
-      <div id="chatRow"><input id="chatIn" maxlength="200" placeholder="Say something..." autocomplete="off"><button id="chatSend">Send</button></div>
+      <div id="emojiBox" class="hidden"></div>
+      <div id="chatRow"><button id="emojiBtn" title="Emojis">&#128512;</button><input id="chatIn" maxlength="200" placeholder="Say something..." autocomplete="off"><button id="chatSend">Send</button></div>
       <div id="chatNote" class="note"></div>
     </div>
   </div>
@@ -100,6 +109,16 @@ body{font-family:Georgia,"Times New Roman",serif;color:var(--ink);background:#8b
     <h1>Credits</h1>
     <div id="creditsText"></div>
     <button id="creditsClose">Close</button>
+  </div>
+</div>
+<div id="menuBox" class="hidden">
+  <div class="card">
+    <h1>Menu</h1>
+    <p>Playing as <b id="menuUser"></b></p>
+    <input id="newName" maxlength="16" placeholder="New username" autocomplete="off">
+    <button id="renameBtn">Change username</button>
+    <div id="renameErr"></div>
+    <button id="menuClose" class="secondary">Close</button>
   </div>
 </div>
 <div id="overlay">
@@ -151,13 +170,13 @@ var PHOTO_NAMES=[
 'IMG_7407.webp',
 'IMG_9069.webp',
 'IMG_9283.webp',
-'IMG_7698.webp',
-'IMG_7687.webp',
-'image (1).webp',
-'ffae06c1-1295-401a-85f9-9a428f8425d4.jpg',
-'fcff1256-ddef-40a4-b6ff-ec0cc02df831.jpg',
-'a00e876c-c0c8-4be4-ab57-4f7155fbb854.jpg',
-'6DD9C670-94D7-4220-82B9-B19B81446F3C.webp',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
 '',
 '',
 '',
@@ -171,6 +190,55 @@ var PHOTO_NAMES=[
 '',
 ''
 ];
+
+/* ICONS FOR BUILDINGS AND UPGRADES.
+   Between the quotes you can put:
+   - an emoji (like '🦴'), or
+   - an image file name from your Photos folder (like 'bone.png'), or
+   - a full image link starting with https://
+   Leave it as '' for no icon. The name on the left (like dogTreat) must not change. */
+var BUILDING_ICONS={
+dogTreat:'🦴',
+puppyPark:'🌳',
+doggyDaycare:'🏠',
+boneFactory:'🏭',
+cloningLab:'🧪',
+petStore:'🛍️',
+dogArena:'🏟️',
+spaceKennel:'🚀',
+barkPortal:'🌀'
+};
+var UPGRADE_ICONS={
+goldenBrush:'🖌️',
+premiumKibble:'🥣',
+puppyLove:'💖',
+parkExpansion:'🌲',
+daycareTraining:'🎓',
+infiniteTreatRecipe:'📜',
+factoryUpgrade:'⚙️',
+megaBrush:'✨',
+megaPark:'🎡',
+daycareEmpire:'👑',
+cloneResearch:'🔬',
+gourmetTreats:'🍖',
+diamondCollar:'💎',
+megaBonePress:'🔩',
+labCoats:'🥼',
+goldenPaw:'🐾',
+grandOpening:'🎉',
+storeChain:'🏬',
+arenaLights:'💡',
+champions:'🏆',
+rocketBones:'🛰️',
+cosmicPaw:'🌠',
+zeroGZoomies:'🌌',
+portalTuning:'🔧',
+infinityBark:'♾️'
+};
+
+/* An upgrade shows up in the list once you have earned this fraction of its price.
+   0.25 means a quarter of the price. Set to 0 to show every upgrade from the start. */
+var UPGRADE_REVEAL=0.25;
 
 /* ========================================================================== */
 
@@ -221,7 +289,11 @@ var BUILDINGS=[
 {id:'puppyPark',name:'Puppy Parks',base:100,ps:4},
 {id:'doggyDaycare',name:'Doggy Daycares',base:500,ps:15},
 {id:'boneFactory',name:'Bone Factories',base:3000,ps:75},
-{id:'cloningLab',name:'Cloning Labs',base:25000,ps:450}
+{id:'cloningLab',name:'Cloning Labs',base:25000,ps:450},
+{id:'petStore',name:'Pet Stores',base:200000,ps:3000},
+{id:'dogArena',name:'Dog Arenas',base:1500000,ps:20000},
+{id:'spaceKennel',name:'Space Kennels',base:12000000,ps:140000},
+{id:'barkPortal',name:'Bark Portals',base:100000000,ps:1000000}
 ];
 var UPGRADES=[
 {id:'goldenBrush',name:'Brush',cost:50,desc:'+2 Barks per click.',click:2},
@@ -233,9 +305,24 @@ var UPGRADES=[
 {id:'factoryUpgrade',name:'Bone Press',cost:7500,desc:'Doubles Bone Factory production.',b:'boneFactory',mult:2},
 {id:'megaBrush',name:'Golden Brush',cost:10000,desc:'+5 Barks per click.',click:5},
 {id:'megaPark',name:'Puppy Paradise',cost:15000,desc:'Multiplies Puppy Park production by 5.',b:'puppyPark',mult:5},
+{id:'gourmetTreats',name:'Gourmet Treats',cost:20000,desc:'Multiplies Dog Treat production by 5.',b:'dogTreat',mult:5},
 {id:'daycareEmpire',name:'Empire',cost:30000,desc:'Multiplies Doggy Daycare production by 5.',b:'doggyDaycare',mult:5},
-{id:'cloneResearch',name:'Puppy Science',cost:50000,desc:'Doubles Cloning Lab production.',b:'cloningLab',mult:2}
+{id:'cloneResearch',name:'Puppy Science',cost:50000,desc:'Doubles Cloning Lab production.',b:'cloningLab',mult:2},
+{id:'diamondCollar',name:'Diamond Collar',cost:100000,desc:'+25 Barks per click.',click:25},
+{id:'megaBonePress',name:'Mega Bone Press',cost:150000,desc:'Multiplies Bone Factory production by 5.',b:'boneFactory',mult:5},
+{id:'labCoats',name:'Lab Coats',cost:250000,desc:'Multiplies Cloning Lab production by 5.',b:'cloningLab',mult:5},
+{id:'goldenPaw',name:'Golden Paw',cost:1000000,desc:'+100 Barks per click.',click:100},
+{id:'grandOpening',name:'Grand Opening',cost:2000000,desc:'Doubles Pet Store production.',b:'petStore',mult:2},
+{id:'storeChain',name:'Franchise',cost:10000000,desc:'Multiplies Pet Store production by 5.',b:'petStore',mult:5},
+{id:'arenaLights',name:'Stadium Lights',cost:15000000,desc:'Doubles Dog Arena production.',b:'dogArena',mult:2},
+{id:'champions',name:'Champions',cost:75000000,desc:'Multiplies Dog Arena production by 5.',b:'dogArena',mult:5},
+{id:'rocketBones',name:'Rocket Bones',cost:100000000,desc:'Doubles Space Kennel production.',b:'spaceKennel',mult:2},
+{id:'cosmicPaw',name:'Cosmic Paw',cost:200000000,desc:'+1,000 Barks per click.',click:1000},
+{id:'zeroGZoomies',name:'Zero-G Zoomies',cost:500000000,desc:'Multiplies Space Kennel production by 5.',b:'spaceKennel',mult:5},
+{id:'portalTuning',name:'Portal Tuning',cost:1000000000,desc:'Doubles Bark Portal production.',b:'barkPortal',mult:2},
+{id:'infinityBark',name:'Infinity Bark',cost:5000000000,desc:'Multiplies Bark Portal production by 5.',b:'barkPortal',mult:5}
 ];
+UPGRADES.sort(function(a,b){return a.cost-b.cost});
 
 /* ---------- state ---------- */
 var S={barks:0,total:0,own:{},up:{}};
@@ -267,40 +354,70 @@ function bMult(id){var m=1;UPGRADES.forEach(function(u){if(S.up[u.id]&&u.b===id)
 function perSec(){var s=0;BUILDINGS.forEach(function(b){s+=S.own[b.id]*b.ps*bMult(b.id)});return s}
 function cost(b){return Math.ceil(b.base*Math.pow(1.15,S.own[b.id]))}
 
+/* ---------- icons (emoji or image) ---------- */
+function makeIcon(val){
+  var s=document.createElement('span');s.className='ico';
+  val=(val||'').trim();
+  if(!val){s.style.display='none';return s}
+  var isLink=/^https?:\/\//.test(val);
+  if(isLink||/\.(png|jpe?g|gif|webp|svg|avif)$/i.test(val)){
+    var im=document.createElement('img');
+    im.alt='';
+    im.onerror=function(){im.style.display='none'};
+    im.src=isLink?val:'Photos/'+val;
+    s.appendChild(im);
+  }else{
+    s.textContent=val;
+  }
+  return s;
+}
+
 /* ---------- build the lists ---------- */
 var bRows={};
 BUILDINGS.forEach(function(b){
   var el=document.createElement('button');
   el.className='item';
-  el.innerHTML='<div class="row"><span><b class="nm"></b> : <span class="own">0</span></span><span class="cost"></span></div><div class="desc"></div>';
+  el.innerHTML='<div class="row"><span class="left"><span><b class="nm"></b> : <span class="own">0</span></span></span><span class="cost"></span></div><div class="desc"></div>';
   el.querySelector('.nm').textContent=b.name;
+  var left=el.querySelector('.left');
+  left.insertBefore(makeIcon(BUILDING_ICONS[b.id]),left.firstChild);
   el.addEventListener('click',function(){buyB(b)});
   $('buildings').appendChild(el);
   bRows[b.id]={el:el,own:el.querySelector('.own'),cost:el.querySelector('.cost'),desc:el.querySelector('.desc')};
 });
-var uRows={};
+var uRows={},lastVis=-1;
+function upShown(u){return !S.up[u.id]&&S.total>=u.cost*UPGRADE_REVEAL}
 function renderUpgrades(){
   var box=$('upgrades');box.innerHTML='';uRows={};
-  var any=false;
+  var vc=0,remaining=0;
   UPGRADES.forEach(function(u){
     if(S.up[u.id])return;
-    any=true;
+    remaining++;
+    if(!upShown(u))return;
+    vc++;
     var el=document.createElement('button');
     el.className='item';
-    el.innerHTML='<div class="row"><b class="nm"></b><span class="cost"></span></div><div class="desc"></div>';
+    el.innerHTML='<div class="row"><span class="left"><b class="nm"></b></span><span class="cost"></span></div><div class="desc"></div>';
     el.querySelector('.nm').textContent=u.name;
+    var left=el.querySelector('.left');
+    left.insertBefore(makeIcon(UPGRADE_ICONS[u.id]),left.firstChild);
     el.querySelector('.cost').textContent=fmt(u.cost)+' Barks';
     el.querySelector('.desc').textContent=u.desc;
     el.addEventListener('click',function(){buyU(u)});
     box.appendChild(el);
     uRows[u.id]=el;
   });
-  if(!any){var p=document.createElement('div');p.className='note';p.textContent='All upgrades bought!';box.appendChild(p)}
+  lastVis=vc;
+  if(!remaining){var p=document.createElement('div');p.className='note';p.textContent='All upgrades bought!';box.appendChild(p)}
+  else if(!vc){var q=document.createElement('div');q.className='note';q.textContent='Keep earning Barks to unlock upgrades.';box.appendChild(q)}
 }
 function buyB(b){var c=cost(b);if(S.barks>=c){S.barks-=c;S.own[b.id]++;render()}}
 function buyU(u){if(!S.up[u.id]&&S.barks>=u.cost){S.barks-=u.cost;S.up[u.id]=true;renderUpgrades();render();save()}}
 
 function render(){
+  var vc=0;
+  UPGRADES.forEach(function(u){if(upShown(u))vc++});
+  if(vc!==lastVis)renderUpgrades();
   $('barks').textContent=fmt(Math.floor(S.barks));
   $('ps').textContent=fmt(perSec());
   $('pc').textContent=fmt(perClick());
@@ -427,6 +544,27 @@ function submitScore(){
   }).catch(function(){});
 }
 
+/* moves your leaderboard entry from your old name to a new one */
+function moveScore(oldName,newName){
+  if(!dbOn)return Promise.resolve();
+  var oldUrl=DB+'/scores/'+keyOf(oldName)+'.json';
+  var newUrl=DB+'/scores/'+keyOf(newName)+'.json';
+  return fetch(newUrl).then(function(r){
+    if(!r.ok)throw new Error('net');
+    return r.json();
+  }).then(function(d){
+    if(d&&d.id!==myId)throw new Error('taken');
+    return fetch(newUrl,{method:'PUT',body:JSON.stringify({n:newName,score:Math.floor(S.total),id:myId})});
+  }).then(function(p){
+    if(!p.ok)throw new Error('net');
+    lastSent=Math.floor(S.total);
+    if(oldUrl===newUrl)return;
+    return fetch(oldUrl).then(function(r){return r.json()}).then(function(d){
+      if(d&&d.id===myId)return fetch(oldUrl,{method:'DELETE'});
+    }).catch(function(){});
+  });
+}
+
 function drawBoard(rows){
   var ol=$('board');ol.innerHTML='';
   rows.forEach(function(x){
@@ -448,7 +586,28 @@ function loadBoard(){
   }).catch(function(){$('boardNote').textContent='Leaderboard unavailable right now.'});
 }
 
-/* ---------- chat ---------- */
+/* ---------- chat (with emojis) ---------- */
+var EMOJIS=['🐶','🐕','🐩','🦴','🐾','❤️','😀','😂','😍','😎','🥳','😭','🤔','👍','👏','🔥','⭐','🎉','🍖','🏆','💯','😮','🙌','🐺'];
+var SHORT={':dog:':'🐶',':bone:':'🦴',':paw:':'🐾',':heart:':'❤️',':smile:':'😄',':laugh:':'😂',':cool:':'😎',':fire:':'🔥',':star:':'⭐',':party:':'🎉',':poodle:':'🐩',':trophy:':'🏆',':)':'🙂',':D':'😄',':(':'🙁'};
+function emojify(t){Object.keys(SHORT).forEach(function(k){t=t.split(k).join(SHORT[k])});return t}
+function insertAtCursor(inp,txt){
+  var s=inp.selectionStart,e=inp.selectionEnd;
+  if(typeof s!=='number'){inp.value+=txt;return}
+  inp.value=inp.value.slice(0,s)+txt+inp.value.slice(e);
+  var p=s+txt.length;
+  inp.setSelectionRange(p,p);
+}
+(function(){
+  var box=$('emojiBox');
+  EMOJIS.forEach(function(em){
+    var b=document.createElement('button');
+    b.type='button';b.textContent=em;
+    b.addEventListener('click',function(){var inp=$('chatIn');inp.focus();insertAtCursor(inp,em)});
+    box.appendChild(b);
+  });
+  $('emojiBtn').addEventListener('click',function(){box.classList.toggle('hidden')});
+})();
+
 var lastSig='',lastChat=0,firstChat=true;
 function loadChat(){
   if(!dbOn){$('chatNote').textContent='Chat is not switched on yet.';return Promise.resolve()}
@@ -486,12 +645,13 @@ function loadChat(){
 function sendChat(){
   if(!dbOn||!user)return;
   var inp=$('chatIn');
-  var m=inp.value.trim().slice(0,200);
+  var m=Array.from(emojify(inp.value.trim())).slice(0,200).join('');
   if(!m)return;
   var now=Date.now();
   if(now-lastChat<2000){$('chatNote').textContent='Slow down a little!';return}
   lastChat=now;
   inp.value='';
+  $('emojiBox').classList.add('hidden');
   $('chatNote').textContent='';
   fetch(DB+'/chat.json',{method:'POST',body:JSON.stringify({n:user,m:m,t:now,id:myId})}).then(function(r){
     if(!r.ok)throw new Error('bad');
@@ -501,6 +661,7 @@ function sendChat(){
 $('chatSend').addEventListener('click',sendChat);
 $('chatIn').addEventListener('keydown',function(e){if(e.key==='Enter')sendChat()});
 
+/* ---------- starting + choosing a name ---------- */
 function begin(){
   $('overlay').classList.add('hidden');
   $('who').textContent='Playing as '+user;
@@ -520,6 +681,36 @@ function chooseName(){
 }
 $('nameBtn').addEventListener('click',chooseName);
 $('nameIn').addEventListener('keydown',function(e){if(e.key==='Enter')chooseName()});
+
+/* ---------- menu: change username ---------- */
+function changeName(){
+  var name=$('newName').value.trim().replace(/\s+/g,' ');
+  var err=$('renameErr');
+  if(!/^[A-Za-z0-9_\- ]{2,16}$/.test(name)){err.textContent='Use 2-16 letters, numbers, spaces, _ or -.';return}
+  if(name===user){err.textContent='That is already your name.';return}
+  $('renameBtn').disabled=true;err.textContent='Changing...';
+  moveScore(user,name).then(function(){
+    user=name;lsSet(USER_KEY,name);
+    $('who').textContent='Playing as '+user;
+    $('menuUser').textContent=user;
+    $('newName').value='';
+    err.textContent='Name changed!';
+    loadBoard();
+  }).catch(function(e){
+    err.textContent=(e&&e.message==='taken')?'That name is already taken. Try another.':'Could not change the name. Check your connection and try again.';
+  }).then(function(){$('renameBtn').disabled=false});
+}
+(function(){
+  function openM(){$('menuUser').textContent=user||'';$('newName').value='';$('renameErr').textContent='';$('menuBox').classList.remove('hidden')}
+  function closeM(){$('menuBox').classList.add('hidden')}
+  $('menuBtn').addEventListener('click',openM);
+  $('menuClose').addEventListener('click',closeM);
+  $('menuBox').addEventListener('click',function(e){if(e.target===$('menuBox'))closeM()});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeM()});
+  $('renameBtn').addEventListener('click',changeName);
+  $('newName').addEventListener('keydown',function(e){if(e.key==='Enter')changeName()});
+})();
+
 setInterval(submitScore,30000);
 setInterval(loadBoard,20000);
 setInterval(loadChat,4000);
