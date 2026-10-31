@@ -6,15 +6,15 @@
 <title>Dog Clicker Ultimate</title>
 <!--
 FIREBASE RULES (Realtime Database > Rules tab). Paste this and publish:
-{"rules":{"scores":{".read":true,".write":true},"chat":{".read":true,".write":true}}}
-(The "chat" part is needed for the chat box. The leaderboard uses "scores".)
+{"rules":{"scores":{".read":true,".write":true},"chat":{".read":true,".write":true},"saves":{"$uid":{".read":"auth.uid === $uid",".write":"auth.uid === $uid"}}}}
+("saves" is for accounts. Accounts also need Authentication > Email/Password turned on, and your Web API key pasted into API_KEY below.)
 -->
 <style>
 :root{--panel:rgba(255,250,245,.9);--ink:#3b2a1f;--red:#d9534f;--line:rgba(0,0,0,.3)}
 *{box-sizing:border-box}
 html,body{margin:0;min-height:100%}
 body{font-family:Georgia,"Times New Roman",serif;color:var(--ink);background:#8b7a6b url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTsd83tG5KMHufB0c1BSc7NcjiNrd94MeD-cbfLptQNyw&s=10") center center / cover no-repeat fixed}
-#app{display:grid;grid-template-columns:1fr 320px 300px;gap:12px;padding:12px;height:100vh}
+#app{display:grid;grid-template-columns:1fr 340px 300px;gap:12px;padding:12px;height:100vh}
 .panel{background:var(--panel);border:1px solid var(--line);border-radius:6px;padding:10px;overflow:auto}
 .panel h2{margin:0 0 8px;text-align:center;font-size:20px;text-decoration:underline}
 #left{display:flex;flex-direction:column;gap:10px;min-height:0}
@@ -23,24 +23,38 @@ body{font-family:Georgia,"Times New Roman",serif;color:var(--ink);background:#8b
 #sub{font-size:14px}
 #who{font-size:13px;opacity:.8}
 #btns{display:flex;flex-wrap:wrap;gap:8px;align-items:center;flex:none}
-#news,#resetBtn{font:inherit;font-size:16px;padding:8px 12px;background:var(--panel);border:1px solid var(--line);border-radius:4px;cursor:pointer;color:inherit}
+#news,#prestigeBtn{font:inherit;font-size:16px;padding:8px 12px;background:var(--panel);border:1px solid var(--line);border-radius:4px;cursor:pointer;color:inherit}
 #news{max-width:280px}
 #suggestBtn,#menuBtn{font:inherit;font-size:13px;padding:4px 8px;background:var(--panel);border:1px solid var(--line);border-radius:4px;color:inherit;text-decoration:none;cursor:pointer}
 #dogWrap{flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
 #dog{width:min(340px,70vw);height:min(340px,70vw);border:0;padding:0;margin:0;background:transparent;cursor:pointer;-webkit-tap-highlight-color:transparent;touch-action:manipulation;transition:transform .06s}
 #dog:active{transform:scale(.94)}
 #dog img{width:100%;height:100%;object-fit:contain;display:block;pointer-events:none;user-select:none;-webkit-user-drag:none}
+#dogEmoji{display:none;font-size:200px;line-height:1;user-select:none;pointer-events:none}
+#lumpPanel{flex:none;font-size:14px}
+#lumpTop{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}
+#lumpBar{height:10px;background:rgba(0,0,0,.15);border-radius:5px;overflow:hidden;margin-top:6px}
+#lumpFill{height:100%;width:0;background:var(--red)}
+#lumpOpen{font:inherit;font-size:13px;padding:4px 8px;background:var(--panel);border:1px solid var(--line);border-radius:4px;cursor:pointer;color:inherit}
 #mid{display:flex;flex-direction:column;gap:12px;min-height:0;overflow:auto}
 #mid .panel{flex:none}
 .item{display:block;width:100%;text-align:left;font:inherit;font-size:15px;color:inherit;background:rgba(255,255,255,.7);border:1px solid var(--line);border-radius:4px;padding:8px;margin-bottom:6px;cursor:pointer}
 .item:hover{background:#fff}
 .item.cant{opacity:.55}
+.item.owned{background:rgba(150,220,150,.55)}
 .item .row{display:flex;justify-content:space-between;align-items:center;gap:8px}
 .item .left{display:flex;align-items:center;gap:8px;min-width:0}
 .item .cost{color:var(--red);font-weight:bold;white-space:nowrap}
 .item .desc{font-size:13px;opacity:.85;margin-top:3px}
+.item.lrow{display:flex;justify-content:space-between;align-items:center;gap:8px;cursor:default}
+.item.lrow button{font:inherit;font-size:13px;padding:5px 8px;border:1px solid var(--line);border-radius:4px;background:var(--panel);color:inherit;cursor:pointer}
+.item.lrow button:disabled{opacity:.5;cursor:default}
 .ico{width:30px;height:30px;display:inline-flex;align-items:center;justify-content:center;font-size:22px;line-height:1;flex:none}
 .ico img{width:100%;height:100%;object-fit:cover;border-radius:5px;display:block}
+#modeRow{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:8px;justify-content:center}
+.seg{display:inline-flex}
+.seg button{font:inherit;font-size:13px;padding:4px 8px;border:1px solid var(--line);background:var(--panel);color:inherit;cursor:pointer}
+.seg button.on{background:var(--red);color:#fff}
 #board{margin:0;padding-left:24px;font-size:15px}
 #board li{margin-bottom:4px}
 #board li.me{font-weight:bold;color:var(--red)}
@@ -58,18 +72,29 @@ body{font-family:Georgia,"Times New Roman",serif;color:var(--ink);background:#8b
 #emojiBox button{font-size:20px;background:none;border:0;cursor:pointer;padding:2px 4px}
 #secretBtn{position:fixed;right:8px;bottom:6px;z-index:15;background:none;border:0;font-size:14px;opacity:.15;cursor:pointer;padding:4px}
 #secretBtn:hover{opacity:.9}
-#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);max-width:min(480px,92vw);background:#fffaf5;border:1px solid var(--line);border-radius:6px;padding:10px 14px;box-shadow:0 4px 14px rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .25s;z-index:70;text-align:center}
+#toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);max-width:min(480px,92vw);background:#fffaf5;border:1px solid var(--line);border-radius:6px;padding:10px 14px;box-shadow:0 4px 14px rgba(0,0,0,.3);opacity:0;pointer-events:none;transition:opacity .25s;z-index:80;text-align:center}
 #toast.show{opacity:1}
-#overlay,#creditsBox,#menuBox{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}
-#creditsBox,#menuBox{z-index:60}
-#overlay.hidden,#creditsBox.hidden,#menuBox.hidden{display:none}
-.card{background:#fffaf5;border-radius:10px;padding:24px;max-width:420px;width:100%;text-align:center}
+#overlay{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:50;padding:16px}
+#overlay.hidden{display:none}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,.65);display:flex;align-items:center;justify-content:center;z-index:60;padding:16px}
+.modal.hidden{display:none}
+.card{background:#fffaf5;border-radius:10px;padding:24px;max-width:420px;width:100%;text-align:center;max-height:92vh;overflow:auto}
+.card.wide{max-width:520px}
 .card h1{margin:0 0 8px;font-size:26px}
-.card input{width:100%;font:inherit;font-size:18px;padding:10px;margin:12px 0 8px;border:1px solid var(--line);border-radius:6px;text-align:center}
+.card h3{margin:10px 0 6px}
+.card hr{border:0;border-top:1px solid var(--line);margin:14px 0}
+.card input:not([type=checkbox]){width:100%;font:inherit;font-size:16px;padding:9px;margin:6px 0;border:1px solid var(--line);border-radius:6px;text-align:center}
 .card button{font:inherit;font-size:18px;padding:10px 18px;border:0;border-radius:6px;background:var(--red);color:#fff;cursor:pointer}
+.card button.sm{font-size:15px;padding:8px 12px;margin:4px 2px}
 .card button.secondary{background:#8a8078;margin-top:10px}
+.card button.danger{background:#a02020}
+.card button:disabled{opacity:.6}
+.card .item{color:var(--ink)}
+.card .item button{background:none}
 #creditsText p{margin:6px 0}
-#nameErr,#renameErr{color:var(--red);min-height:20px;margin-top:8px;font-size:14px}
+#adminBtns button{font-size:14px;padding:8px 10px;margin:3px}
+#nameErr,#renameErr,#acctErr,#ovErr{color:var(--red);min-height:18px;margin-top:6px;font-size:14px}
+label.chk{display:block;margin:8px 0;font-size:16px}
 @media(max-width:1000px){#app{grid-template-columns:1fr;height:auto}#dogWrap{padding:20px 0}}
 </style>
 </head>
@@ -78,19 +103,31 @@ body{font-family:Georgia,"Times New Roman",serif;color:var(--ink);background:#8b
   <div id="left">
     <div id="stats" class="panel">
       <div id="barks">0</div>
-      <div id="sub">Barks &middot; <span id="ps">0</span>/sec &middot; <span id="pc">1</span> per click</div>
+      <div id="sub"><span id="unit">Barks</span> &middot; <span id="ps">0</span>/sec &middot; <span id="pc">1</span> per click</div>
       <div id="who"></div>
     </div>
     <div id="btns">
       <button id="news">the Bark Times</button>
-      <button id="resetBtn">Reset Progress</button>
+      <button id="prestigeBtn">Prestige</button>
       <button id="menuBtn">Menu</button>
       <a id="suggestBtn" href="#" target="_blank" rel="noopener noreferrer">Suggestions</a>
     </div>
-    <div id="dogWrap"><button id="dog" aria-label="Pet the dog"><img id="dogImg" alt="Dog"></button></div>
+    <div id="dogWrap"><button id="dog" aria-label="Pet the dog"><img id="dogImg" alt=""><span id="dogEmoji"></span></button></div>
+    <div id="lumpPanel" class="panel">
+      <div id="lumpTop"><span><b id="lumpTitle">Bone Lumps</b>: <span id="lumpCount">0</span></span><button id="lumpOpen">Upgrade buildings</button></div>
+      <div id="lumpBar"><div id="lumpFill"></div></div>
+      <div id="lumpNote" class="note"></div>
+    </div>
   </div>
   <div id="mid">
-    <div class="panel"><h2>Buildings</h2><div id="buildings"></div></div>
+    <div class="panel">
+      <h2>Buildings</h2>
+      <div id="modeRow">
+        <span class="seg" id="bsMode"><button data-m="buy" class="on">Buy</button><button data-m="sell">Sell</button></span>
+        <span class="seg" id="bsAmt"><button data-a="1" class="on">x1</button><button data-a="10">x10</button><button data-a="100">x100</button><button data-a="max">Max</button></span>
+      </div>
+      <div id="buildings"></div>
+    </div>
     <div class="panel"><h2>Leaderboard</h2><ol id="board"></ol><div id="boardNote" class="note"></div></div>
     <div class="panel">
       <h2>Chat</h2>
@@ -104,30 +141,93 @@ body{font-family:Georgia,"Times New Roman",serif;color:var(--ink);background:#8b
 </div>
 <button id="secretBtn" aria-label="Credits">&#128062;</button>
 <div id="toast"></div>
-<div id="creditsBox" class="hidden">
+
+<div id="creditsBox" class="modal hidden">
   <div class="card">
     <h1>Credits</h1>
     <div id="creditsText"></div>
-    <button id="creditsClose">Close</button>
+    <button class="secondary" data-close="creditsBox">Close</button>
   </div>
 </div>
-<div id="menuBox" class="hidden">
-  <div class="card">
+
+<div id="menuBox" class="modal hidden">
+  <div class="card wide">
     <h1>Menu</h1>
     <p>Playing as <b id="menuUser"></b></p>
-    <input id="newName" maxlength="16" placeholder="New username" autocomplete="off">
-    <button id="renameBtn">Change username</button>
-    <div id="renameErr"></div>
-    <button id="menuClose" class="secondary">Close</button>
+    <div id="renameGroup">
+      <input id="newName" type="text" maxlength="16" placeholder="New username" autocomplete="off">
+      <button id="renameBtn" class="sm">Change username</button>
+      <div id="renameErr"></div>
+    </div>
+    <hr>
+    <h3>Account</h3>
+    <div id="acctOff" class="note">Accounts are not switched on yet. (The game owner needs to add a Firebase API key.)</div>
+    <div id="acctForm">
+      <input id="acctName" type="text" maxlength="16" placeholder="Account username" autocomplete="off">
+      <input id="acctPw" type="password" placeholder="Password (6+ characters)" autocomplete="off">
+      <button id="acctLogin" class="sm">Log in</button><button id="acctSignup" class="sm">Sign up</button>
+      <div class="note">Use a password you do not use anywhere else.</div>
+    </div>
+    <div id="acctSigned">
+      Signed in as <b id="acctWho"></b>. Your progress saves to the cloud.<br>
+      <button id="acctSave" class="sm">Save now</button><button id="acctLogout" class="sm secondary">Log out</button>
+    </div>
+    <div id="acctErr"></div>
+    <hr>
+    <h3>Prestige</h3>
+    <div id="prestigeInfo" class="note"></div>
+    <button id="prestigeBtn2" class="sm">Prestige</button><button id="skillBtn" class="sm">Skill Tree</button>
+    <hr>
+    <h3>Settings</h3>
+    <label class="chk"><input type="checkbox" id="catMode"> Cat version</label>
+    <hr>
+    <button id="resetBtn" class="sm danger">Reset Progress</button>
+    <button class="secondary" data-close="menuBox">Close</button>
   </div>
 </div>
+
+<div id="skillBox" class="modal hidden">
+  <div class="card wide">
+    <h1>Skill Tree</h1>
+    <p>Prestige Points to spend: <b id="skillPP">0</b></p>
+    <div id="skillList"></div>
+    <button class="secondary" data-close="skillBox">Close</button>
+  </div>
+</div>
+
+<div id="lumpBox" class="modal hidden">
+  <div class="card wide">
+    <h1 id="lumpH1">Bone Lumps</h1>
+    <p>You have <b id="lumpHave">0</b>. Each level doubles that building's output.</p>
+    <div id="lumpList"></div>
+    <button class="secondary" data-close="lumpBox">Close</button>
+  </div>
+</div>
+
+<div id="adminBox" class="modal hidden">
+  <div class="card wide">
+    <h1>Admin</h1>
+    <p class="note">These only change your own game in this browser. Barks added here do not count toward the leaderboard.</p>
+    <div id="adminBtns"></div>
+    <button class="secondary" data-close="adminBox">Close</button>
+  </div>
+</div>
+
 <div id="overlay">
   <div class="card">
-    <h1>Dog Clicker Ultimate</h1>
+    <h1 id="ovTitle">Dog Clicker Ultimate</h1>
     <p>Pick a username to start. It shows on the leaderboard.</p>
-    <input id="nameIn" maxlength="16" placeholder="Username" autocomplete="off">
+    <input id="nameIn" type="text" maxlength="16" placeholder="Username" autocomplete="off">
     <button id="nameBtn">Start playing</button>
     <div id="nameErr"></div>
+    <div id="ovAcct">
+      <hr>
+      <p>Already have an account?</p>
+      <input id="ovName" type="text" maxlength="16" placeholder="Account username" autocomplete="off">
+      <input id="ovPw" type="password" placeholder="Password" autocomplete="off">
+      <button id="ovLogin" class="sm">Log in</button>
+      <div id="ovErr"></div>
+    </div>
   </div>
 </div>
 
@@ -140,11 +240,14 @@ body{font-family:Georgia,"Times New Roman",serif;color:var(--ink);background:#8b
 /* Your Firebase database URL */
 var DB_URL='https://leasder-988e6-default-rtdb.firebaseio.com/';
 
-/* The link the Suggestions button opens (paste a full link starting with https://) */
-var SUGGEST_URL='https://www.youtube.com/watch?v=dQw4w9WgXcQ';
+/* Your Firebase "Web API Key" (starts with AIza). Needed for accounts.
+   Firebase console > Project settings (gear icon) > General. */
+var API_KEY='PASTE-YOUR-API-KEY-HERE';
 
-/* The secret credits. Each line in quotes is one line on screen. Add or remove lines freely.
-   Keep a comma at the end of every line. */
+/* The link the Suggestions button opens */
+var SUGGEST_URL='https://docs.google.com/document/d/1lV8dDkUDXUBF5iAs0vn_TU6ucIv8s5gQiEz1tAPW7fY/edit?usp=sharing';
+
+/* The secret credits. Each line in quotes is one line on screen. */
 var CREDITS=[
 'Dog Clicker Ultimate',
 'Made by: Austin and The Ai Claude',
@@ -155,9 +258,7 @@ var CREDITS=[
 ''
 ];
 
-/* Dog photos. Paste a file name from your Photos folder (like IMG_1234.jpg)
-   OR a full link starting with https:// between the quotes. Each photo shows 5 seconds.
-   Empty slots ('') are skipped, so you can leave them blank. */
+/* Dog photos. File name from your Photos folder OR a full https:// link. Empty slots are skipped. */
 var PHOTO_NAMES=[
 'image.webp',
 'IMG_0660.webp',
@@ -191,12 +292,74 @@ var PHOTO_NAMES=[
 ''
 ];
 
+/* CAT photos (shown in the Cat version). Same rules as the dog photos above.
+   Upload cat pictures to your Photos folder and put the file names here.
+   If this list is empty, the Cat version shows a big cat emoji instead. */
+var CAT_PHOTO_NAMES=[
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+'',
+''
+];
+
+/* WORDS TO BAN in chat and usernames. Add one word per line in quotes with a comma at the end.
+   Tricks like b@dword or b a d w o r d are also caught. Replace the examples with your own words. */
+var BANNED_WORDS=[
+'badword1',
+'badword2'
+];
+/* false = only whole words are banned (fewer accidents). true = banned even inside other words. */
+var BAN_STRICT=false;
+
+/* Admin panel. In the browser console (Ctrl+Shift+J on a Chromebook) type:   Smith
+   or:   austinSays("good boy")      You can change these two words. */
+var ADMIN_WORD='Smith';
+var ADMIN_PHRASE='good boy';
+
+/* Lumps: seconds for one lump to ripen, and the highest level a building can reach with lumps */
+var LUMP_SECONDS=90;
+var MAX_LUMP_LEVEL=3;
+
+/* Selling a building gives back this fraction of its price */
+var SELL_REFUND=0.5;
+
+/* Prestige: you need to earn at least PRESTIGE_DIV Barks in one run.
+   Points = (Barks earned this run / PRESTIGE_DIV) to the power of PRESTIGE_EXP */
+var PRESTIGE_DIV=100000000;
+var PRESTIGE_EXP=0.5;
+
+/* An upgrade appears once you have earned this fraction of its price this run (0 = show all) */
+var UPGRADE_REVEAL=0.25;
+
 /* ICONS FOR BUILDINGS AND UPGRADES.
-   Between the quotes you can put:
-   - an emoji (like '🦴'), or
-   - an image file name from your Photos folder (like 'bone.png'), or
-   - a full image link starting with https://
-   Leave it as '' for no icon. The name on the left (like dogTreat) must not change. */
+   Put an emoji, OR an image file name from your Photos folder (like 'bone.png'), OR a full https:// link.
+   Leave '' for no icon. Do not change the names on the left. */
 var BUILDING_ICONS={
 dogTreat:'🦴',
 puppyPark:'🌳',
@@ -206,7 +369,17 @@ cloningLab:'🧪',
 petStore:'🛍️',
 dogArena:'🏟️',
 spaceKennel:'🚀',
-barkPortal:'🌀'
+barkPortal:'🌀',
+dogCity:'🏙️',
+moonBase:'🌙',
+puppyDim:'🌈',
+timeMachine:'⏳',
+galaxyPack:'🌌',
+blackHole:'⚫',
+universePark:'🪐',
+realityHouse:'🏡',
+treatEngine:'🍩',
+greatGoodBoy:'🦮'
 };
 var UPGRADE_ICONS={
 goldenBrush:'🖌️',
@@ -231,32 +404,91 @@ arenaLights:'💡',
 champions:'🏆',
 rocketBones:'🛰️',
 cosmicPaw:'🌠',
-zeroGZoomies:'🌌',
+zeroGZoomies:'🌀',
 portalTuning:'🔧',
-infinityBark:'♾️'
+infinityBark:'♾️',
+rubyPaw:'🔴',
+nebulaPaw:'🌫️',
+timePaw:'⏱️',
+quantumPaw:'⚛️',
+infinityPaw:'🔱',
+goodBoyCert:'📃',
+bestInShow:'🥇',
+worldChampion:'🌍',
+universalTreat:'🍪',
+dogDeity:'😇',
+cityZoning:'📐',
+cityOfDogs:'🌆',
+lunarKibble:'🌕',
+moonFetch:'🥏',
+dimHopping:'🚪',
+pocketDims:'👝',
+rewindWalkies:'⏪',
+timeLoop:'🔄',
+starHowl:'⭐',
+galacticPack:'💫',
+eventHorizon:'🕳️',
+singularitySnack:'🍬',
+cosmicFetch:'🎾',
+universalZoomies:'💨',
+warpedWalls:'🧱',
+realityRemix:'🎛️',
+overclocked:'🔥',
+perpetualTreat:'🔁',
+patOfPower:'✋',
+ultimateGoodBoy:'🌟'
 };
-
-/* An upgrade shows up in the list once you have earned this fraction of its price.
-   0.25 means a quarter of the price. Set to 0 to show every upgrade from the start. */
-var UPGRADE_REVEAL=0.25;
 
 /* ========================================================================== */
 
 var DB=DB_URL.replace(/\/+$/,'');
 var dbOn=/^https:\/\//.test(DB);
+var authOn=dbOn&&/^AIza/.test(API_KEY);
 var SAVE_KEY='dogClickerUltimate_save';
 var USER_KEY='dogClickerUltimate_user';
 var ID_KEY='dogClickerUltimate_id';
+var MODE_KEY='dogClickerUltimate_mode';
+var UID_KEY='dogClickerUltimate_uid';
+var REF_KEY='dogClickerUltimate_refresh';
+var ACCT_KEY='dogClickerUltimate_acct';
 var mem={};
 function lsGet(k){try{return localStorage.getItem(k)}catch(e){return mem[k]||null}}
 function lsSet(k,v){try{localStorage.setItem(k,v)}catch(e){mem[k]=v}}
 function $(id){return document.getElementById(id)}
 
+/* ---------- cat version word swaps ---------- */
+var MODE=lsGet(MODE_KEY)==='cat'?'cat':'dog';
+var CAT_MAP=[
+[/Doghouses/g,'Cat Condos'],[/Doghouse/g,'Cat Condo'],[/doghouses/g,'cat condos'],[/doghouse/g,'cat condo'],
+[/Doggy/g,'Kitty'],[/doggy/g,'kitty'],
+[/DOGS/g,'CATS'],[/DOG/g,'CAT'],[/Dogs/g,'Cats'],[/Dog/g,'Cat'],[/dogs/g,'cats'],[/dog/g,'cat'],
+[/Puppies/g,'Kittens'],[/Puppy/g,'Kitten'],[/puppies/g,'kittens'],[/puppy/g,'kitten'],
+[/BARKS/g,'MEOWS'],[/BARK/g,'MEOW'],[/Barks/g,'Meows'],[/Bark/g,'Meow'],[/barks/g,'meows'],[/bark/g,'meow'],
+[/Bones/g,'Fish'],[/Bone/g,'Fish'],[/bones/g,'fish'],[/bone/g,'fish'],
+[/Kennels/g,'Catteries'],[/Kennel/g,'Cattery'],
+[/Packs/g,'Clowders'],[/Pack/g,'Clowder'],
+[/Fetch/g,'Pounce'],[/Howl/g,'Yowl'],[/Walkies/g,'Naps'],
+[/Good Boys/g,'Good Kitties'],[/Good Boy/g,'Good Kitty'],[/good boys/g,'good kitties'],[/good boy/g,'good kitty'],
+[/Canine/g,'Feline'],[/canine/g,'feline'],
+[/🦴/g,'🐟'],[/🐶/g,'🐱'],[/🐕/g,'🐈'],[/🐩/g,'🐈‍⬛'],[/🐺/g,'🐯'],[/🦮/g,'🐈']
+];
+function T(s){
+  if(MODE!=='cat'||!s)return s;
+  for(var i=0;i<CAT_MAP.length;i++){s=s.replace(CAT_MAP[i][0],CAT_MAP[i][1])}
+  return s;
+}
+var UNIT='Barks';
+
 /* ---------- photos ---------- */
-var PHOTOS=PHOTO_NAMES.filter(function(f){return f&&f.trim()}).map(function(f){
-  f=f.trim();
-  return /^https?:\/\//.test(f)?f:'Photos/'+f;
-});
+function makePhotoList(names){
+  return names.filter(function(f){return f&&f.trim()}).map(function(f){
+    f=f.trim();
+    return /^https?:\/\//.test(f)?f:'Photos/'+f;
+  });
+}
+var PHOTOS_DOG=makePhotoList(PHOTO_NAMES);
+var PHOTOS_CAT=makePhotoList(CAT_PHOTO_NAMES);
+var PHOTOS=PHOTOS_DOG;
 
 /* ---------- game data ---------- */
 var HEADLINES=[
@@ -284,6 +516,29 @@ var HEADLINES=[
 "INVESTIGATION: Who ate the last dog treat?",
 "BREAKING: ultra super secrete thing its so hard to get and its so rare oh i ran out of room to type it"
 ];
+var CAT_HEADLINES=[
+"BREAKING: A Siamese has discovered infinite tuna!",
+"BREAKING: Cats are taking over the world!",
+"BREAKING: Local cat knocks 400 glasses off the table!",
+"BREAKING: Cats are better than cookies!",
+"BREAKING: Everyone needs a cat!",
+"BREAKING: A cat sat in a box. Experts are baffled.",
+"BREAKING: Cats are more popular than iPhones!",
+"BREAKING: Nobody owns a cat. The cat owns you!",
+"BREAKING: Cat demands breakfast at 3 AM. Humans comply.",
+"BREAKING: Maine Coon elected Mayor!",
+"BREAKING: Cat ignores brand new bed for the box it came in!",
+"BREAKING: Kitten steals 400 socks!",
+"EXCLUSIVE: Cats secretly understand every word you say!",
+"BREAKING: Purring found to be the most relaxing sound on Earth!",
+"SCIENCE: Experts confirm that all cats are good kitties.",
+"ECONOMY: Tuna prices reach an all-time high!",
+"WEATHER: 100% chance of zoomies at 3 AM!",
+"SPORTS: Local tabby wins the neighborhood nap-off!",
+"INVESTIGATION: Who knocked over the plant?",
+"LOCAL: Cat stares at wall for an hour. Wall is nervous.",
+"BREAKING: ultra super secret cat thing so rare oh no I ran out of room to type it"
+];
 var BUILDINGS=[
 {id:'dogTreat',name:'Dog Treats',base:15,ps:1},
 {id:'puppyPark',name:'Puppy Parks',base:100,ps:4},
@@ -293,7 +548,17 @@ var BUILDINGS=[
 {id:'petStore',name:'Pet Stores',base:200000,ps:3000},
 {id:'dogArena',name:'Dog Arenas',base:1500000,ps:20000},
 {id:'spaceKennel',name:'Space Kennels',base:12000000,ps:140000},
-{id:'barkPortal',name:'Bark Portals',base:100000000,ps:1000000}
+{id:'barkPortal',name:'Bark Portals',base:100000000,ps:1000000},
+{id:'dogCity',name:'Dog Cities',base:1200000000,ps:10000000},
+{id:'moonBase',name:'Moon Bases',base:15000000000,ps:120000000},
+{id:'puppyDim',name:'Puppy Dimensions',base:200000000000,ps:1500000000},
+{id:'timeMachine',name:'Time Machines',base:3000000000000,ps:20000000000},
+{id:'galaxyPack',name:'Galaxy Packs',base:45000000000000,ps:300000000000},
+{id:'blackHole',name:'Bone Black Holes',base:700000000000000,ps:4500000000000},
+{id:'universePark',name:'Universe Parks',base:10000000000000000,ps:65000000000000},
+{id:'realityHouse',name:'Reality Doghouses',base:150000000000000000,ps:900000000000000},
+{id:'treatEngine',name:'Infinite Treat Engines',base:2500000000000000000,ps:14000000000000000},
+{id:'greatGoodBoy',name:'The Great Good Boy',base:50000000000000000000,ps:300000000000000000}
 ];
 var UPGRADES=[
 {id:'goldenBrush',name:'Brush',cost:50,desc:'+2 Barks per click.',click:2},
@@ -313,6 +578,7 @@ var UPGRADES=[
 {id:'labCoats',name:'Lab Coats',cost:250000,desc:'Multiplies Cloning Lab production by 5.',b:'cloningLab',mult:5},
 {id:'goldenPaw',name:'Golden Paw',cost:1000000,desc:'+100 Barks per click.',click:100},
 {id:'grandOpening',name:'Grand Opening',cost:2000000,desc:'Doubles Pet Store production.',b:'petStore',mult:2},
+{id:'goodBoyCert',name:'Good Boy Certificate',cost:50000000,desc:'All Barks earned x1.5.',g:1.5},
 {id:'storeChain',name:'Franchise',cost:10000000,desc:'Multiplies Pet Store production by 5.',b:'petStore',mult:5},
 {id:'arenaLights',name:'Stadium Lights',cost:15000000,desc:'Doubles Dog Arena production.',b:'dogArena',mult:2},
 {id:'champions',name:'Champions',cost:75000000,desc:'Multiplies Dog Arena production by 5.',b:'dogArena',mult:5},
@@ -321,39 +587,119 @@ var UPGRADES=[
 {id:'zeroGZoomies',name:'Zero-G Zoomies',cost:500000000,desc:'Multiplies Space Kennel production by 5.',b:'spaceKennel',mult:5},
 {id:'portalTuning',name:'Portal Tuning',cost:1000000000,desc:'Doubles Bark Portal production.',b:'barkPortal',mult:2},
 {id:'infinityBark',name:'Infinity Bark',cost:5000000000,desc:'Multiplies Bark Portal production by 5.',b:'barkPortal',mult:5},
-{id:'nothing',name:'dont buy this it will break your game',cost:1000000000000,desc:'test thing that will break your game.',b:'barkPortal',mult:1000000}
+{id:'bestInShow',name:'Best in Show',cost:5000000000,desc:'All Barks earned x2.',g:2},
+{id:'rubyPaw',name:'Ruby Paw',cost:5000000000,desc:'+10,000 Barks per click.',click:10000},
+{id:'cityZoning',name:'Dog Zoning Laws',cost:12000000000,desc:'Doubles Dog City production.',b:'dogCity',mult:2},
+{id:'lunarKibble',name:'Lunar Kibble',cost:150000000000,desc:'Doubles Moon Base production.',b:'moonBase',mult:2},
+{id:'nebulaPaw',name:'Nebula Paw',cost:100000000000,desc:'+100,000 Barks per click.',click:100000},
+{id:'cityOfDogs',name:'City of Dogs',cost:120000000000,desc:'Multiplies Dog City production by 5.',b:'dogCity',mult:5},
+{id:'dimHopping',name:'Dimension Hopping',cost:2000000000000,desc:'Doubles Puppy Dimension production.',b:'puppyDim',mult:2},
+{id:'moonFetch',name:'Moon Fetch',cost:1500000000000,desc:'Multiplies Moon Base production by 5.',b:'moonBase',mult:5},
+{id:'worldChampion',name:'World Champion',cost:2000000000000,desc:'All Barks earned x2.',g:2},
+{id:'timePaw',name:'Time Paw',cost:5000000000000,desc:'+1,000,000 Barks per click.',click:1000000},
+{id:'rewindWalkies',name:'Rewind Walkies',cost:30000000000000,desc:'Doubles Time Machine production.',b:'timeMachine',mult:2},
+{id:'pocketDims',name:'Pocket Dimensions',cost:20000000000000,desc:'Multiplies Puppy Dimension production by 5.',b:'puppyDim',mult:5},
+{id:'starHowl',name:'Star Howl',cost:450000000000000,desc:'Doubles Galaxy Pack production.',b:'galaxyPack',mult:2},
+{id:'timeLoop',name:'Time Loop Zoomies',cost:300000000000000,desc:'Multiplies Time Machine production by 5.',b:'timeMachine',mult:5},
+{id:'quantumPaw',name:'Quantum Paw',cost:200000000000000,desc:'+10,000,000 Barks per click.',click:10000000},
+{id:'universalTreat',name:'Universal Treat',cost:500000000000000,desc:'All Barks earned x3.',g:3},
+{id:'eventHorizon',name:'Event Horizon Bone',cost:7000000000000000,desc:'Doubles Bone Black Hole production.',b:'blackHole',mult:2},
+{id:'galacticPack',name:'Galactic Pack',cost:4500000000000000,desc:'Multiplies Galaxy Pack production by 5.',b:'galaxyPack',mult:5},
+{id:'infinityPaw',name:'Infinity Paw',cost:10000000000000000,desc:'+100,000,000 Barks per click.',click:100000000},
+{id:'cosmicFetch',name:'Cosmic Fetch',cost:100000000000000000,desc:'Doubles Universe Park production.',b:'universePark',mult:2},
+{id:'singularitySnack',name:'Singularity Snack',cost:70000000000000000,desc:'Multiplies Bone Black Hole production by 5.',b:'blackHole',mult:5},
+{id:'dogDeity',name:'Dog Deity',cost:1000000000000000000,desc:'All Barks earned x5.',g:5},
+{id:'universalZoomies',name:'Universal Zoomies',cost:1000000000000000000,desc:'Multiplies Universe Park production by 5.',b:'universePark',mult:5},
+{id:'warpedWalls',name:'Warped Walls',cost:1500000000000000000,desc:'Doubles Reality Doghouse production.',b:'realityHouse',mult:2},
+{id:'realityRemix',name:'Reality Remix',cost:15000000000000000000,desc:'Multiplies Reality Doghouse production by 5.',b:'realityHouse',mult:5},
+{id:'overclocked',name:'Overclocked Engines',cost:25000000000000000000,desc:'Doubles Infinite Treat Engine production.',b:'treatEngine',mult:2},
+{id:'perpetualTreat',name:'Perpetual Treat',cost:250000000000000000000,desc:'Multiplies Infinite Treat Engine production by 5.',b:'treatEngine',mult:5},
+{id:'patOfPower',name:'Pat of Power',cost:500000000000000000000,desc:'Doubles The Great Good Boy production.',b:'greatGoodBoy',mult:2},
+{id:'ultimateGoodBoy',name:'Ultimate Good Boy',cost:5000000000000000000000,desc:'Multiplies The Great Good Boy production by 5.',b:'greatGoodBoy',mult:5}
 ];
 UPGRADES.sort(function(a,b){return a.cost-b.cost});
 
+/* Skill tree (Prestige Points). req = the skill you need first. */
+var SKILLS=[
+{id:'sk1',name:'Good Boy Bonus',cost:1,desc:'+10% Barks from everything.',global:0.10},
+{id:'sk2',name:'Strong Paws',cost:1,desc:'+25% Barks per click.',click:0.25},
+{id:'sk3',name:'Treat Stash',cost:2,req:'sk1',desc:'Start every run with 1,000 Barks.',start:1000},
+{id:'sk4',name:'Bulk Discount',cost:3,req:'sk1',desc:'Buildings cost 5% less.',discount:0.05},
+{id:'sk5',name:'Faster Lumps',cost:3,req:'sk2',desc:'Lumps ripen 25% faster.',lumpSpeed:0.25},
+{id:'sk6',name:'Alpha Dog',cost:5,req:'sk1',desc:'+10% Barks from everything.',global:0.10},
+{id:'sk7',name:'Double Paws',cost:8,req:'sk2',desc:'+50% Barks per click.',click:0.5},
+{id:'sk8',name:'Prestige Hound',cost:10,req:'sk6',desc:'+10% more Prestige Points when you prestige.',ppGain:0.10},
+{id:'sk9',name:'Treat Empire',cost:15,req:'sk4',desc:'Start every run with 100,000 Barks.',start:100000},
+{id:'sk10',name:'Pack Leader',cost:25,req:'sk6',desc:'+20% Barks from everything.',global:0.20},
+{id:'sk11',name:'Lump Master',cost:30,req:'sk5',desc:'Lumps ripen 50% faster again.',lumpSpeed:0.5},
+{id:'sk12',name:'Golden Collar',cost:50,req:'sk7',desc:'+100% Barks per click.',click:1.0},
+{id:'sk13',name:'Mega Discount',cost:75,req:'sk9',desc:'Buildings cost 10% less.',discount:0.10},
+{id:'sk14',name:'Prestige King',cost:100,req:'sk8',desc:'+25% more Prestige Points when you prestige.',ppGain:0.25},
+{id:'sk15',name:'Dog God',cost:250,req:'sk10',desc:'+50% Barks from everything.',global:0.50},
+{id:'sk16',name:'Eternal Pack',cost:500,req:'sk15',desc:'+100% Barks from everything.',global:1.0}
+];
+
 /* ---------- state ---------- */
-var S={barks:0,total:0,own:{},up:{}};
-BUILDINGS.forEach(function(b){S.own[b.id]=0});
-UPGRADES.forEach(function(u){S.up[u.id]=false});
-try{
-  var raw=lsGet(SAVE_KEY);
-  if(raw){
-    var d=JSON.parse(raw);
-    S.barks=+d.barks||0;S.total=+d.total||0;
-    BUILDINGS.forEach(function(b){S.own[b.id]=Math.max(0,Math.floor(+(d.own&&d.own[b.id])||0))});
-    UPGRADES.forEach(function(u){S.up[u.id]=!!(d.up&&d.up[u.id])});
-  }
-}catch(e){}
+function defaultState(){
+  var s={barks:0,total:0,run:0,pp:0,ppEver:0,prestiges:0,lumps:0,lumpT:0,own:{},up:{},sk:{},lv:{}};
+  BUILDINGS.forEach(function(b){s.own[b.id]=0;s.lv[b.id]=0});
+  UPGRADES.forEach(function(u){s.up[u.id]=false});
+  SKILLS.forEach(function(k){s.sk[k.id]=false});
+  return s;
+}
+var S=defaultState();
+function loadObj(d){
+  var n=defaultState();
+  n.barks=+d.barks||0;n.total=+d.total||0;
+  n.run=(d.run===undefined)?n.total:(+d.run||0);
+  n.pp=+d.pp||0;n.ppEver=+d.ppEver||0;n.prestiges=+d.prestiges||0;
+  n.lumps=+d.lumps||0;n.lumpT=+d.lumpT||0;
+  BUILDINGS.forEach(function(b){
+    n.own[b.id]=Math.max(0,Math.floor(+(d.own&&d.own[b.id])||0));
+    n.lv[b.id]=Math.min(MAX_LUMP_LEVEL,Math.max(0,Math.floor(+(d.lv&&d.lv[b.id])||0)));
+  });
+  UPGRADES.forEach(function(u){n.up[u.id]=!!(d.up&&d.up[u.id])});
+  SKILLS.forEach(function(k){n.sk[k.id]=!!(d.sk&&d.sk[k.id])});
+  S=n;
+}
+try{var raw=lsGet(SAVE_KEY);if(raw)loadObj(JSON.parse(raw))}catch(e){}
 function save(){lsSet(SAVE_KEY,JSON.stringify(S))}
 
 /* ---------- math ---------- */
-var SUF=['','k','M','B','T','Qa','Qi'];
+var SUF=['','k','M','B','T','Qa','Qi','Sx','Sp','Oc','No','Dc'];
 function fmt(n){
-  if(n<1000)return String(Math.floor(n));
+  if(!isFinite(n))return 'a lot';
+  if(n<1000)return Number.isInteger(n)?String(n):String(Math.round(n*10)/10);
   var i=0,v=n;
   while(v>=1000&&i<SUF.length-1){v/=1000;i++}
   var s=v>=100?v.toFixed(0):v>=10?v.toFixed(1):v.toFixed(2);
   if(s.indexOf('.')>-1)s=s.replace(/\.?0+$/,'');
   return s+SUF[i];
 }
-function perClick(){var c=1;UPGRADES.forEach(function(u){if(S.up[u.id]&&u.click)c+=u.click});return c}
-function bMult(id){var m=1;UPGRADES.forEach(function(u){if(S.up[u.id]&&u.b===id)m*=u.mult});return m}
-function perSec(){var s=0;BUILDINGS.forEach(function(b){s+=S.own[b.id]*b.ps*bMult(b.id)});return s}
-function cost(b){return Math.ceil(b.base*Math.pow(1.15,S.own[b.id]))}
+function skillSum(k){var s=0;SKILLS.forEach(function(sk){if(S.sk[sk.id]&&sk[k])s+=sk[k]});return s}
+function gMult(){var m=1+skillSum('global');UPGRADES.forEach(function(u){if(S.up[u.id]&&u.g)m*=u.g});return m}
+function perClick(){
+  var c=1;
+  UPGRADES.forEach(function(u){if(S.up[u.id]&&u.click)c+=u.click});
+  return c*(1+skillSum('click'))*gMult();
+}
+function bMult(id){
+  var m=1;
+  UPGRADES.forEach(function(u){if(S.up[u.id]&&u.b===id)m*=u.mult});
+  return m*Math.pow(2,S.lv[id]||0);
+}
+function perSec(){var s=0,g=gMult();BUILDINGS.forEach(function(b){s+=S.own[b.id]*b.ps*bMult(b.id)});return s*g}
+function discount(){return 1-Math.min(0.5,skillSum('discount'))}
+function unitCost(b,n){return Math.ceil(b.base*Math.pow(1.15,n)*discount())}
+function bulkCost(b,k){var t=0,o=S.own[b.id];for(var i=0;i<k;i++)t+=unitCost(b,o+i);return t}
+function maxAffordable(b){var o=S.own[b.id],t=0,c=0;while(c<1000){var u=unitCost(b,o+c);if(t+u>S.barks)break;t+=u;c++}return c}
+function sellValue(b,k){var o=S.own[b.id],t=0;for(var i=1;i<=k;i++)t+=Math.floor(unitCost(b,o-i)*SELL_REFUND);return t}
+function lumpSecs(){return Math.max(1,LUMP_SECONDS/(1+skillSum('lumpSpeed')))}
+function ppGain(){
+  if(S.run<PRESTIGE_DIV)return 0;
+  return Math.floor(Math.pow(S.run/PRESTIGE_DIV,PRESTIGE_EXP)*(1+skillSum('ppGain')));
+}
+function earn(x){S.barks+=x;S.total+=x;S.run+=x}
 
 /* ---------- icons (emoji or image) ---------- */
 function makeIcon(val){
@@ -368,26 +714,62 @@ function makeIcon(val){
     im.src=isLink?val:'Photos/'+val;
     s.appendChild(im);
   }else{
-    s.textContent=val;
+    s.textContent=T(val);
   }
   return s;
 }
 
-/* ---------- build the lists ---------- */
+/* ---------- buildings (buy, sell, x10, x100, max) ---------- */
+var BUYMODE='buy',BUYAMT=1;
 var bRows={};
-BUILDINGS.forEach(function(b){
-  var el=document.createElement('button');
-  el.className='item';
-  el.innerHTML='<div class="row"><span class="left"><span><b class="nm"></b> : <span class="own">0</span></span></span><span class="cost"></span></div><div class="desc"></div>';
-  el.querySelector('.nm').textContent=b.name;
-  var left=el.querySelector('.left');
-  left.insertBefore(makeIcon(BUILDING_ICONS[b.id]),left.firstChild);
-  el.addEventListener('click',function(){buyB(b)});
-  $('buildings').appendChild(el);
-  bRows[b.id]={el:el,own:el.querySelector('.own'),cost:el.querySelector('.cost'),desc:el.querySelector('.desc')};
+function buildBuildings(){
+  var box=$('buildings');box.innerHTML='';bRows={};
+  BUILDINGS.forEach(function(b){
+    var el=document.createElement('div');
+    el.className='item';el.setAttribute('role','button');el.tabIndex=0;
+    el.innerHTML='<div class="row"><span class="left"><span><b class="nm"></b> : <span class="own">0</span></span></span><span class="cost"></span></div><div class="desc"></div>';
+    el.querySelector('.nm').textContent=T(b.name);
+    var left=el.querySelector('.left');
+    left.insertBefore(makeIcon(BUILDING_ICONS[b.id]),left.firstChild);
+    el.addEventListener('click',function(){tradeB(b)});
+    el.addEventListener('keydown',function(e){if(e.key==='Enter'||e.key===' '){e.preventDefault();tradeB(b)}});
+    box.appendChild(el);
+    bRows[b.id]={el:el,own:el.querySelector('.own'),cost:el.querySelector('.cost'),desc:el.querySelector('.desc')};
+  });
+}
+function tradeB(b){
+  if(BUYMODE==='buy'){
+    var n=BUYAMT==='max'?maxAffordable(b):BUYAMT;
+    if(n<1)return;
+    var c=bulkCost(b,n);
+    if(S.barks<c)return;
+    S.barks-=c;S.own[b.id]+=n;
+  }else{
+    var m=BUYAMT==='max'?S.own[b.id]:Math.min(BUYAMT,S.own[b.id]);
+    if(m<1)return;
+    S.barks+=sellValue(b,m);S.own[b.id]-=m;
+  }
+  render();
+}
+Array.prototype.forEach.call(document.querySelectorAll('#bsMode button'),function(btn){
+  btn.addEventListener('click',function(){
+    BUYMODE=btn.getAttribute('data-m');
+    Array.prototype.forEach.call(document.querySelectorAll('#bsMode button'),function(x){x.classList.toggle('on',x===btn)});
+    render();
+  });
 });
+Array.prototype.forEach.call(document.querySelectorAll('#bsAmt button'),function(btn){
+  btn.addEventListener('click',function(){
+    var a=btn.getAttribute('data-a');
+    BUYAMT=(a==='max')?'max':parseInt(a,10);
+    Array.prototype.forEach.call(document.querySelectorAll('#bsAmt button'),function(x){x.classList.toggle('on',x===btn)});
+    render();
+  });
+});
+
+/* ---------- upgrades ---------- */
 var uRows={},lastVis=-1;
-function upShown(u){return !S.up[u.id]&&S.total>=u.cost*UPGRADE_REVEAL}
+function upShown(u){return !S.up[u.id]&&S.run>=u.cost*UPGRADE_REVEAL}
 function renderUpgrades(){
   var box=$('upgrades');box.innerHTML='';uRows={};
   var vc=0,remaining=0;
@@ -399,22 +781,91 @@ function renderUpgrades(){
     var el=document.createElement('button');
     el.className='item';
     el.innerHTML='<div class="row"><span class="left"><b class="nm"></b></span><span class="cost"></span></div><div class="desc"></div>';
-    el.querySelector('.nm').textContent=u.name;
+    el.querySelector('.nm').textContent=T(u.name);
     var left=el.querySelector('.left');
     left.insertBefore(makeIcon(UPGRADE_ICONS[u.id]),left.firstChild);
-    el.querySelector('.cost').textContent=fmt(u.cost)+' Barks';
-    el.querySelector('.desc').textContent=u.desc;
+    el.querySelector('.cost').textContent=fmt(u.cost)+' '+UNIT;
+    el.querySelector('.desc').textContent=T(u.desc);
     el.addEventListener('click',function(){buyU(u)});
     box.appendChild(el);
     uRows[u.id]=el;
   });
   lastVis=vc;
   if(!remaining){var p=document.createElement('div');p.className='note';p.textContent='All upgrades bought!';box.appendChild(p)}
-  else if(!vc){var q=document.createElement('div');q.className='note';q.textContent='Keep earning Barks to unlock upgrades.';box.appendChild(q)}
+  else if(!vc){var q=document.createElement('div');q.className='note';q.textContent='Keep earning '+UNIT+' to unlock upgrades.';box.appendChild(q)}
 }
-function buyB(b){var c=cost(b);if(S.barks>=c){S.barks-=c;S.own[b.id]++;render()}}
 function buyU(u){if(!S.up[u.id]&&S.barks>=u.cost){S.barks-=u.cost;S.up[u.id]=true;renderUpgrades();render();save()}}
 
+/* ---------- lumps ---------- */
+function renderLumpList(){
+  var box=$('lumpList');box.innerHTML='';
+  $('lumpHave').textContent=S.lumps;
+  BUILDINGS.forEach(function(b){
+    var lv=S.lv[b.id]||0;
+    var row=document.createElement('div');row.className='item lrow';
+    var left=document.createElement('span');left.className='left';
+    left.appendChild(makeIcon(BUILDING_ICONS[b.id]));
+    var nm=document.createElement('span');
+    nm.textContent=T(b.name)+'  Lv '+lv+'/'+MAX_LUMP_LEVEL+' (x'+Math.pow(2,lv)+')';
+    left.appendChild(nm);
+    var btn=document.createElement('button');btn.type='button';
+    if(lv>=MAX_LUMP_LEVEL){btn.textContent='Maxed';btn.disabled=true}
+    else{
+      var c=lv+1;
+      btn.textContent='Level up ('+c+' lump'+(c>1?'s':'')+')';
+      btn.disabled=S.lumps<c;
+      btn.addEventListener('click',function(){buyLump(b)});
+    }
+    row.appendChild(left);row.appendChild(btn);box.appendChild(row);
+  });
+}
+function buyLump(b){
+  var lv=S.lv[b.id]||0;
+  if(lv>=MAX_LUMP_LEVEL)return;
+  var c=lv+1;
+  if(S.lumps<c)return;
+  S.lumps-=c;S.lv[b.id]=lv+1;
+  renderLumpList();render();save();
+}
+
+/* ---------- skill tree ---------- */
+function skillDepth(sk){var d=0,cur=sk;while(cur&&cur.req){d++;cur=SKILLS.filter(function(x){return x.id===cur.req})[0]}return d}
+function renderSkills(){
+  var box=$('skillList');box.innerHTML='';
+  $('skillPP').textContent=fmt(S.pp);
+  SKILLS.forEach(function(sk){
+    var owned=!!S.sk[sk.id];
+    var unlocked=!sk.req||S.sk[sk.req];
+    var depth=skillDepth(sk);
+    var el=document.createElement('button');
+    el.type='button';
+    el.className='item'+(owned?' owned':'')+((!owned&&(!unlocked||S.pp<sk.cost))?' cant':'');
+    el.style.marginLeft=(depth*18)+'px';
+    el.style.width='calc(100% - '+(depth*18)+'px)';
+    el.innerHTML='<div class="row"><b class="nm"></b><span class="cost"></span></div><div class="desc"></div>';
+    el.querySelector('.nm').textContent=T(sk.name);
+    el.querySelector('.cost').textContent=owned?'Owned':(sk.cost+' PP');
+    var d=T(sk.desc);
+    if(!owned&&!unlocked){
+      var need=SKILLS.filter(function(x){return x.id===sk.req})[0];
+      d+='  (Needs: '+T(need.name)+')';
+    }
+    el.querySelector('.desc').textContent=d;
+    el.addEventListener('click',function(){
+      if(S.sk[sk.id]||(sk.req&&!S.sk[sk.req])||S.pp<sk.cost)return;
+      S.pp-=sk.cost;S.sk[sk.id]=true;
+      renderSkills();render();save();
+    });
+    box.appendChild(el);
+  });
+}
+function openSkills(){
+  if(S.prestiges<1){toast('Skill Tree','Prestige at least once to unlock the skill tree.');return}
+  renderSkills();showM('skillBox');
+}
+
+/* ---------- render ---------- */
+var lastLumpShown=-1;
 function render(){
   var vc=0;
   UPGRADES.forEach(function(u){if(upShown(u))vc++});
@@ -422,67 +873,52 @@ function render(){
   $('barks').textContent=fmt(Math.floor(S.barks));
   $('ps').textContent=fmt(perSec());
   $('pc').textContent=fmt(perClick());
+  var gm=gMult();
   BUILDINGS.forEach(function(b){
-    var r=bRows[b.id],c=cost(b);
+    var r=bRows[b.id];if(!r)return;
     r.own.textContent=S.own[b.id];
-    r.cost.textContent=fmt(c)+' Barks';
-    r.desc.textContent=fmt(b.ps*bMult(b.id))+' Barks per second each';
-    r.el.classList.toggle('cant',S.barks<c);
+    var lv=S.lv[b.id]||0;
+    r.desc.textContent=fmt(b.ps*bMult(b.id)*gm)+' '+UNIT+' per second each'+(lv?' (Lv '+lv+')':'');
+    var can;
+    if(BUYMODE==='buy'){
+      var n=BUYAMT==='max'?Math.max(1,maxAffordable(b)):BUYAMT;
+      var c=bulkCost(b,n);
+      r.cost.textContent=(n>1?'x'+n+' ':'')+fmt(c)+' '+UNIT;
+      can=S.barks>=c;
+    }else{
+      var m=BUYAMT==='max'?S.own[b.id]:Math.min(BUYAMT,S.own[b.id]);
+      r.cost.textContent=m?('+'+fmt(sellValue(b,m))+(m>1?' (x'+m+')':'')):'Nothing to sell';
+      can=m>0;
+    }
+    r.el.classList.toggle('cant',!can);
   });
   UPGRADES.forEach(function(u){
     if(uRows[u.id])uRows[u.id].classList.toggle('cant',S.barks<u.cost);
   });
+  var need=lumpSecs();
+  $('lumpCount').textContent=S.lumps;
+  $('lumpFill').style.width=Math.min(100,S.lumpT/need*100)+'%';
+  $('lumpNote').textContent='Next lump in '+Math.max(0,Math.ceil(need-S.lumpT))+'s. Spend lumps to double a building.';
+  if(S.lumps!==lastLumpShown){
+    lastLumpShown=S.lumps;
+    if(!$('lumpBox').classList.contains('hidden'))renderLumpList();
+  }
+  var pg=ppGain();
+  $('prestigeBtn').textContent=pg>=1?'Prestige (+'+fmt(pg)+')':'Prestige';
+  $('prestigeInfo').textContent='This run you earned '+fmt(S.run)+' '+UNIT+'. Prestiging now gives '+fmt(pg)+' Prestige Points. You have '+fmt(S.pp)+' points and have prestiged '+S.prestiges+' time'+(S.prestiges===1?'':'s')+'.';
 }
 
-/* ---------- reset progress ---------- */
-$('resetBtn').addEventListener('click',function(){
-  if(!confirm('Are you sure you want to reset all your progress? This cannot be undone.'))return;
-
-  S.barks=0;
-  S.total=0;
-
-  BUILDINGS.forEach(function(b){
-    S.own[b.id]=0;
-  });
-
-  UPGRADES.forEach(function(u){
-    S.up[u.id]=false;
-  });
-
-  lastSent=-1;
-  renderUpgrades();
-  render();
-  save();
-  submitScore();
+/* ---------- modals + toast ---------- */
+function showM(id){$(id).classList.remove('hidden')}
+function hideM(id){$(id).classList.add('hidden')}
+var MODALS=['creditsBox','menuBox','skillBox','lumpBox','adminBox'];
+MODALS.forEach(function(id){
+  $(id).addEventListener('click',function(e){if(e.target===$(id))hideM(id)});
 });
-
-/* ---------- clicking, ticking, saving ---------- */
-$('dog').addEventListener('click',function(){var c=perClick();S.barks+=c;S.total+=c;render()});
-var last=performance.now();
-setInterval(function(){
-  var now=performance.now();
-  var dt=Math.min((now-last)/1000,60);last=now;
-  var g=perSec()*dt;
-  if(g>0){S.barks+=g;S.total+=g}
-  render();
-},100);
-setInterval(save,5000);
-document.addEventListener('visibilitychange',function(){if(document.hidden){save();submitScore()}});
-window.addEventListener('beforeunload',save);
-
-/* ---------- dog photos: new one every 5 seconds ---------- */
-var img=$('dogImg'),pi=PHOTOS.length?Math.floor(Math.random()*PHOTOS.length):0;
-function showPhoto(i,tries){
-  if(!PHOTOS.length)return;
-  pi=i;
-  img.onerror=function(){if(tries<PHOTOS.length)showPhoto((i+1)%PHOTOS.length,tries+1)};
-  img.src=PHOTOS[i];
-}
-showPhoto(pi,0);
-setInterval(function(){showPhoto((pi+1)%PHOTOS.length,0)},5000);
-PHOTOS.forEach(function(p){var x=new Image();x.src=p});
-
-/* ---------- toast + the Bark Times ---------- */
+Array.prototype.forEach.call(document.querySelectorAll('[data-close]'),function(b){
+  b.addEventListener('click',function(){hideM(b.getAttribute('data-close'))});
+});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')MODALS.forEach(hideM)});
 var tt;
 function toast(title,text){
   var t=$('toast');t.innerHTML='';
@@ -491,7 +927,54 @@ function toast(title,text){
   t.classList.add('show');clearTimeout(tt);
   tt=setTimeout(function(){t.classList.remove('show')},4500);
 }
-$('news').addEventListener('click',function(){toast('THE BARK TIMES',HEADLINES[Math.floor(Math.random()*HEADLINES.length)])});
+
+/* ---------- clicking, ticking, saving ---------- */
+$('dog').addEventListener('click',function(){earn(perClick());render()});
+var last=performance.now();
+setInterval(function(){
+  var now=performance.now();
+  var dt=Math.min((now-last)/1000,60);last=now;
+  var g=perSec()*dt;
+  if(g>0)earn(g);
+  S.lumpT+=dt;
+  var need=lumpSecs();
+  while(S.lumpT>=need){S.lumpT-=need;S.lumps++}
+  render();
+},100);
+setInterval(save,5000);
+document.addEventListener('visibilitychange',function(){
+  if(document.hidden){save();submitScore();if(AUTH.uid)cloudSave().catch(function(){})}
+});
+window.addEventListener('beforeunload',save);
+
+/* ---------- dog / cat photos: new one every 5 seconds ---------- */
+var img=$('dogImg'),pi=0;
+function showPhoto(i,tries){
+  if(!PHOTOS.length)return;
+  pi=i;
+  img.onerror=function(){if(tries<PHOTOS.length)showPhoto((i+1)%PHOTOS.length,tries+1)};
+  img.src=PHOTOS[i];
+}
+function setPhotos(){
+  PHOTOS=MODE==='cat'?PHOTOS_CAT:PHOTOS_DOG;
+  if(!PHOTOS.length){
+    img.style.display='none';
+    $('dogEmoji').style.display='block';
+    $('dogEmoji').textContent=MODE==='cat'?'🐱':'🐶';
+  }else{
+    $('dogEmoji').style.display='none';
+    img.style.display='block';
+    showPhoto(Math.floor(Math.random()*PHOTOS.length),0);
+  }
+}
+setInterval(function(){if(PHOTOS.length)showPhoto((pi+1)%PHOTOS.length,0)},5000);
+PHOTOS_DOG.concat(PHOTOS_CAT).forEach(function(p){var x=new Image();x.src=p});
+
+/* ---------- the Bark Times ---------- */
+$('news').addEventListener('click',function(){
+  var list=MODE==='cat'?CAT_HEADLINES:HEADLINES;
+  toast(T('THE BARK TIMES'),list[Math.floor(Math.random()*list.length)]);
+});
 
 /* ---------- suggestions button ---------- */
 var sb=$('suggestBtn');
@@ -508,13 +991,23 @@ if(/^https?:\/\/(?!PASTE)/.test(SUGGEST_URL)){
     if(!line||!line.trim())return;
     var p=document.createElement('p');p.textContent=line;box.appendChild(p);
   });
-  function openC(){$('creditsBox').classList.remove('hidden')}
-  function closeC(){$('creditsBox').classList.add('hidden')}
-  $('secretBtn').addEventListener('click',openC);
-  $('creditsClose').addEventListener('click',closeC);
-  $('creditsBox').addEventListener('click',function(e){if(e.target===$('creditsBox'))closeC()});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeC()});
+  $('secretBtn').addEventListener('click',function(){showM('creditsBox')});
 })();
+
+/* ---------- banned words ---------- */
+function normText(s){
+  return String(s).toLowerCase().replace(/@/g,'a').replace(/\$/g,'s').replace(/!/g,'i').replace(/0/g,'o').replace(/1/g,'i').replace(/3/g,'e').replace(/4/g,'a').replace(/5/g,'s').replace(/7/g,'t').replace(/[^a-z]/g,'');
+}
+var BANNED_N=BANNED_WORDS.map(normText).filter(function(w){return w.length>=2});
+function hasBanned(text){
+  if(!BANNED_N.length)return false;
+  if(BAN_STRICT){
+    var n=normText(text);
+    return BANNED_N.some(function(w){return n.indexOf(w)>-1});
+  }
+  var toks=String(text).toLowerCase().split(/[^a-z0-9@$!]+/).map(normText);
+  return toks.some(function(t){return t&&BANNED_N.indexOf(t)>-1});
+}
 
 /* ---------- username + leaderboard ---------- */
 var user=lsGet(USER_KEY);
@@ -545,7 +1038,6 @@ function submitScore(){
   }).catch(function(){});
 }
 
-/* moves your leaderboard entry from your old name to a new one */
 function moveScore(oldName,newName){
   if(!dbOn)return Promise.resolve();
   var oldUrl=DB+'/scores/'+keyOf(oldName)+'.json';
@@ -587,9 +1079,146 @@ function loadBoard(){
   }).catch(function(){$('boardNote').textContent='Leaderboard unavailable right now.'});
 }
 
-/* ---------- chat (with emojis) ---------- */
-var EMOJIS=['🐶','🐕','🐩','🦴','🐾','❤️','😀','😂','😍','😎','🥳','😭','🤔','👍','👏','🔥','⭐','🎉','🍖','🏆','💯','😮','🙌','🐺'];
-var SHORT={':dog:':'🐶',':bone:':'🦴',':paw:':'🐾',':heart:':'❤️',':smile:':'😄',':laugh:':'😂',':cool:':'😎',':fire:':'🔥',':star:':'⭐',':party:':'🎉',':poodle:':'🐩',':trophy:':'🏆',':)':'🙂',':D':'😄',':(':'🙁'};
+/* ---------- accounts (Firebase email/password, saves in the cloud) ---------- */
+var AUTH={uid:lsGet(UID_KEY)||null,refresh:lsGet(REF_KEY)||null,idToken:null,exp:0,name:lsGet(ACCT_KEY)||null};
+function toHex(s){var o='';for(var i=0;i<s.length;i++){o+=('0'+s.charCodeAt(i).toString(16)).slice(-2)}return o}
+function emailFor(name){return 'u'+toHex(name.toLowerCase())+'@dogclicker.game'}
+function authCall(ep,body){
+  return fetch('https://identitytoolkit.googleapis.com/v1/accounts:'+ep+'?key='+API_KEY,{
+    method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(body)
+  }).then(function(r){
+    return r.json().then(function(j){
+      if(!r.ok)throw new Error((j&&j.error&&j.error.message)||'AUTH');
+      return j;
+    });
+  });
+}
+function setAuth(res){
+  AUTH.uid=res.localId||res.user_id;
+  AUTH.refresh=res.refreshToken||res.refresh_token;
+  AUTH.idToken=res.idToken||res.id_token;
+  AUTH.exp=Date.now()+(+(res.expiresIn||res.expires_in)||3600)*1000;
+  lsSet(UID_KEY,AUTH.uid);lsSet(REF_KEY,AUTH.refresh);
+}
+function getToken(){
+  if(AUTH.idToken&&Date.now()<AUTH.exp-60000)return Promise.resolve(AUTH.idToken);
+  if(!AUTH.refresh)return Promise.reject(new Error('NOAUTH'));
+  return fetch('https://securetoken.googleapis.com/v1/token?key='+API_KEY,{
+    method:'POST',
+    headers:{'Content-Type':'application/x-www-form-urlencoded'},
+    body:'grant_type=refresh_token&refresh_token='+encodeURIComponent(AUTH.refresh)
+  }).then(function(r){
+    return r.json().then(function(j){
+      if(!r.ok)throw new Error((j&&j.error&&j.error.message)||'AUTH');
+      setAuth(j);
+      return AUTH.idToken;
+    });
+  });
+}
+function cloudFetch(){
+  return getToken().then(function(tok){
+    return fetch(DB+'/saves/'+AUTH.uid+'.json?auth='+encodeURIComponent(tok));
+  }).then(function(r){
+    if(!r.ok)throw new Error('cloud');
+    return r.json();
+  });
+}
+function cloudSave(){
+  if(!authOn||!AUTH.uid||!AUTH.refresh)return Promise.resolve();
+  return getToken().then(function(tok){
+    return fetch(DB+'/saves/'+AUTH.uid+'.json?auth='+encodeURIComponent(tok),{method:'PUT',body:JSON.stringify({n:user,s:S})});
+  }).then(function(r){if(!r.ok)throw new Error('cloud')});
+}
+/* the save with the most lifetime Barks wins */
+function cloudSync(){
+  if(!authOn||!AUTH.uid||!AUTH.refresh)return Promise.resolve();
+  return cloudFetch().then(function(d){
+    if(d&&d.s&&(+d.s.total||0)>(+S.total||0)){
+      loadObj(d.s);save();renderUpgrades();render();renderLumpList();
+      toast('Account','Loaded your saved progress from the cloud.');
+    }else{
+      return cloudSave();
+    }
+  });
+}
+function acctMsg(e){
+  var m=(e&&e.message)||'';
+  if(m==='taken')return 'That name is already used on the leaderboard by someone else. Try another.';
+  if(m.indexOf('EMAIL_EXISTS')===0)return 'That username already has an account. Try logging in.';
+  if(m.indexOf('INVALID_LOGIN_CREDENTIALS')===0||m.indexOf('EMAIL_NOT_FOUND')===0||m.indexOf('INVALID_PASSWORD')===0)return 'Wrong username or password.';
+  if(m.indexOf('WEAK_PASSWORD')===0)return 'Password must be at least 6 characters.';
+  if(m.indexOf('OPERATION_NOT_ALLOWED')===0)return 'Email/Password sign-in is not turned on in Firebase yet.';
+  if(m.indexOf('TOO_MANY_ATTEMPTS')===0)return 'Too many tries. Wait a bit and try again.';
+  if(m==='cloud')return 'Could not reach the cloud save. (Did you update the Firebase rules?)';
+  return 'Something went wrong. Check your connection and try again.';
+}
+function checkNameFree(name,oldId){
+  return fetch(DB+'/scores/'+keyOf(name)+'.json').then(function(r){
+    if(!r.ok)return;
+    return r.json().then(function(d){if(d&&d.id!==oldId)throw new Error('taken')});
+  }).catch(function(e){if(e&&e.message==='taken')throw e});
+}
+function adoptEntry(name,oldId){
+  var url=DB+'/scores/'+keyOf(name)+'.json';
+  return fetch(url).then(function(r){return r.json()}).then(function(d){
+    if(!d||d.id===oldId){
+      return fetch(url,{method:'PUT',body:JSON.stringify({n:name,score:Math.floor(S.total),id:AUTH.uid})}).then(function(){lastSent=Math.floor(S.total)});
+    }
+  }).catch(function(){});
+}
+function accountGo(kind,name,pw,errEl,done){
+  name=name.trim().replace(/\s+/g,' ');
+  if(!authOn){errEl.textContent='Accounts are not switched on yet.';return}
+  if(!/^[A-Za-z0-9_\- ]{2,16}$/.test(name)){errEl.textContent='Use 2-16 letters, numbers, spaces, _ or -.';return}
+  if(hasBanned(name)){errEl.textContent='That name is not allowed.';return}
+  if(pw.length<6){errEl.textContent='Password must be at least 6 characters.';return}
+  errEl.textContent='Working...';
+  var oldId=myId;
+  var pre=(kind==='up')?checkNameFree(name,oldId):Promise.resolve();
+  pre.then(function(){
+    return authCall(kind==='up'?'signUp':'signInWithPassword',{email:emailFor(name),password:pw,returnSecureToken:true});
+  }).then(function(res){
+    setAuth(res);
+    myId=AUTH.uid;lsSet(ID_KEY,myId);
+    user=name;lsSet(USER_KEY,name);
+    AUTH.name=name;lsSet(ACCT_KEY,name);
+    $('who').textContent='Playing as '+user;
+    var mig=(kind==='up')?adoptEntry(name,oldId):Promise.resolve();
+    return mig.then(function(){return cloudSync()});
+  }).then(function(){
+    errEl.textContent=(kind==='up')?'Account created! Your progress now saves to the cloud.':'Logged in!';
+    updateAcct();loadBoard();
+    if(done)done();
+  }).catch(function(e){errEl.textContent=acctMsg(e)});
+}
+function logout(){
+  AUTH.uid=null;AUTH.refresh=null;AUTH.idToken=null;AUTH.name=null;
+  lsSet(UID_KEY,'');lsSet(REF_KEY,'');lsSet(ACCT_KEY,'');
+  updateAcct();
+  $('acctErr').textContent='Logged out. Your progress stays on this device.';
+}
+function updateAcct(){
+  var signed=!!(authOn&&AUTH.uid&&AUTH.refresh);
+  $('acctOff').style.display=authOn?'none':'block';
+  $('acctForm').style.display=(authOn&&!signed)?'block':'none';
+  $('acctSigned').style.display=signed?'block':'none';
+  $('renameGroup').style.display=signed?'none':'block';
+  $('acctWho').textContent=AUTH.name||user||'';
+  $('ovAcct').style.display=authOn?'block':'none';
+}
+$('acctLogin').addEventListener('click',function(){accountGo('in',$('acctName').value,$('acctPw').value,$('acctErr'),function(){$('menuUser').textContent=user;$('acctPw').value=''})});
+$('acctSignup').addEventListener('click',function(){accountGo('up',$('acctName').value,$('acctPw').value,$('acctErr'),function(){$('menuUser').textContent=user;$('acctPw').value=''})});
+$('acctLogout').addEventListener('click',logout);
+$('acctSave').addEventListener('click',function(){
+  $('acctErr').textContent='Saving...';
+  cloudSave().then(function(){$('acctErr').textContent='Saved to the cloud!'}).catch(function(e){$('acctErr').textContent=acctMsg(e)});
+});
+$('ovLogin').addEventListener('click',function(){accountGo('in',$('ovName').value,$('ovPw').value,$('ovErr'),function(){begin()})});
+$('ovPw').addEventListener('keydown',function(e){if(e.key==='Enter')$('ovLogin').click()});
+
+/* ---------- chat (emojis + banned words) ---------- */
+var EMOJIS=['🐶','🐕','🐩','🐱','🐈','🦴','🐟','🐾','❤️','😀','😂','😍','😎','🥳','😭','🤔','👍','👏','🔥','⭐','🎉','🏆','💯','🙌'];
+var SHORT={':dog:':'🐶',':cat:':'🐱',':bone:':'🦴',':fish:':'🐟',':paw:':'🐾',':heart:':'❤️',':smile:':'😄',':laugh:':'😂',':cool:':'😎',':fire:':'🔥',':star:':'⭐',':party:':'🎉',':poodle:':'🐩',':trophy:':'🏆',':)':'🙂',':D':'😄',':(':'🙁'};
 function emojify(t){Object.keys(SHORT).forEach(function(k){t=t.split(k).join(SHORT[k])});return t}
 function insertAtCursor(inp,txt){
   var s=inp.selectionStart,e=inp.selectionEnd;
@@ -629,14 +1258,14 @@ function loadChat(){
       var x=d[k];
       if(!x||typeof x.m!=='string'||typeof x.n!=='string')return;
       var div=document.createElement('div');div.className='msg';
-      var nm=document.createElement('b');nm.textContent=x.n;
+      var nm=document.createElement('b');nm.textContent=hasBanned(x.n)?'???':x.n;
       div.appendChild(nm);
       if(typeof x.t==='number'){
         var tm=document.createElement('span');tm.className='tm';
         tm.textContent=new Date(x.t).toLocaleTimeString([],{hour:'2-digit',minute:'2-digit'});
         div.appendChild(tm);
       }
-      div.appendChild(document.createTextNode(': '+x.m));
+      div.appendChild(document.createTextNode(': '+(hasBanned(x.m)?'[message removed]':x.m)));
       box.appendChild(div);
     });
     if(atBottom)box.scrollTop=box.scrollHeight;
@@ -648,6 +1277,7 @@ function sendChat(){
   var inp=$('chatIn');
   var m=Array.from(emojify(inp.value.trim())).slice(0,200).join('');
   if(!m)return;
+  if(hasBanned(m)){$('chatNote').textContent='That message has a word that is not allowed here.';return}
   var now=Date.now();
   if(now-lastChat<2000){$('chatNote').textContent='Slow down a little!';return}
   lastChat=now;
@@ -668,11 +1298,13 @@ function begin(){
   $('who').textContent='Playing as '+user;
   submitScore().then(loadBoard);
   loadChat();
+  if(authOn&&AUTH.uid&&AUTH.refresh)cloudSync().catch(function(){});
 }
 function chooseName(){
   var name=$('nameIn').value.trim().replace(/\s+/g,' ');
   var err=$('nameErr');
   if(!/^[A-Za-z0-9_\- ]{2,16}$/.test(name)){err.textContent='Use 2-16 letters, numbers, spaces, _ or -.';return}
+  if(hasBanned(name)){err.textContent='That name is not allowed.';return}
   $('nameBtn').disabled=true;err.textContent='Checking...';
   claimName(name).then(function(r){
     $('nameBtn').disabled=false;
@@ -683,11 +1315,12 @@ function chooseName(){
 $('nameBtn').addEventListener('click',chooseName);
 $('nameIn').addEventListener('keydown',function(e){if(e.key==='Enter')chooseName()});
 
-/* ---------- menu: change username ---------- */
+/* ---------- menu ---------- */
 function changeName(){
   var name=$('newName').value.trim().replace(/\s+/g,' ');
   var err=$('renameErr');
   if(!/^[A-Za-z0-9_\- ]{2,16}$/.test(name)){err.textContent='Use 2-16 letters, numbers, spaces, _ or -.';return}
+  if(hasBanned(name)){err.textContent='That name is not allowed.';return}
   if(name===user){err.textContent='That is already your name.';return}
   $('renameBtn').disabled=true;err.textContent='Changing...';
   moveScore(user,name).then(function(){
@@ -701,23 +1334,111 @@ function changeName(){
     err.textContent=(e&&e.message==='taken')?'That name is already taken. Try another.':'Could not change the name. Check your connection and try again.';
   }).then(function(){$('renameBtn').disabled=false});
 }
-(function(){
-  function openM(){$('menuUser').textContent=user||'';$('newName').value='';$('renameErr').textContent='';$('menuBox').classList.remove('hidden')}
-  function closeM(){$('menuBox').classList.add('hidden')}
-  $('menuBtn').addEventListener('click',openM);
-  $('menuClose').addEventListener('click',closeM);
-  $('menuBox').addEventListener('click',function(e){if(e.target===$('menuBox'))closeM()});
-  document.addEventListener('keydown',function(e){if(e.key==='Escape')closeM()});
-  $('renameBtn').addEventListener('click',changeName);
-  $('newName').addEventListener('keydown',function(e){if(e.key==='Enter')changeName()});
-})();
+$('menuBtn').addEventListener('click',function(){
+  $('menuUser').textContent=user||'';
+  $('newName').value='';$('renameErr').textContent='';$('acctErr').textContent='';
+  $('acctName').value=user||'';$('acctPw').value='';
+  $('catMode').checked=(MODE==='cat');
+  updateAcct();
+  showM('menuBox');
+});
+$('renameBtn').addEventListener('click',changeName);
+$('newName').addEventListener('keydown',function(e){if(e.key==='Enter')changeName()});
+$('skillBtn').addEventListener('click',openSkills);
+$('lumpOpen').addEventListener('click',function(){renderLumpList();showM('lumpBox')});
+$('catMode').addEventListener('change',function(){
+  MODE=$('catMode').checked?'cat':'dog';
+  lsSet(MODE_KEY,MODE);
+  applyMode();
+});
 
+/* ---------- prestige + reset ---------- */
+function doPrestige(){
+  var g=ppGain();
+  if(g<1){toast('Prestige','Earn more '+UNIT+' first. You need at least '+fmt(PRESTIGE_DIV)+' '+UNIT+' earned in one run to prestige.');return}
+  if(!confirm('Prestige now?\n\nYou will gain '+fmt(g)+' Prestige Points.\nYour '+UNIT+', buildings and upgrades reset.\nYour Prestige Points, skills and Lumps stay.'))return;
+  S.pp+=g;S.ppEver+=g;S.prestiges++;
+  S.barks=skillSum('start');S.run=0;
+  BUILDINGS.forEach(function(b){S.own[b.id]=0});
+  UPGRADES.forEach(function(u){S.up[u.id]=false});
+  save();renderUpgrades();render();
+  hideM('menuBox');
+  toast('Prestige!','You gained '+fmt(g)+' Prestige Points. Open the Skill Tree in the Menu to spend them.');
+  if(AUTH.uid)cloudSave().catch(function(){});
+}
+$('prestigeBtn').addEventListener('click',doPrestige);
+$('prestigeBtn2').addEventListener('click',doPrestige);
+$('resetBtn').addEventListener('click',function(){
+  if(!confirm('Reset EVERYTHING?\n\nThis wipes your Barks, buildings, upgrades, Prestige Points, skills and Lumps. This cannot be undone.'))return;
+  S=defaultState();lastSent=-1;
+  save();renderUpgrades();render();renderLumpList();
+  submitScore();
+  if(AUTH.uid)cloudSave().catch(function(){});
+  hideM('menuBox');
+  toast('Reset','Your progress has been reset.');
+});
+
+/* ---------- admin panel (console) ---------- */
+var ADMIN_ACTIONS=[
+['+1k Barks',function(){S.barks+=1e3}],
+['+1M Barks',function(){S.barks+=1e6}],
+['+1B Barks',function(){S.barks+=1e9}],
+['+1T Barks',function(){S.barks+=1e12}],
+['+1Qa Barks',function(){S.barks+=1e15}],
+['+1Qi Barks',function(){S.barks+=1e18}],
+['1 hour of production',function(){S.barks+=perSec()*3600}],
+['+10 of every building',function(){BUILDINGS.forEach(function(b){S.own[b.id]+=10})}],
+['Buy every upgrade',function(){UPGRADES.forEach(function(u){S.up[u.id]=true})}],
+['+100 Prestige Points',function(){S.pp+=100;S.ppEver+=100;S.prestiges=Math.max(1,S.prestiges)}],
+['+10 Lumps',function(){S.lumps+=10}]
+];
+(function(){
+  var box=$('adminBtns');
+  ADMIN_ACTIONS.forEach(function(a){
+    var b=document.createElement('button');
+    b.type='button';b.textContent=a[0];
+    b.addEventListener('click',function(){a[1]();renderUpgrades();render();renderLumpList();save()});
+    box.appendChild(b);
+  });
+})();
+function openAdmin(){showM('adminBox');return 'Admin panel opened. Good boy!'}
+try{
+  if(ADMIN_WORD){Object.defineProperty(window,ADMIN_WORD,{configurable:true,get:function(){return openAdmin()}})}
+}catch(e){}
+window.austinSays=function(t){
+  var clean=function(s){return String(s||'').toLowerCase().replace(/[^a-z ]/g,'').replace(/\s+/g,' ').trim()};
+  var x=clean(t),p=clean(ADMIN_PHRASE);
+  if(x===p||x==='austin says '+p)return openAdmin();
+  return 'Hmm, that is not the right phrase.';
+};
+
+/* ---------- cat / dog version ---------- */
+function applyMode(){
+  UNIT=T('Barks');
+  document.title=T('Dog Clicker Ultimate');
+  $('ovTitle').textContent=T('Dog Clicker Ultimate');
+  $('news').textContent=T('the Bark Times');
+  $('unit').textContent=UNIT;
+  $('lumpTitle').textContent=T('Bone Lumps');
+  $('lumpH1').textContent=T('Bone Lumps');
+  $('dog').setAttribute('aria-label',T('Pet the dog'));
+  $('catMode').checked=(MODE==='cat');
+  setPhotos();
+  buildBuildings();
+  renderUpgrades();
+  renderLumpList();
+  if(!$('skillBox').classList.contains('hidden'))renderSkills();
+  render();
+}
+
+/* ---------- timers + start ---------- */
 setInterval(submitScore,30000);
 setInterval(loadBoard,20000);
 setInterval(loadChat,4000);
+setInterval(function(){if(AUTH.uid)cloudSave().catch(function(){})},60000);
 
-renderUpgrades();
-render();
+applyMode();
+updateAcct();
 if(user){begin()}else{$('nameIn').focus()}
 })();
 </script>
